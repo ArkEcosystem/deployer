@@ -7,10 +7,10 @@ process_deploy()
     local CHAIN_NAME="wut"
     local DATABASE_NAME="ark_$CHAIN_NAME"
 
-    while getopts u:p: option; do
+    while getopts p:d:n: option; do
         case "$option" in
             p)
-                local SIDECHAIN_PATH=$OPTARG
+                SIDECHAIN_PATH=$OPTARG
             ;;
             d)
                 local DATABASE_NAME=$OPTARG
@@ -63,6 +63,14 @@ process_deploy()
 process_start()
 {
     heading "Starting..."
+
+    while getopts n: option; do
+        case "$option" in
+            n)
+                local CHAIN_NAME=$OPTARG
+            ;;
+        esac
+    done
 
     cd $SIDECHAIN_PATH
     node ./app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
