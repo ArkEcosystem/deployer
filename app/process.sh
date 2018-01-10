@@ -31,16 +31,16 @@ process_deploy()
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
         read -p "Database $DATABASE_NAME already exists. Recreate? [y/N] :" choice
         if [[ "$choice" =~ ^(yes|y) ]]; then
-            dropdb $DATABASE_NAME
+            dropdb "$DATABASE_NAME"
         else
             abort 1 "Database $DATABASE_NAME already exists."
         fi
     fi
-    createdb $DATABASE_NAME
+    createdb "$DATABASE_NAME"
 
-    rm -rf $SIDECHAIN_PATH
-    git clone https://github.com/ArkEcosystem/ark-node.git $SIDECHAIN_PATH
-    cd $SIDECHAIN_PATH
+    rm -rf "$SIDECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/ark-node.git "$SIDECHAIN_PATH"
+    cd "$SIDECHAIN_PATH"
 
     npm install libpq
     npm install secp256k1
