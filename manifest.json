@@ -1,0 +1,63 @@
+{
+    "details": {
+        "title": "A bash template developed to cure cancer.",
+        "syntax": "smash.sh [argument] [-option]",
+        "author": "Brian Faust <hello@brianfaust.me>",
+        "version": "1.0.0"
+    },
+    "commands": [{
+        "command": "deploy",
+        "description": "Deploy new side-chain",
+        "method": "process_deploy"
+    }, {
+        "command": "start",
+        "description": "Start the application",
+        "method": "process_start"
+    }, {
+        "command": "stop",
+        "description": "Stop the application",
+        "method": "process_stop"
+    }, {
+        "command": "restart",
+        "description": "Restart the application",
+        "method": "process_restart"
+    }, {
+        "command": "reload",
+        "description": "Reload the application",
+        "method": "process_reload"
+    }, {
+        "command": "info",
+        "description": "Show the application information",
+        "method": "process_info"
+    }, {
+        "command": "logs",
+        "description": "Show the application logs",
+        "method": "process_logs"
+    }, {
+        "command": "install",
+        "description": "Install the application",
+        "method": "app_install"
+    }, {
+        "command": "uninstall",
+        "description": "Uninstall the application",
+        "method": "app_uninstall"
+    }, {
+        "command": "update",
+        "description": "Update the application",
+        "method": "app_update"
+    }, {
+        "command": "alias",
+        "description": "Install the application alias",
+        "method": "app_alias"
+    }, {
+        "abbreviation": "-v",
+        "command": "version",
+        "description": "Output the version number",
+        "method": "app_version"
+    }, {
+        "abbreviation": "-h",
+        "command": "help",
+        "description": "Output usage information",
+        "method": "read_the_fucking_manual"
+    }]
+}
