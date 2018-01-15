@@ -13,7 +13,8 @@ check_program_dependencies()
     local -a dependencies="${1}"
 
     for dependency in ${dependencies[@]}; do
-        if [[ -z $(command -v "${dependency}") ]]; then
+        INSTALLED=$(dpkg -l "$dependency" | fgrep "$dependency" | egrep "^[a-zA-Z]" | awk '{print $2}') || true
+        if [[ "$INSTALLED" != "$dependency" ]]; then
             read -p "[${dependency}] is not installed. Do you want to install it? [y/N] :" choice
 
             if [[ "$choice" =~ ^(yes|y) ]]; then
@@ -38,7 +39,8 @@ check_nodejs_dependencies()
     local -a dependencies="${1}"
 
     for dependency in ${dependencies[@]}; do
-        if [[ -z $(command -v "${dependency}") ]]; then
+        INSTALLED=$(npm list -g "$dependency" | fgrep "$dependency" | awk '{print $2}' | awk -F'@' '{print $1}')
+        if [[ "$INSTALLED" != "$dependency" ]]; then
             read -p "[${dependency}] is not installed. Do you want to install it? [y/N] :" choice
 
             if [[ "$choice" =~ ^(yes|y) ]]; then
