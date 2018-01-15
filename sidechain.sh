@@ -14,10 +14,8 @@ readonly __root="$(cd "$(dirname "${__dir}")" && pwd)"
 readonly __manifest="${__dir}/manifest.json"
 readonly __daemon="${__dir}/daemon.json"
 
-readonly -a DEPENDENCIES_PROGRAMS=('postgresql postgresql-contrib libpq-dev build-essential python git curl jq libtool autoconf locales automake locate zip unzip htop nmon iftop')
-readonly -a DEPENDENCIES_NODEJS=('forever grunt-cli')
-# readonly -a DEPENDENCIES_FILES=()
-# readonly -a DEPENDENCIES_PROCESSES=()
+readonly -a DEPENDENCIES_PROGRAMS=('postgresql postgresql-contrib libpq-dev build-essential python git curl jq libtool autoconf locales automake locate zip unzip htop nmon iftop pkg-config')
+readonly -a DEPENDENCIES_NODEJS=('forever grunt-cli node-sass angular-cli')
 
 source "${__dir}/bootstrap/lib.sh"
 source "${__dir}/bootstrap/app.sh"

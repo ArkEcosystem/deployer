@@ -39,7 +39,7 @@ check_nodejs_dependencies()
     local -a dependencies="${1}"
 
     for dependency in ${dependencies[@]}; do
-        INSTALLED=$(npm list -g "$dependency" | fgrep "$dependency" | awk '{print $2}' | awk -F'@' '{print $1}')
+        INSTALLED=$(npm list -g "$dependency" | fgrep "$dependency" | awk '{print $2}' | awk -F'@' '{print $1}') || true
         if [[ "$INSTALLED" != "$dependency" ]]; then
             read -p "[${dependency}] is not installed. Do you want to install it? [y/N] :" choice
 
