@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-EXPLORER_PATH="/home/$USER/ark-sidechain"
+EXPLORER_PATH="/home/$USER/ark-explorer"
 CHAIN_NAME="sidechain"
 
 process_explorer_args()
