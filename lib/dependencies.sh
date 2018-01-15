@@ -26,9 +26,9 @@ check_program_dependencies()
         if [[ "$choice" =~ ^(yes|y) ]]; then
             success "Installing dependencies..."
             if [[ "$machine" == "Linux" ]]; then
-                sudo apt-get install "${TO_INSTALL}" -y
+                sudo sh -c "sudo apt-get install ${TO_INSTALL} -y"
             elif [[ "$machine" == "Mac" ]]; then
-                brew install "${TO_INSTALL}" -y
+                sh -c "brew install ${TO_INSTALL} -y"
             else
                 abort 1 'Unsupported platform.'
             fi
@@ -56,7 +56,7 @@ check_nodejs_dependencies()
 
         if [[ "$choice" =~ ^(yes|y) ]]; then
             success "Installing dependencies..."
-            npm install -g "${TO_INSTALL}"
+            sh -c "npm install -g ${TO_INSTALL}"
             success 'Installation OK!'
         else
             abort 1 "Please ensure that [ ${TO_INSTALL}] dependencies are installed and try again."
