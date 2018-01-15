@@ -1,61 +1,101 @@
 #!/usr/bin/env bash
 
-app_install()
+SIDECHAIN_PATH="/home/$USER/ark-sidechain"
+CHAIN_NAME="sidechain"
+DATABASE_NAME="ark_$CHAIN_NAME"
+
+app_process_args()
 {
-    while getopts u:p: option; do
+    while getopts p:d:n: option; do
         case "$option" in
-            u)
-                local user=$OPTARG
-            ;;
             p)
-                local password=$OPTARG
+                SIDECHAIN_PATH=$OPTARG
+            ;;
+            d)
+                DATABASE_NAME=$OPTARG
+            ;;
+            n)
+                CHAIN_NAME=$OPTARG
             ;;
         esac
     done
+}
 
-    info "User is [$user]..."
-    info "Password is [$password]..."
+app_install()
+{
+    heading "Checking Dependencies..."
+
+    check_program_dependencies "${DEPENDENCIES_PROGRAMS[@]}"
+    check_nodejs_dependencies "${DEPENDENCIES_NODEJS[@]}"
+
+    heading "Installing..."
+
+    app_process_args
+
+    DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
+    if [[ "$DB" == "$DATABASE_NAME" ]]; then
+        read -p "Database $DATABASE_NAME already exists. Recreate? [y/N] :" choice
+        if [[ "$choice" =~ ^(yes|y) ]]; then
+            dropdb "$DATABASE_NAME"
+        else
+            abort 1 "Database $DATABASE_NAME already exists."
+        fi
+    fi
+    PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$USER'" | awk '{$1=$1};1')
+    if [[ "$PQ_USER" == "$USER" ]]; then
+        read -p "User $USER already exists. Recreate? [y/N] :" choice
+        if [[ "$choice" =~ ^(yes|y) ]]; then
+            sudo -u postgres psql -c "DROP USER $USER"
+            sudo -u postgres psql -c "CREATE USER $USER WITH PASSWORD 'password' CREATEDB;"
+        else
+            echo "Skipping User Creation for $USER"
+        fi
+    else
+        sudo -u postgres psql -c "CREATE USER $USER WITH PASSWORD 'password' CREATEDB;"
+    fi
+
+    createdb "$DATABASE_NAME"
+
+    rm -rf "$SIDECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/ark-node.git "$SIDECHAIN_PATH"
+    cd "$SIDECHAIN_PATH"
+
+    npm install libpq
+    npm install secp256k1
+    npm install bindings
+    npm install
+
+    mv "$SIDECHAIN_PATH/networks.json" "$SIDECHAIN_PATH/networks.json.orig"
+    jq ".$CHAIN_NAME = {\"messagePrefix\": \"wut\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": 30, \"wif\": 187, \"client\": {\"token\": \"MINE\", \"symbol\": \"M\", \"explorer\": \"http://google.com\"}}" "$SIDECHAIN_PATH/networks.json.orig" > "$SIDECHAIN_PATH/networks.json"
+    cd "$SIDECHAIN_PATH/tasks"
+    mkdir demo
+    sed -i -e "s/bitcoin/$CHAIN_NAME/g" createGenesisBlock.js
+    node createGenesisBlock.js
+    cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$SIDECHAIN_PATH"
+    cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
+    cp "$SIDECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
+
+    success "Sidechain Installed!"
 }
 
 app_uninstall()
 {
     heading "Uninstalling..."
-    app_kill
-    rm -rf "${__dir}"
+
+    app_process_args
+
+    DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
+    if [[ "$DB" == "$DATABASE_NAME" ]]; then
+        dropdb "$DATABASE_NAME"
+    fi
+    rm -rf "$SIDECHAIN_PATH"
+
     success "Uninstall OK!"
 }
 
 app_update()
 {
-    cd "${__dir}"
-
-    local current_version="$(git rev-parse origin/master)"
-    local install_version="$(git rev-parse HEAD)"
-
-    if [[ "$current_version" == "$install_version" ]]; then
-        info 'You are already using the latest version.'
-    else
-        read -p 'An update is available, do you want to install it? [y/N] :' choice
-
-        if [[ "$choice" =~ ^(yes|y) ]]; then
-            heading "Updating..."
-            git reset --hard
-            git pull
-            success 'Update OK!'
-        fi
-    fi
-}
-
-app_alias()
-{
-    heading "Installing alias..."
-    echo "alias ${__base}='bash ${__file}'" | tee -a "${HOME}/.bashrc"
-    success "Run [source ${HOME}/.bashrc] to complete the installation."
-}
-
-app_version()
-{
-    local version="$(git rev-parse HEAD)"
-
-    info "You are using version: ${version}"
+    app_process_args
+    app_uninstall
+    app_install
 }

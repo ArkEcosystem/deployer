@@ -9,7 +9,7 @@ parse_args()
     fi
 
     if [[ -z "$method" ]]; then
-        read_the_fucking_manual
+        help_me
     fi
 
     $method "${@:2}"

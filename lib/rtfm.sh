@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-read_the_fucking_manual()
+help_me()
 {
     printf "%s# ---------------------------------------------------------------------------"
     printf "%s\n#"
