@@ -22,14 +22,14 @@ process_explorer_start()
     heading "Starting Explorer..."
     process_explorer_args
     cd $EXPLORER_PATH
-    forever start app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
+    npm start
     success "Start OK!"
 }
 
 process_explorer_stop()
 {
     heading "Stopping..."
-    killall ng
+    killall npm
     success "Stop OK!"
 }
 
