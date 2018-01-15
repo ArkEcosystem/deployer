@@ -56,7 +56,7 @@ check_nodejs_dependencies()
 
         if [[ "$choice" =~ ^(yes|y) ]]; then
             success "Installing dependencies..."
-            sudo npm install -g "${TO_INSTALL}"
+            npm install -g "${TO_INSTALL}"
             success 'Installation OK!'
         else
             abort 1 "Please ensure that [ ${TO_INSTALL}] dependencies are installed and try again."
