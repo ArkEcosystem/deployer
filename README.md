@@ -1,18 +1,17 @@
-# Smash - A bash template developed to cure cancer.
+# ARK Simple Deployment
 
 ## Installation
 
 ```bash
-git clone https://github.com/faustbrian/smash.git
+git clone https://github.com/faustbrian/smash.git ark-deployment && cd ark-deployment
+./sidechain.sh install
+./sidechain.sh start
 ```
-
-## Security
-
-If you discover a security vulnerability within this package, please send an e-mail to Brian Faust at hello@brianfaust.me. All security vulnerabilities will be promptly addressed.
 
 ## Credits
 
 - [Brian Faust](https://github.com/faustbrian)
+- [Alex Barnsley](https://github.com/alexbarnsley)
 - [All Contributors](../../contributors)
 
 ## License
