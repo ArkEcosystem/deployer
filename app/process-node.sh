@@ -27,7 +27,7 @@ process_node_start()
 
     read -p "Watch Logs? [y/N] :" choice
     if [[ "$choice" =~ ^(yes|y) ]]; then
-        process_logs
+        process_node_logs
     fi
 }
 

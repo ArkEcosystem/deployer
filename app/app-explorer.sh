@@ -34,7 +34,7 @@ app_install_explorer()
 
     heading "Installing Explorer..."
 
-    app_process_node_args
+    app_process_explorer_args
 
     rm -rf "$EXPLORER_PATH"
     git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH"
@@ -45,14 +45,14 @@ app_install_explorer()
     sed -i -e "s/NODE: 'https:\/\/dexplorer.ark.io:8443/NODE: 'http:\/\/$NODE_IP:4100/g" src/app/app.config.ts
     sed -i -e "s/CURRENCIES: ['DARK']/CURRENCIES: ['$TOKEN']/g" src/app/app.config.ts
 
-    success "Sidechain Installed!"
+    success "Explorer Installed!"
 }
 
 app_uninstall_explorer()
 {
     heading "Uninstalling Explorer..."
 
-    app_process_node_args
+    app_process_explorer_args
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
