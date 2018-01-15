@@ -3,7 +3,7 @@
 SIDECHAIN_PATH="/home/$USER/ark-sidechain"
 CHAIN_NAME="sidechain"
 
-process_args()
+process_node_args()
 {
     while getopts p:n: option; do
         case "$option" in
@@ -17,10 +17,10 @@ process_args()
     done
 }
 
-process_start()
+process_node_start()
 {
     heading "Starting..."
-    process_args
+    process_node_args
     cd $SIDECHAIN_PATH
     forever start app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
     success "Start OK!"
@@ -31,24 +31,24 @@ process_start()
     fi
 }
 
-process_stop()
+process_node_stop()
 {
     heading "Stopping..."
-    process_args
+    process_node_args
     cd $SIDECHAIN_PATH
     forever stop app.js
     success "Stop OK!"
 }
 
-process_restart()
+process_node_restart()
 {
     heading "Restarting..."
-    process_stop
-    process_start
+    process_node_stop
+    process_node_start
     success "Restart OK!"
 }
 
-process_logs()
+process_node_logs()
 {
     cd $SIDECHAIN_PATH
     tail -fn 500 logs/ark.log

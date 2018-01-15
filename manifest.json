@@ -6,33 +6,49 @@
         "version": "1.0.0"
     },
     "commands": [{
-        "command": "start",
-        "description": "Start the application",
-        "method": "process_start"
+        "command": "start-node",
+        "description": "Start the Node",
+        "method": "process_node_start"
     }, {
-        "command": "stop",
-        "description": "Stop the application",
-        "method": "process_stop"
+        "command": "stop-node",
+        "description": "Stop the Node",
+        "method": "process_node_stop"
     }, {
-        "command": "restart",
-        "description": "Restart the application",
-        "method": "process_restart"
+        "command": "restart-node",
+        "description": "Restart the Node",
+        "method": "process_node_restart"
     }, {
-        "command": "logs",
-        "description": "Show the application logs",
-        "method": "process_logs"
+        "command": "logs-node",
+        "description": "Show the Node logs",
+        "method": "process_node_logs"
     }, {
-        "command": "install",
-        "description": "Install the application",
-        "method": "app_install"
+        "command": "start-explorer",
+        "description": "Start the Explorer",
+        "method": "process_explorer_start"
     }, {
-        "command": "uninstall",
-        "description": "Uninstall the application",
-        "method": "app_uninstall"
+        "command": "stop-explorer",
+        "description": "Stop the Explorer",
+        "method": "process_explorer_stop"
     }, {
-        "command": "update",
-        "description": "Update the application",
-        "method": "app_update"
+        "command": "restart-explorer",
+        "description": "Restart the Explorer",
+        "method": "process_explorer_restart"
+    }, {
+        "command": "install-node",
+        "description": "Install the Node",
+        "method": "app_install_node"
+    }, {
+        "command": "uninstall-node",
+        "description": "Uninstall the Node",
+        "method": "app_uninstall_node"
+    }, {
+        "command": "install-explorer",
+        "description": "Install the Explorer",
+        "method": "app_install_explorer"
+    }, {
+        "command": "uninstall-explorer",
+        "description": "Uninstall the Explorer",
+        "method": "app_uninstall_explorer"
     }, {
         "abbreviation": "-h",
         "command": "help",

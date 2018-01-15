@@ -3,10 +3,13 @@
 SIDECHAIN_PATH="/home/$USER/ark-sidechain"
 CHAIN_NAME="sidechain"
 DATABASE_NAME="ark_$CHAIN_NAME"
+NODE_IP="localhost"
+TOKEN="MINE"
+SYMBOL="M"
 
-app_process_args()
+app_process_node_args()
 {
-    while getopts p:d:n: option; do
+    while getopts p:d:n:i:t:s: option; do
         case "$option" in
             p)
                 SIDECHAIN_PATH=$OPTARG
@@ -17,11 +20,20 @@ app_process_args()
             n)
                 CHAIN_NAME=$OPTARG
             ;;
+            i)
+                NODE_UP=$OPTARG
+            ;;
+            t)
+                TOKEN=$OPTARG
+            ;;
+            s)
+                SYMBOL=$OPTARG
+            ;;
         esac
     done
 }
 
-app_install()
+app_install_node()
 {
     heading "Checking Dependencies..."
 
@@ -30,7 +42,7 @@ app_install()
 
     heading "Installing..."
 
-    app_process_args
+    app_process_node_args
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
@@ -57,7 +69,7 @@ app_install()
     createdb "$DATABASE_NAME"
 
     rm -rf "$SIDECHAIN_PATH"
-    git clone https://github.com/ArkEcosystem/ark-node.git "$SIDECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/ark-node.git -b explorer "$SIDECHAIN_PATH"
     cd "$SIDECHAIN_PATH"
 
     npm install libpq
@@ -66,7 +78,7 @@ app_install()
     npm install
 
     mv "$SIDECHAIN_PATH/networks.json" "$SIDECHAIN_PATH/networks.json.orig"
-    jq ".$CHAIN_NAME = {\"messagePrefix\": \"wut\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": 30, \"wif\": 187, \"client\": {\"token\": \"MINE\", \"symbol\": \"M\", \"explorer\": \"http://google.com\"}}" "$SIDECHAIN_PATH/networks.json.orig" > "$SIDECHAIN_PATH/networks.json"
+    jq ".$CHAIN_NAME = {\"messagePrefix\": \"$CHAIN_NAME\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": 30, \"wif\": 187, \"client\": {\"token\": \"$TOKEN\", \"symbol\": \"$SYMBOL\", \"explorer\": \"http://$NODE_IP\"}}" "$SIDECHAIN_PATH/networks.json.orig" > "$SIDECHAIN_PATH/networks.json"
     cd "$SIDECHAIN_PATH/tasks"
     mkdir demo
     sed -i -e "s/bitcoin/$CHAIN_NAME/g" createGenesisBlock.js
@@ -78,11 +90,11 @@ app_install()
     success "Sidechain Installed!"
 }
 
-app_uninstall()
+app_uninstall_node()
 {
     heading "Uninstalling..."
 
-    app_process_args
+    app_process_node_args
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
@@ -91,11 +103,4 @@ app_uninstall()
     rm -rf "$SIDECHAIN_PATH"
 
     success "Uninstall OK!"
-}
-
-app_update()
-{
-    app_process_args
-    app_uninstall
-    app_install
 }

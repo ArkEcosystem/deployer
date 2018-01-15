@@ -4,8 +4,22 @@
 
 ```bash
 git clone https://github.com/faustbrian/smash.git ark-deployment && cd ark-deployment
-./sidechain.sh install
-./sidechain.sh start
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### Node
+
+```bash
+./sidechain.sh install-node
+./sidechain.sh start-node
+```
+
+### Explorer
+
+```bash
+./sidechain.sh install-explorer
+./sidechain.sh start-explorer
 ```
 
 ## Credits
