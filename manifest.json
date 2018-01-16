@@ -1,8 +1,8 @@
 {
     "details": {
-        "title": "A bash template developed to cure cancer.",
-        "syntax": "smash.sh [argument] [-option]",
-        "author": "Brian Faust <hello@brianfaust.me>",
+        "title": "ARK Sidechain Deployment script.",
+        "syntax": "sidechain.sh [argument] [-option]",
+        "author": "Brian Faust <hello@brianfaust.me> & Alex Barnsley <alex@ark.io>",
         "version": "1.0.0"
     },
     "commands": [{
