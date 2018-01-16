@@ -24,7 +24,7 @@ check_program_dependencies()
         read -p "Dependencies [ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
 
         if [[ "$choice" =~ ^(yes|y) ]]; then
-            success "Installing dependencies..."
+            success "Installing Program Dependencies..."
             if [[ "$machine" == "Linux" ]]; then
                 sudo sh -c "sudo apt-get install ${TO_INSTALL} -y"
             elif [[ "$machine" == "Mac" ]]; then
@@ -32,7 +32,7 @@ check_program_dependencies()
             else
                 abort 1 'Unsupported platform.'
             fi
-            success 'Installation OK!'
+            success 'Program Dependencies Installed!'
         else
             abort 1 "Please ensure that [ ${TO_INSTALL}] dependencies are installed and try again."
         fi
@@ -55,9 +55,9 @@ check_nodejs_dependencies()
         read -p "[ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
 
         if [[ "$choice" =~ ^(yes|y) ]]; then
-            success "Installing dependencies..."
+            success "Installing NodeJS Dependencies..."
             sh -c "npm install -g ${TO_INSTALL}"
-            success 'Installation OK!'
+            success 'NodeJS Dependencies Installed!'
         else
             abort 1 "Please ensure that [ ${TO_INSTALL}] dependencies are installed and try again."
         fi

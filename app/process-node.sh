@@ -38,7 +38,7 @@ process_node_start()
     forever start app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
     success "Start OK!"
 
-    read -p "Watch Logs? [y/N] :" choice
+    read -p "Watch Logs? [y/N]: " choice
     if [[ "$choice" =~ ^(yes|y) ]]; then
         process_node_logs
     fi
