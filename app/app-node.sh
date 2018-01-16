@@ -2,7 +2,6 @@
 
 app_install_node()
 {
-    app_uninstall_node "$@"
     process_node_args "$@"
 
     if [[ "$SKIP_DEPS" != "Y" ]]; then
@@ -10,6 +9,8 @@ app_install_node()
         check_program_dependencies "${DEPENDENCIES_PROGRAMS[@]}"
         check_nodejs_dependencies "${DEPENDENCIES_NODEJS[@]}"
     fi
+
+    app_uninstall_node "$@"
 
     heading "Installing..."
 

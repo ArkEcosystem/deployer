@@ -2,7 +2,6 @@
 
 app_install_explorer()
 {
-    app_uninstall_explorer "$@"
     process_explorer_args "$@"
 
     if [[ "$SKIP_DEPS" != "Y" ]]; then
@@ -10,6 +9,8 @@ app_install_explorer()
         check_program_dependencies "${DEPENDENCIES_PROGRAMS[@]}"
         check_nodejs_dependencies "${DEPENDENCIES_NODEJS[@]}"
     fi
+
+    app_uninstall_explorer "$@"
 
     heading "Installing Explorer to '$EXPLORER_PATH'..."
 

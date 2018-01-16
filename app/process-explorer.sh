@@ -38,7 +38,7 @@ process_explorer_start()
 process_explorer_stop()
 {
     heading "Stopping..."
-    killall npm
+    killall npm || true
     success "Stop OK!"
 }
 
