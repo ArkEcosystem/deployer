@@ -14,16 +14,34 @@ sudo apt-get install -y jq
 ### Node
 
 ```bash
-./sidechain.sh install-node
-./sidechain.sh start-node
+./sidechain.sh install-node --name AlexTest --database ark_alex --token ALEX --symbol AL --ip 192.168.0.22
+./sidechain.sh start-node --name AlexTest
 ```
+
+#### Optional Parameters
+
+	- --path - Path to install Side Chain [/home/$USER/ark-sidechain]
+	- --name - Name of Side Chain [sidechain]
+	- --database - Database Name [ark_sidechain]
+	- --ip - IP for node [localhost] *Only useful for Explorer*
+	- --token - Token Name [MINE]
+	- --symbol - Symbol for Token [M]
+	- --skip-deps - Skips check for installing dependencies
 
 ### Explorer
 
 ```bash
-./sidechain.sh install-explorer
-./sidechain.sh start-explorer
+./sidechain.sh install-explorer --name AlexTest --token ALEX --ip 192.168.0.22
+./sidechain.sh start-explorer --ip 192.168.0.22
 ```
+
+#### Optional Parameters
+
+	- --path - Path to install Explorer [/home/$USER/ark-explorer]
+	- --name - Name of Side Chain [sidechain]
+	- --ip - IP for Explorer to run on [localhost]
+	- --token - Token Name [MINE]
+	- --skip-deps - Skips check for installing dependencies
 
 ## Credits
 

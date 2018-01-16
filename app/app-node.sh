@@ -1,48 +1,17 @@
 #!/usr/bin/env bash
 
-SIDECHAIN_PATH="/home/$USER/ark-sidechain"
-CHAIN_NAME="sidechain"
-DATABASE_NAME="ark_$CHAIN_NAME"
-NODE_IP="localhost"
-TOKEN="MINE"
-SYMBOL="M"
-
-app_process_node_args()
-{
-    while getopts p:d:n:i:t:s: option; do
-        case "$option" in
-            p)
-                SIDECHAIN_PATH=$OPTARG
-            ;;
-            d)
-                DATABASE_NAME=$OPTARG
-            ;;
-            n)
-                CHAIN_NAME=$OPTARG
-            ;;
-            i)
-                NODE_UP=$OPTARG
-            ;;
-            t)
-                TOKEN=$OPTARG
-            ;;
-            s)
-                SYMBOL=$OPTARG
-            ;;
-        esac
-    done
-}
-
 app_install_node()
 {
-    heading "Checking Dependencies..."
+    app_uninstall_node "$@"
+    process_node_args "$@"
 
-    check_program_dependencies "${DEPENDENCIES_PROGRAMS[@]}"
-    check_nodejs_dependencies "${DEPENDENCIES_NODEJS[@]}"
+    if [[ "$SKIP_DEPS" != "Y" ]]; then
+        heading "Checking Dependencies..."
+        check_program_dependencies "${DEPENDENCIES_PROGRAMS[@]}"
+        check_nodejs_dependencies "${DEPENDENCIES_NODEJS[@]}"
+    fi
 
     heading "Installing..."
-
-    app_process_node_args
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
@@ -82,6 +51,7 @@ app_install_node()
     cd "$SIDECHAIN_PATH/tasks"
     mkdir demo
     sed -i -e "s/bitcoin/$CHAIN_NAME/g" createGenesisBlock.js
+    sed -i -e "s/var db_name = \"ark_\" + network_name;/var db_name = \"$DATABASE_NAME\";/g" createGenesisBlock.js
     node createGenesisBlock.js
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$SIDECHAIN_PATH"
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
@@ -94,7 +64,7 @@ app_uninstall_node()
 {
     heading "Uninstalling..."
 
-    app_process_node_args
+    process_node_args "$@"
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then

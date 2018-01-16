@@ -1,26 +1,35 @@
 #!/usr/bin/env bash
 
-EXPLORER_PATH="/home/$USER/ark-explorer"
-CHAIN_NAME="sidechain"
-
 process_explorer_args()
 {
-    while getopts p:n: option; do
-        case "$option" in
-            p)
-                EXPLORER_PATH=$OPTARG
+    while [[ $# -ne 0 ]] ; do
+        case $1 in
+            "--path")
+                EXPLORER_PATH="$2"
             ;;
-            n)
-                CHAIN_NAME=$OPTARG
+            "--name")
+                CHAIN_NAME="$2"
+            ;;
+            "--ip")
+                NODE_IP="$2"
+            ;;
+            "--token")
+                TOKEN="$2"
+            ;;
+            "--skip-deps")
+                SKIP_DEPS="Y"
             ;;
         esac
+        shift
     done
 }
 
 process_explorer_start()
 {
+    process_explorer_stop
+
     heading "Starting Explorer..."
-    process_explorer_args
+    process_explorer_args "$@"
     cd $EXPLORER_PATH
     npm start
     success "Start OK!"
@@ -36,7 +45,7 @@ process_explorer_stop()
 process_explorer_restart()
 {
     heading "Restarting..."
-    process_explorer_stop
-    process_explorer_start
+    process_explorer_stop "$@"
+    process_explorer_start "$@"
     success "Restart OK!"
 }
