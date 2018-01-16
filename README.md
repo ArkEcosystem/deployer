@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/faustbrian/smash.git ark-deployment && cd ark-deployment
+git clone https://github.com/alexbarnsley/ark-deployment.git && cd ark-deployment
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
 source ~/.profile
 nvm install 8.9.1
