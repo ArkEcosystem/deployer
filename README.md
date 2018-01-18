@@ -1,4 +1,4 @@
-# ARK Simple Deployment
+# ARK Deployer
 
 ## Vagrant
 
