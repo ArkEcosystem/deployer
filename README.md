@@ -13,8 +13,8 @@ sudo apt-get install -y jq
 ### Node
 
 ```bash
-./sidechain.sh install-node --name AlexTest --database ark_alex --token ALEX --symbol AL --ip 192.168.0.22
-./sidechain.sh start-node --name AlexTest
+./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip 192.168.0.22
+./sidechain.sh start-node --name MyTest
 ```
 
 #### Optional Parameters
@@ -30,7 +30,7 @@ sudo apt-get install -y jq
 ### Explorer
 
 ```bash
-./sidechain.sh install-explorer --name AlexTest --token ALEX --ip 192.168.0.22
+./sidechain.sh install-explorer --name MyTest --token MYTEST --ip 192.168.0.22
 ./sidechain.sh start-explorer --ip 192.168.0.22
 ```
 
