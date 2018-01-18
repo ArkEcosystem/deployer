@@ -7,10 +7,10 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | b
 nvm install 8.9.1
 
 ## Link Codebase
-ln -s /vagrant ~/ark-deployment
+ln -s /vagrant ~/ark-deployer
 
 ## Install Node & Explorer with Dependencies
-cd ~/ark-deployment
+cd ~/ark-deployer
 echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip 192.168.33.10
 ./sidechain.sh install-explorer --name MyTest --token MYTEST --ip 192.168.33.10 --skip-deps
 
@@ -18,8 +18,8 @@ echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name MyTest --database ark_
 cat > ~/startup.sh <<- EOS
 #!/bin/bash -l
 export PATH=/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.nvm/versions/node/v8.9.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-~/ark-deployment/sidechain.sh start-node --name MyTest &>> ~/node.log &
-~/ark-deployment/sidechain.sh start-explorer &>> ~/explorer.log &
+~/ark-deployer/sidechain.sh start-node --name MyTest &>> ~/node.log &
+~/ark-deployer/sidechain.sh start-explorer &>> ~/explorer.log &
 EOS
 chmod u+x ~/startup.sh
 
