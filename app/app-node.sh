@@ -12,7 +12,7 @@ app_install_node()
 
     app_uninstall_node "$@"
 
-    heading "Installing..."
+    heading "Installing Node to $SIDECHAIN_PATH..."
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then

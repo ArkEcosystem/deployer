@@ -1,5 +1,19 @@
 # ARK Simple Deployment
 
+## Vagrant
+
+Deploy a sidechain and explorer within it's own Vagrant setup.
+
+```bash
+git clone https://github.com/alexbarnsley/ark-deployment.git && cd ark-deployment
+vagrant up
+```
+
+Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
+
+Node API: `http://192.168.33.10:4100/api/`
+Explorer: `http://192.168.33.10:4200/`
+
 ## Installation
 
 ```bash
