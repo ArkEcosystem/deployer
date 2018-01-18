@@ -12,8 +12,10 @@ sudo apt-get install -y jq
 
 ### Node
 
+*Note: Change <MACHINE_IP> to your Machine's IP*
+
 ```bash
-./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip 192.168.0.22
+./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip <MACHINE_IP>
 ./sidechain.sh start-node --name MyTest
 ```
 
@@ -29,9 +31,11 @@ sudo apt-get install -y jq
 
 ### Explorer
 
+*Note: Change <MACHINE_IP> to your Machine's IP*
+
 ```bash
-./sidechain.sh install-explorer --name MyTest --token MYTEST --ip 192.168.0.22
-./sidechain.sh start-explorer --ip 192.168.0.22
+./sidechain.sh install-explorer --name MyTest --token MYTEST --ip <MACHINE_IP>
+./sidechain.sh start-explorer
 ```
 
 #### Optional Parameters
