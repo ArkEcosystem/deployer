@@ -1,18 +1,4 @@
-# ARK Deployer
-
-## Vagrant
-
-Deploy a sidechain and explorer within it's own Vagrant setup.
-
-```bash
-git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
-vagrant up
-```
-
-Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
-
-Node API: `http://192.168.33.10:4100/api/`
-Explorer: `http://192.168.33.10:4200/`
+![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/35097070-78c0dc40-fc46-11e7-9bb0-ad36f7182f39.png)
 
 ## Installation
 
@@ -55,6 +41,20 @@ sudo apt-get install -y jq
 	- --ip - IP for Explorer to run on [localhost]
 	- --token - Token Name [MINE]
 	- --skip-deps - Skips check for installing dependencies
+
+## Vagrant
+
+Deploy a sidechain and explorer within it's own Vagrant setup.
+
+```bash
+git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
+vagrant up
+```
+
+Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
+
+Node API: `http://192.168.33.10:4100/api/`
+Explorer: `http://192.168.33.10:4200/`
 
 ## Credits
 
