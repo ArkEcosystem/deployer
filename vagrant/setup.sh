@@ -27,4 +27,7 @@ echo '@reboot sleep 10; sudo mount -t vboxsf -o ro vagrant /vagrant &>> ~/mount.
 echo '@reboot sleep 15; env USER=$LOGNAME ~/startup.sh' >> ~/cron.sh
 crontab ~/cron.sh
 rm ~/cron.sh
+echo 'Rebooting Vagrant Machine - check back in a few minutes on the below:'
+echo '  Node API: http://192.168.33.10:4100/api/'
+echo '  Explorer: http://192.168.33.10:4200/'
 sudo reboot
