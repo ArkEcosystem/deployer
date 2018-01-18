@@ -58,10 +58,10 @@ sudo apt-get install -y jq
 
 ## Credits
 
-- [Brian Faust](https://github.com/faustbrian)
 - [Alex Barnsley](https://github.com/alexbarnsley)
+- [Brian Faust](https://github.com/faustbrian)
 - [All Contributors](../../contributors)
 
 ## License
 
-[MIT](LICENSE) © [Brian Faust](https://brianfaust.me)
+ARK Deployer is licensed under the MIT License - see the [LICENSE](./LICENSE.md) file for details.
