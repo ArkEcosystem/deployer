@@ -1,3 +1,26 @@
+############################
+#   ARK Deployer Vagrant   #
+############################
+
+## Config
+CHAIN_NAME="MyTest"
+DATABASE_NAME="ark_mytest"
+TOKEN_NAME="MYTEST"
+SYMBOL="MT"
+IP="192.168.33.10"
+TOKEN_PREFIX="T"
+FEE_SEND=10000000
+FEE_VOTE=100000000
+FEE_SECOND_PASSPHRASE=500000000
+FEE_DELEGATE=2500000000
+FEE_MULTISIG=500000000
+FORGERS=5
+MAX_VOTES=1
+BLOCK_TIME=16
+TXS_PER_BLOCK=500
+REWARD_HEIGHT_START=0
+REWARD_PER_BLOCK=200000000
+
 ## Update and Install Initial Packages
 sudo apt-get update && sudo apt-get install -y jq git curl
 
@@ -13,8 +36,28 @@ fi
 
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip 192.168.33.10
-./sidechain.sh install-explorer --name MyTest --token MYTEST --ip 192.168.33.10 --skip-deps
+echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name "$CHAIN_NAME" \
+                                                   --database "$DATABASE_NAME" \
+                                                   --token "$TOKEN_NAME" \
+                                                   --symbol "$SYMBOL" \
+                                                   --prefix "$TOKEN_PREFIX" \
+                                                   --fee-send "$FEE_SEND" \
+                                                   --fee-vote "$FEE_VOTE" \
+                                                   --fee-second-passphrase "$FEE_SECOND_PASSPHRASE" \
+                                                   --fee-delegate "$FEE_DELEGATE" \
+                                                   --fee-multisig "$FEE_MULTISIG" \
+                                                   --forgers "$FORGERS" \
+                                                   --max-votes "$MAX_VOTES" \
+                                                   --blocktime "$BLOCK_TIME" \
+                                                   --transactions-per-block "$TXS_PER_BLOCK" \
+                                                   --reward-height-start "$REWARD_HEIGHT_START" \
+                                                   --reward-per-block "$REWARD_PER_BLOCK" \
+                                                   --ip "$IP"
+./sidechain.sh install-explorer --name "$CHAIN_NAME" \
+                                --token "$TOKEN_NAME" \
+                                --ip "$IP" \
+                                --forgers "$FORGERS" \
+                                --skip-deps
 
 ## Setup scripts to run at startup
 cat > ~/startup.sh <<- EOS
