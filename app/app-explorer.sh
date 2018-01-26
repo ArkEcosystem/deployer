@@ -39,6 +39,7 @@ app_uninstall_explorer()
 {
     heading "Uninstalling Explorer..."
     process_explorer_args "$@"
+    killall ng || true
     rm -rf "$EXPLORER_PATH"
     success "Uninstall OK!"
 }
