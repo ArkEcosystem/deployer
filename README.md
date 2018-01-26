@@ -21,11 +21,11 @@ sudo apt-get install -y jq
 
 #### Optional Parameters
 
-	- --path - Path to install Side Chain [/home/$USER/ark-sidechain]
-	- --name - Name of Side Chain [sidechain]
-	- --database - Database Name [ark_sidechain]
-	- --ip - IP for node [localhost] *Only useful for Explorer*
-	- --token - Token Name [MINE]
+    - --path - Path to install Side Chain [/home/$USER/ark-sidechain]
+    - --name - Name of Side Chain [sidechain]
+    - --database - Database Name [ark_sidechain]
+    - --ip - IP for node [localhost] *Only useful for Explorer*
+    - --token - Token Name [MINE]
     - --symbol - Symbol for Token [M]
     - --prefix - Address Prefix [M]
     - --fee-send - Fee for sending Transaction [0.10000000 (1)]
@@ -39,7 +39,7 @@ sudo apt-get install -y jq
     - --transactions-per-block - Max Transaciton count per Block [50]
     - --reward-height-start - Block Height when Forgers receive Rewards [75600]
     - --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
-	- --skip-deps - Skips check for installing dependencies
+    - --skip-deps - Skips check for installing dependencies
 
 ### Explorer
 
@@ -52,12 +52,12 @@ sudo apt-get install -y jq
 
 #### Optional Parameters
 
-	- --path - Path to install Explorer [/home/$USER/ark-explorer]
-	- --name - Name of Side Chain [sidechain]
-	- --ip - IP for Explorer to run on [localhost]
-	- --token - Token Name [MINE]
+    - --path - Path to install Explorer [/home/$USER/ark-explorer]
+    - --name - Name of Side Chain [sidechain]
+    - --ip - IP for Explorer to run on [localhost]
+    - --token - Token Name [MINE]
     - --forgers - How many forgers for the network [51]
-	- --skip-deps - Skips check for installing dependencies
+    - --skip-deps - Skips check for installing dependencies
 
 ## Vagrant
 
