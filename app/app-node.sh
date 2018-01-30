@@ -52,12 +52,6 @@ app_install_node()
     npm install bindings
     npm install
 
-    local YEAR=$(date +"%-Y")
-    local MONTH=$(expr $(date +"%-m") - 1)
-    local DAY=$(date +"%-d")
-    local HOUR=$(date +"%-H")
-    local MINUTE=$(date +"%-M")
-    local SECOND=$(date +"%-S")
     local FORGERS_OFFSET=$(expr $FORGERS + 1)
 
     mv "$SIDECHAIN_PATH/networks.json" "$SIDECHAIN_PATH/networks.json.orig"
@@ -77,7 +71,6 @@ app_install_node()
     sed -i -e "s/activeDelegates: 51/activeDelegates: $FORGERS/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/maximumVotes: 1/maximumVotes: $MAX_VOTES/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/blocktime: 8/blocktime: $BLOCK_TIME/g" "$SIDECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/maxTxsPerBlock: 50/maxTxsPerBlock: $TXS_PER_BLOCK/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/offset: 75600/offset: $REWARD_HEIGHT_START/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/200000000, \/\//$REWARD_PER_BLOCK, \/\//g" "$SIDECHAIN_PATH/helpers/constants.js"
