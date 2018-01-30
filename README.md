@@ -28,7 +28,7 @@ sudo apt-get install -y jq
     - --token - Token Name [MINE]
     - --symbol - Symbol for Token [M]
     - --prefix - Address Prefix [M]
-    - --fee-send - Fee for sending Transaction [0.10000000 (1)]
+    - --fee-send - Fee for sending Transaction [10000000 (0.1)]
     - --fee-vote - Fee for Vote Transaction [100000000 (1)]
     - --fee-second-passphrase - Fee for Second Passphrase Transaction [500000000 (5)]
     - --fee-delegate - Fee for Register Delegate Transaction [2500000000 (25)]
