@@ -74,8 +74,8 @@ vagrant up
 
 Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
 
-Node API: `http://192.168.33.10:4100/api/`
-Explorer: `http://192.168.33.10:4200/`
+Node API: `http://127.0.0.1:14100/api/`
+Explorer: `http://127.0.0.1:14200/`
 
 ## Credits
 

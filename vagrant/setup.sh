@@ -73,6 +73,6 @@ echo '@reboot sleep 15; env USER=$LOGNAME ~/startup.sh' >> ~/cron.sh
 crontab ~/cron.sh
 rm ~/cron.sh
 echo 'Rebooting Vagrant Machine - check back in a few minutes on the below:'
-echo "  Node API: http://$IP:4100/api/"
-echo "  Explorer: http://$IP:4200/"
+echo "  Node API: http://127.0.0.1:14100/api/"
+echo "  Explorer: http://127.0.0.1:14200/"
 sudo reboot
