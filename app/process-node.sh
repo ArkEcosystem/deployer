@@ -58,6 +58,9 @@ process_node_args()
             "--reward-per-block")
                 REWARD_PER_BLOCK="$2"
             ;;
+            "--update-epoch")
+                UPDATE_EPOCH="Y"
+            ;;
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;

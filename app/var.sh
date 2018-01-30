@@ -36,3 +36,6 @@ REWARD_HEIGHT_START=75600
 
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
+
+## Whether to update epoch time for sidechain
+UPDATE_EPOCH="N"

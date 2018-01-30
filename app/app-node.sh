@@ -52,6 +52,12 @@ app_install_node()
     npm install bindings
     npm install
 
+    local YEAR=$(date +"%-Y")
+    local MONTH=$(expr $(date +"%-m") - 1)
+    local DAY=$(date +"%-d")
+    local HOUR=$(date +"%-H")
+    local MINUTE=$(date +"%-M")
+    local SECOND=$(date +"%-S")
     local FORGERS_OFFSET=$(expr $FORGERS + 1)
 
     mv "$SIDECHAIN_PATH/networks.json" "$SIDECHAIN_PATH/networks.json.orig"
@@ -75,6 +81,9 @@ app_install_node()
     sed -i -e "s/offset: 75600/offset: $REWARD_HEIGHT_START/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/200000000, \/\//$REWARD_PER_BLOCK, \/\//g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/200000000 \/\//$REWARD_PER_BLOCK \/\//g" "$SIDECHAIN_PATH/helpers/constants.js"
+    if [[ "$UPDATE_EPOCH" == "Y" ]]; then
+        sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$SIDECHAIN_PATH/helpers/constants.js"
+    fi
     node createGenesisBlock.js
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$SIDECHAIN_PATH"
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" "$SIDECHAIN_PATH"

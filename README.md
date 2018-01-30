@@ -43,6 +43,7 @@ sudo apt-get install -y jq
     - --fee-second-passphrase - Fee for Second Passphrase Transaction [500000000 (5)]
     - --fee-delegate - Fee for Register Delegate Transaction [2500000000 (25)]
     - --fee-multisig - Fee for Multisignature Transaction [500000000 (5)]
+    - --update-epoch - Set Epoch based on time the chain was created
 
 ### Explorer
 
