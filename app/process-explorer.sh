@@ -16,6 +16,9 @@ process_explorer_args()
             "--token")
                 TOKEN="$2"
             ;;
+            "--forgers")
+                FORGERS="$2"
+            ;;
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;

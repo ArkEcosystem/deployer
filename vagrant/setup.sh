@@ -1,3 +1,26 @@
+############################
+#   ARK Deployer Vagrant   #
+############################
+
+## Config
+CHAIN_NAME="MyTest"
+DATABASE_NAME="ark_mytest"
+TOKEN_NAME="MYTEST"
+SYMBOL="MT"
+IP="192.168.33.10"
+TOKEN_PREFIX="T"
+FEE_SEND=10000000
+FEE_VOTE=100000000
+FEE_SECOND_PASSPHRASE=500000000
+FEE_DELEGATE=2500000000
+FEE_MULTISIG=500000000
+FORGERS=5
+MAX_VOTES=1
+BLOCK_TIME=16
+TXS_PER_BLOCK=500
+REWARD_HEIGHT_START=0
+REWARD_PER_BLOCK=200000000
+
 ## Update and Install Initial Packages
 sudo apt-get update && sudo apt-get install -y jq git curl
 
@@ -7,18 +30,40 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | b
 nvm install 8.9.1
 
 ## Link Codebase
-ln -s /vagrant ~/ark-deployer
+if [[ ! -d ~/ark-deployer/ ]]; then
+    ln -s /vagrant ~/ark-deployer
+fi
 
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip 192.168.33.10
-./sidechain.sh install-explorer --name MyTest --token MYTEST --ip 192.168.33.10 --skip-deps
+echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name "$CHAIN_NAME" \
+                                                   --database "$DATABASE_NAME" \
+                                                   --token "$TOKEN_NAME" \
+                                                   --symbol "$SYMBOL" \
+                                                   --prefix "$TOKEN_PREFIX" \
+                                                   --fee-send "$FEE_SEND" \
+                                                   --fee-vote "$FEE_VOTE" \
+                                                   --fee-second-passphrase "$FEE_SECOND_PASSPHRASE" \
+                                                   --fee-delegate "$FEE_DELEGATE" \
+                                                   --fee-multisig "$FEE_MULTISIG" \
+                                                   --forgers "$FORGERS" \
+                                                   --max-votes "$MAX_VOTES" \
+                                                   --blocktime "$BLOCK_TIME" \
+                                                   --transactions-per-block "$TXS_PER_BLOCK" \
+                                                   --reward-height-start "$REWARD_HEIGHT_START" \
+                                                   --reward-per-block "$REWARD_PER_BLOCK" \
+                                                   --ip "$IP"
+./sidechain.sh install-explorer --name "$CHAIN_NAME" \
+                                --token "$TOKEN_NAME" \
+                                --ip "$IP" \
+                                --forgers "$FORGERS" \
+                                --skip-deps
 
 ## Setup scripts to run at startup
 cat > ~/startup.sh <<- EOS
 #!/bin/bash -l
 export PATH=/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.nvm/versions/node/v8.9.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-~/ark-deployer/sidechain.sh start-node --name MyTest &>> ~/node.log &
+~/ark-deployer/sidechain.sh start-node --name "$CHAIN_NAME" &>> ~/node.log &
 ~/ark-deployer/sidechain.sh start-explorer &>> ~/explorer.log &
 EOS
 chmod u+x ~/startup.sh
@@ -28,6 +73,6 @@ echo '@reboot sleep 15; env USER=$LOGNAME ~/startup.sh' >> ~/cron.sh
 crontab ~/cron.sh
 rm ~/cron.sh
 echo 'Rebooting Vagrant Machine - check back in a few minutes on the below:'
-echo '  Node API: http://192.168.33.10:4100/api/'
-echo '  Explorer: http://192.168.33.10:4200/'
+echo "  Node API: http://127.0.0.1:14100/api/"
+echo "  Explorer: http://127.0.0.1:14200/"
 sudo reboot
