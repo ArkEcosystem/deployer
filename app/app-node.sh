@@ -64,10 +64,10 @@ app_install_node()
     sed -i -e "s/for(var i=1; i<52; i++){/for(var i=1; i<$FORGERS_OFFSET; i++){/g" createGenesisBlock.js
     sed -i -e "s/for(var i=0;i<51;i++){/for(var i=0;i<$FORGERS;i++){/g" createGenesisBlock.js
     sed -i -e "s/send: 10000000/send: $FEE_SEND/g" "$SIDECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/vote: 10000000/vote: $FEE_VOTE/g" "$SIDECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/secondsignature: 10000000/secondsignature: $FEE_SECOND_PASSPHRASE/g" "$SIDECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/delegate: 10000000/delegate: $FEE_DELEGATE/g" "$SIDECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/multisignature: 10000000/multisignature: $FEE_MULTISIG/g" "$SIDECHAIN_PATH/helpers/constants.js"
+    sed -i -e "s/vote: 100000000/vote: $FEE_VOTE/g" "$SIDECHAIN_PATH/helpers/constants.js"
+    sed -i -e "s/secondsignature: 500000000/secondsignature: $FEE_SECOND_PASSPHRASE/g" "$SIDECHAIN_PATH/helpers/constants.js"
+    sed -i -e "s/delegate: 2500000000/delegate: $FEE_DELEGATE/g" "$SIDECHAIN_PATH/helpers/constants.js"
+    sed -i -e "s/multisignature: 500000000/multisignature: $FEE_MULTISIG/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/activeDelegates: 51/activeDelegates: $FORGERS/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/maximumVotes: 1/maximumVotes: $MAX_VOTES/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/blocktime: 8/blocktime: $BLOCK_TIME/g" "$SIDECHAIN_PATH/helpers/constants.js"
