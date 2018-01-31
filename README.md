@@ -34,6 +34,7 @@ sudo apt-get install -y jq
     --transactions-per-block - Max Transaciton count per Block [50]
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
+    --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
     --skip-deps - Skips check for installing dependencies
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*

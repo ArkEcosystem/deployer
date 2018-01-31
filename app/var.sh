@@ -30,12 +30,15 @@ BLOCK_TIME=8
 ## Max Transactions per Block
 TXS_PER_BLOCK=50
 
+## Total Premined Tokens
+TOTAL_PREMINE=2100000000000000
+
+## Whether to update epoch time for sidechain
+UPDATE_EPOCH="N"
+
 ## Rewards
 ## Start Block Height
 REWARD_HEIGHT_START=75600
 
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
-
-## Whether to update epoch time for sidechain
-UPDATE_EPOCH="N"
