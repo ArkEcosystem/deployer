@@ -69,6 +69,7 @@ app_install_node()
     sed -i -e "s/var db_name = \"ark_\" + network_name;/var db_name = \"$DATABASE_NAME\";/g" createGenesisBlock.js
     sed -i -e "s/for(var i=1; i<52; i++){/for(var i=1; i<$FORGERS_OFFSET; i++){/g" createGenesisBlock.js
     sed -i -e "s/for(var i=0;i<51;i++){/for(var i=0;i<$FORGERS;i++){/g" createGenesisBlock.js
+    sed -i -e "s/var totalpremine = 2100000000000000;/var totalpremine = $TOTAL_PREMINE;/g" createGenesisBlock.js
     sed -i -e "s/send: 10000000/send: $FEE_SEND/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/vote: 100000000/vote: $FEE_VOTE/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/secondsignature: 500000000/secondsignature: $FEE_SECOND_PASSPHRASE/g" "$SIDECHAIN_PATH/helpers/constants.js"
@@ -90,7 +91,7 @@ app_install_node()
     cp "$SIDECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
 
     local PASSPHRASE=$(sh -c "jq '.passphrase' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
-    local ADDRESS=$(sh -c "jq '.passphrase' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
+    local ADDRESS=$(sh -c "jq '.address' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
 
     echo "Your Genesis Details are:"
     echo "  Passphrase: $PASSPHRASE"

@@ -20,6 +20,7 @@ BLOCK_TIME=16
 TXS_PER_BLOCK=500
 REWARD_HEIGHT_START=0
 REWARD_PER_BLOCK=200000000
+TOTAL_PREMINE=2100000000000000
 
 ## Update and Install Initial Packages
 sudo apt-get update && sudo apt-get install -y jq git curl
@@ -52,6 +53,7 @@ echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name "$CHAIN_NAME" \
                                                    --transactions-per-block "$TXS_PER_BLOCK" \
                                                    --reward-height-start "$REWARD_HEIGHT_START" \
                                                    --reward-per-block "$REWARD_PER_BLOCK" \
+                                                   --total-premine "$TOTAL_PREMINE" \
                                                    --ip "$IP"
 ./sidechain.sh install-explorer --name "$CHAIN_NAME" \
                                 --token "$TOKEN_NAME" \

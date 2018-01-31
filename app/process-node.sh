@@ -58,6 +58,9 @@ process_node_args()
             "--reward-per-block")
                 REWARD_PER_BLOCK="$2"
             ;;
+            "--total-premine")
+                TOTAL_PREMINE="$2"
+            ;;
             "--update-epoch")
                 UPDATE_EPOCH="Y"
             ;;
