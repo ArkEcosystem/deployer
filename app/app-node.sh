@@ -91,7 +91,7 @@ app_install_node()
     cp "$SIDECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
 
     local PASSPHRASE=$(sh -c "jq '.passphrase' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
-    local ADDRESS=$(sh -c "jq '.passphrase' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
+    local ADDRESS=$(sh -c "jq '.address' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
 
     echo "Your Genesis Details are:"
     echo "  Passphrase: $PASSPHRASE"
