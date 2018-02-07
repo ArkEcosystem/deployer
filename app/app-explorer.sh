@@ -15,7 +15,7 @@ app_install_explorer()
     heading "Installing Explorer to '$EXPLORER_PATH'..."
 
     rm -rf "$EXPLORER_PATH"
-    git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH" && cd "$EXPLORER_PATH"
+    git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH" -b 2.0 && cd "$EXPLORER_PATH"
     git reset --hard c14a43d34c2c3844bff1817a50065e412b92217f
     npm install
     sed -i -e "s/\"start\": \"ng serve\"/\"start\": \"ng serve --host $NODE_IP\"/g" package.json
