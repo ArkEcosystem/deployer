@@ -19,6 +19,9 @@ process_explorer_args()
             "--forgers")
                 FORGERS="$2"
             ;;
+            "--autoinstall-deps")
+                INSTALL_DEPS="Y"
+            ;;
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;

@@ -37,24 +37,25 @@ fi
 
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-echo -e 'yes\nyes\n' | ./sidechain.sh install-node --name "$CHAIN_NAME" \
-                                                   --database "$DATABASE_NAME" \
-                                                   --token "$TOKEN_NAME" \
-                                                   --symbol "$SYMBOL" \
-                                                   --prefix "$TOKEN_PREFIX" \
-                                                   --fee-send "$FEE_SEND" \
-                                                   --fee-vote "$FEE_VOTE" \
-                                                   --fee-second-passphrase "$FEE_SECOND_PASSPHRASE" \
-                                                   --fee-delegate "$FEE_DELEGATE" \
-                                                   --fee-multisig "$FEE_MULTISIG" \
-                                                   --forgers "$FORGERS" \
-                                                   --max-votes "$MAX_VOTES" \
-                                                   --blocktime "$BLOCK_TIME" \
-                                                   --transactions-per-block "$TXS_PER_BLOCK" \
-                                                   --reward-height-start "$REWARD_HEIGHT_START" \
-                                                   --reward-per-block "$REWARD_PER_BLOCK" \
-                                                   --total-premine "$TOTAL_PREMINE" \
-                                                   --ip "$IP"
+./sidechain.sh install-node --name "$CHAIN_NAME" \
+                            --database "$DATABASE_NAME" \
+                            --token "$TOKEN_NAME" \
+                            --symbol "$SYMBOL" \
+                            --prefix "$TOKEN_PREFIX" \
+                            --fee-send "$FEE_SEND" \
+                            --fee-vote "$FEE_VOTE" \
+                            --fee-second-passphrase "$FEE_SECOND_PASSPHRASE" \
+                            --fee-delegate "$FEE_DELEGATE" \
+                            --fee-multisig "$FEE_MULTISIG" \
+                            --forgers "$FORGERS" \
+                            --max-votes "$MAX_VOTES" \
+                            --blocktime "$BLOCK_TIME" \
+                            --transactions-per-block "$TXS_PER_BLOCK" \
+                            --reward-height-start "$REWARD_HEIGHT_START" \
+                            --reward-per-block "$REWARD_PER_BLOCK" \
+                            --total-premine "$TOTAL_PREMINE" \
+                            --ip "$IP" \
+                            --autoinstall-deps
 ./sidechain.sh install-explorer --name "$CHAIN_NAME" \
                                 --token "$TOKEN_NAME" \
                                 --ip "$IP" \

@@ -8,6 +8,7 @@ NODE_IP="localhost"
 TOKEN="MINE"
 SYMBOL="M"
 PREFIX="M"
+INSTALL_DEPS="N"
 SKIP_DEPS="N"
 
 ## Constants

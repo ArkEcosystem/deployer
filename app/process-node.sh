@@ -64,6 +64,9 @@ process_node_args()
             "--update-epoch")
                 UPDATE_EPOCH="Y"
             ;;
+            "--autoinstall-deps")
+                INSTALL_DEPS="Y"
+            ;;
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;
