@@ -35,6 +35,7 @@ sudo apt-get install -y jq
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
+    --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*
@@ -62,6 +63,7 @@ sudo apt-get install -y jq
     --ip - IP for Explorer to run on [localhost]
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
+    --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
 ## Vagrant

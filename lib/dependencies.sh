@@ -21,9 +21,11 @@ check_program_dependencies()
     done
 
     if [[ ! -z "$TO_INSTALL" ]]; then
-        read -p "Dependencies [ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
+        if [[ "$INSTALL_DEPS" != "Y" ]]; then
+            read -p "Dependencies [ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
+        fi
 
-        if [[ "$choice" =~ ^(yes|y) ]]; then
+        if [[ "$choice" =~ ^(yes|y) || "$INSTALL_DEPS" == "Y" ]]; then
             success "Installing Program Dependencies..."
             if [[ "$machine" == "Linux" ]]; then
                 sudo sh -c "sudo apt-get install ${TO_INSTALL} -y"
@@ -52,9 +54,11 @@ check_nodejs_dependencies()
     done
 
     if [[ ! -z "$TO_INSTALL" ]]; then
-        read -p "[ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
+        if [[ "$INSTALL_DEPS" != "Y" ]]; then
+            read -p "[ ${TO_INSTALL}] are not installed. Do you want to install them? [y/N]: " choice
+        fi
 
-        if [[ "$choice" =~ ^(yes|y) ]]; then
+        if [[ "$choice" =~ ^(yes|y) || "$INSTALL_DEPS" == "Y" ]]; then
             success "Installing NodeJS Dependencies..."
             sh -c "npm install -g ${TO_INSTALL}"
             success 'NodeJS Dependencies Installed!'

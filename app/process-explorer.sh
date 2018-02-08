@@ -19,6 +19,9 @@ process_explorer_args()
             "--forgers")
                 FORGERS="$2"
             ;;
+            "--autoinstall-deps")
+                INSTALL_DEPS="Y"
+            ;;
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;
@@ -34,7 +37,7 @@ process_explorer_start()
     heading "Starting Explorer..."
     process_explorer_args "$@"
     cd $EXPLORER_PATH
-    npm start
+    npm run sidechain
     success "Start OK!"
 }
 
