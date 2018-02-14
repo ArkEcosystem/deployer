@@ -39,6 +39,7 @@ sudo apt-get install -y jq
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
     --autoinstall-deps - Automatically instal dependencies without prompt
+    --max-tokens-per-account - Max amount of tokens per account [12500000000000000 (125 million)]
     --skip-deps - Skips check for installing dependencies
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*

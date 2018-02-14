@@ -37,6 +37,9 @@ TXS_PER_BLOCK=50
 ## Total Premined Tokens
 TOTAL_PREMINE=2100000000000000
 
+## Max Tokens per Account
+MAX_TOKENS_PER_ACCOUNT=12500000000000000
+
 ## Whether to update epoch time for sidechain
 UPDATE_EPOCH="N"
 

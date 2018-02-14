@@ -70,6 +70,9 @@ process_node_args()
             "--total-premine")
                 TOTAL_PREMINE="$2"
             ;;
+            "--max-tokens-per-account")
+                MAX_TOKENS_PER_ACCOUNT="$2"
+            ;;
             "--update-epoch")
                 UPDATE_EPOCH="Y"
             ;;
@@ -82,6 +85,10 @@ process_node_args()
         esac
         shift
     done
+
+    if [[ "$TOTAL_PREMINE" > "$MAX_TOKENS_PER_ACCOUNT" ]]; then
+        MAX_TOKENS_PER_ACCOUNT="$TOTAL_PREMINE"
+    fi
 }
 
 process_node_start()

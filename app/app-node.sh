@@ -83,6 +83,7 @@ app_install_node()
     sed -i -e "s/offset: 75600/offset: $REWARD_HEIGHT_START/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/200000000, \/\//$REWARD_PER_BLOCK, \/\//g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/200000000 \/\//$REWARD_PER_BLOCK \/\//g" "$SIDECHAIN_PATH/helpers/constants.js"
+    sed -i -e "s/totalAmount: 12500000000000000,/totalAmount: $MAX_TOKENS_PER_ACCOUNT,/g" "$SIDECHAIN_PATH/helpers/constants.js"
     if [[ "$UPDATE_EPOCH" == "Y" ]]; then
         sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$SIDECHAIN_PATH/helpers/constants.js"
     fi
