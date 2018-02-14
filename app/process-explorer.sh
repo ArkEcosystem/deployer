@@ -46,7 +46,7 @@ process_explorer_start()
     heading "Starting Explorer..."
     process_explorer_args "$@"
     cd $EXPLORER_PATH
-    npm run sidechain
+    npm run sidechain &>/dev/null &
     success "Start OK!"
 }
 
