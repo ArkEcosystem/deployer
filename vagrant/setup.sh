@@ -7,7 +7,10 @@ CHAIN_NAME="MyTest"
 DATABASE_NAME="ark_mytest"
 TOKEN_NAME="MYTEST"
 SYMBOL="MT"
-IP="192.168.33.10"
+NODE_IP="192.168.33.10"
+NODE_PORT="4100"
+EXPLORER_IP="192.168.33.10"
+EXPLORER_PORT="4200"
 TOKEN_PREFIX="T"
 FEE_SEND=10000000
 FEE_VOTE=100000000
@@ -54,11 +57,15 @@ cd ~/ark-deployer
                             --reward-height-start "$REWARD_HEIGHT_START" \
                             --reward-per-block "$REWARD_PER_BLOCK" \
                             --total-premine "$TOTAL_PREMINE" \
-                            --ip "$IP" \
+                            --node-ip "$NODE_IP" \
+                            --node-port "$NODE_PORT" \
                             --autoinstall-deps
 ./sidechain.sh install-explorer --name "$CHAIN_NAME" \
                                 --token "$TOKEN_NAME" \
-                                --ip "$IP" \
+                                --node-ip "$NODE_IP" \
+                                --node-port "$NODE_PORT" \
+                                --explorer-ip "$EXPLORER_IP" \
+                                --explorer-port "$EXPLORER_PORT" \
                                 --forgers "$FORGERS" \
                                 --skip-deps
 

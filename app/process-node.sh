@@ -13,8 +13,17 @@ process_node_args()
             "--name")
                 CHAIN_NAME="$2"
             ;;
-            "--ip")
+            "--node-ip")
                 NODE_IP="$2"
+            ;;
+            "--node-port")
+                NODE_PORT="$2"
+            ;;
+            "--explorer-ip")
+                EXPLORER_IP="$2"
+            ;;
+            "--explorer-port")
+                EXPLORER_PORT="$2"
             ;;
             "--token")
                 TOKEN="$2"

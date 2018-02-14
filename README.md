@@ -15,7 +15,7 @@ sudo apt-get install -y jq
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
 ```bash
-./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip <MACHINE_IP>
+./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --node-ip <NODE_IP>
 ./sidechain.sh start-node --name MyTest
 ```
 
@@ -24,7 +24,10 @@ sudo apt-get install -y jq
     --path - Path to install Side Chain [/home/$USER/ark-sidechain]
     --name - Name of Side Chain [sidechain]
     --database - Database Name [ark_sidechain]
-    --ip - IP for node (Only used for Explorer) [localhost]
+    --node-ip - IP for node [0.0.0.0]
+    --node-port - Port for node [4100]
+    --explorer-ip - IP for explorer [127.0.0.1]
+    --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --symbol - Symbol for Token [M]
     --prefix - Address Prefix [M]
@@ -52,7 +55,7 @@ sudo apt-get install -y jq
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
 ```bash
-./sidechain.sh install-explorer --name MyTest --token MYTEST --ip <MACHINE_IP>
+./sidechain.sh install-explorer --name MyTest --token MYTEST --explorer-ip <EXPLORER_IP> --node-ip <NODE_IP>
 ./sidechain.sh start-explorer
 ```
 
@@ -60,7 +63,10 @@ sudo apt-get install -y jq
 
     --path - Path to install Explorer [/home/$USER/ark-explorer]
     --name - Name of Side Chain [sidechain]
-    --ip - IP for Explorer to run on [localhost]
+    --node-ip - IP for node [0.0.0.0]
+    --node-port - Port for node [4100]
+    --explorer-ip - IP for explorer [127.0.0.1]
+    --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
     --autoinstall-deps - Automatically instal dependencies without prompt
@@ -77,8 +83,8 @@ vagrant up
 
 Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
 
-Node API: `http://127.0.0.1:14100/api/`
-Explorer: `http://127.0.0.1:14200/`
+Node API (port forwarded): `http://127.0.0.1:14100/api/`
+Explorer (port forwarded): `http://127.0.0.1:14200/`
 
 ## Credits
 

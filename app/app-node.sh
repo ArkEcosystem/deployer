@@ -61,7 +61,7 @@ app_install_node()
     local FORGERS_OFFSET=$(expr $FORGERS + 1)
 
     mv "$SIDECHAIN_PATH/networks.json" "$SIDECHAIN_PATH/networks.json.orig"
-    jq ".$CHAIN_NAME = {\"messagePrefix\": \"$CHAIN_NAME message:\\n\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": $PREFIX, \"wif\": 187, \"client\": {\"token\": \"$TOKEN\", \"symbol\": \"$SYMBOL\", \"explorer\": \"http://$NODE_IP\"}}" "$SIDECHAIN_PATH/networks.json.orig" > "$SIDECHAIN_PATH/networks.json"
+    jq ".$CHAIN_NAME = {\"messagePrefix\": \"$CHAIN_NAME message:\\n\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": $PREFIX, \"wif\": 187, \"client\": {\"token\": \"$TOKEN\", \"symbol\": \"$SYMBOL\", \"explorer\": \"http://$EXPLORER_IP:$EXPLORER_PORT\"}}" "$SIDECHAIN_PATH/networks.json.orig" > "$SIDECHAIN_PATH/networks.json"
     cd "$SIDECHAIN_PATH/tasks"
     rm -rf demo
     mkdir demo
@@ -70,6 +70,7 @@ app_install_node()
     sed -i -e "s/for(var i=1; i<52; i++){/for(var i=1; i<$FORGERS_OFFSET; i++){/g" createGenesisBlock.js
     sed -i -e "s/for(var i=0;i<51;i++){/for(var i=0;i<$FORGERS;i++){/g" createGenesisBlock.js
     sed -i -e "s/var totalpremine = 2100000000000000;/var totalpremine = $TOTAL_PREMINE;/g" createGenesisBlock.js
+    sed -i -e "s/4100/$NODE_PORT/g" createGenesisBlock.js
     sed -i -e "s/send: 10000000/send: $FEE_SEND/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/vote: 100000000/vote: $FEE_VOTE/g" "$SIDECHAIN_PATH/helpers/constants.js"
     sed -i -e "s/secondsignature: 500000000/secondsignature: $FEE_SECOND_PASSPHRASE/g" "$SIDECHAIN_PATH/helpers/constants.js"
@@ -86,8 +87,8 @@ app_install_node()
         sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$SIDECHAIN_PATH/helpers/constants.js"
     fi
     node createGenesisBlock.js
+    jq ".address = \"$NODE_IP\"" "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" > "$SIDECHAIN_PATH/config.$CHAIN_NAME.json"
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$SIDECHAIN_PATH"
-    cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
     cp "$SIDECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
 
     local PASSPHRASE=$(sh -c "jq '.passphrase' $SIDECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
