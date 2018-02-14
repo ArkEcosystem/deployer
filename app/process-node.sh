@@ -110,7 +110,7 @@ process_node_stop()
     heading "Stopping..."
     process_node_args "$@"
     cd $SIDECHAIN_PATH
-    forever stop app.js
+    forever stopall
     success "Stop OK!"
 }
 
