@@ -109,7 +109,6 @@ process_node_stop()
 {
     heading "Stopping..."
     process_node_args "$@"
-    cd $SIDECHAIN_PATH
     forever stopall
     success "Stop OK!"
 }

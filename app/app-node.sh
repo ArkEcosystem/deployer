@@ -104,9 +104,9 @@ app_install_node()
 
 app_uninstall_node()
 {
-    heading "Uninstalling..."
+    process_node_stop "$@"
 
-    process_node_args "$@"
+    heading "Uninstalling..."
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
