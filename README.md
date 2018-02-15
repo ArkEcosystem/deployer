@@ -68,7 +68,7 @@ sudo apt-get install -y jq
 
 ## Vagrant
 
-Deploy a sidechain and explorer within its own Vagrant setup.
+Deploy a sidechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
 
 ```bash
 git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
