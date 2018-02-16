@@ -10,6 +10,10 @@ nvm install 8.9.1
 sudo apt-get install -y jq
 ```
 
+## Guide
+
+Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
+
 ### Node
 
 *Note: Change <MACHINE_IP> to your Machine's IP*
