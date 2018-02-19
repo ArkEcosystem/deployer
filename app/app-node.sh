@@ -88,7 +88,7 @@ app_install_node()
         sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$SIDECHAIN_PATH/helpers/constants.js"
     fi
     node createGenesisBlock.js
-    jq ".address = \"$NODE_IP\"" "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" > "$SIDECHAIN_PATH/config.$CHAIN_NAME.json"
+    jq ".peers.list = [{\"ip\":\"$NODE_IP\", \"port\":$NODE_PORT}]" "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" > "$SIDECHAIN_PATH/config.$CHAIN_NAME.json"
     cp "$SIDECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$SIDECHAIN_PATH"
     cp "$SIDECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$SIDECHAIN_PATH"
 
