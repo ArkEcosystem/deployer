@@ -7,80 +7,80 @@ parse_json_config()
     fi
 
     if [[ -f "$CONFIG" ]]; then
-        KEYS=$(jq '. | keys[]' "$CONFIG")
-        for key in $(jq '. | keys[]' "$CONFIG"); do
-            case $key in
+        KEYS=$(jq -r '. | keys[]' "$CONFIG")
+        for KEY in $(jq -r '. | keys[]' "$CONFIG"); do
+            case $KEY in
                 "nodeIp")
-                    NODE_IP=$(jq '.nodeIp' "$CONFIG")
+                    NODE_IP=$(jq -r '.nodeIp' "$CONFIG")
                 ;;
                 "nodePort")
-                    NODE_PORT=$(jq '.nodePort' "$CONFIG")
+                    NODE_PORT=$(jq -r '.nodePort' "$CONFIG")
                 ;;
                 "explorerIp")
-                    EXPLORER_IP=$(jq '.explorerIp' "$CONFIG")
+                    EXPLORER_IP=$(jq -r '.explorerIp' "$CONFIG")
                 ;;
                 "explorerPort")
-                    EXPLORER_PORT=$(jq '.explorerPort' "$CONFIG")
+                    EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG")
                 ;;
                 "chainName")
-                    CHAIN_NAME=$(jq '.chainName' "$CONFIG")
+                    CHAIN_NAME=$(jq -r '.chainName' "$CONFIG")
                 ;;
                 "token")
-                    TOKEN=$(jq '.token' "$CONFIG")
+                    TOKEN=$(jq -r '.token' "$CONFIG")
                 ;;
                 "database")
-                    DATABASE_NAME=$(jq '.database' "$CONFIG")
+                    DATABASE_NAME=$(jq -r '.database' "$CONFIG")
                 ;;
                 "symbol")
-                    SYMBOL=$(jq '.symbol' "$CONFIG")
+                    SYMBOL=$(jq -r '.symbol' "$CONFIG")
                 ;;
                 "prefix")
-                    PREFIX=$(jq '.prefix' "$CONFIG")
+                    PREFIX=$(jq -r '.prefix' "$CONFIG")
                 ;;
                 "feeSend")
-                    FEE_SEND=$(jq '.feeSend' "$CONFIG")
+                    FEE_SEND=$(jq -r '.feeSend' "$CONFIG")
                 ;;
                 "feeVote")
-                    FEE_VOTE=$(jq '.feeVote' "$CONFIG")
+                    FEE_VOTE=$(jq -r '.feeVote' "$CONFIG")
                 ;;
                 "feeSecondPassphrase")
-                    FEE_SECOND_PASSPHRASE=$(jq '.feeSecondPassphrase' "$CONFIG")
+                    FEE_SECOND_PASSPHRASE=$(jq -r '.feeSecondPassphrase' "$CONFIG")
                 ;;
                 "feeDelegate")
-                    FEE_DELEGATE=$(jq '.feeDelegate' "$CONFIG")
+                    FEE_DELEGATE=$(jq -r '.feeDelegate' "$CONFIG")
                 ;;
                 "feeMultisig")
-                    FEE_MULTISIG=$(jq '.feeMultisig' "$CONFIG")
+                    FEE_MULTISIG=$(jq -r '.feeMultisig' "$CONFIG")
                 ;;
                 "forgers")
-                    FORGERS=$(jq '.forgers' "$CONFIG")
+                    FORGERS=$(jq -r '.forgers' "$CONFIG")
                 ;;
                 "maxVotes")
-                    MAX_VOTES=$(jq '.maxVotes' "$CONFIG")
+                    MAX_VOTES=$(jq -r '.maxVotes' "$CONFIG")
                 ;;
                 "blockTime")
-                    BLOCK_TIME=$(jq '.blockTime' "$CONFIG")
+                    BLOCK_TIME=$(jq -r '.blockTime' "$CONFIG")
                 ;;
                 "txsPerBlock")
-                    TXS_PER_BLOCK=$(jq '.txsPerBlock' "$CONFIG")
+                    TXS_PER_BLOCK=$(jq -r '.txsPerBlock' "$CONFIG")
                 ;;
                 "totalPremine")
-                    TOTAL_PREMINE=$(jq '.totalPremine' "$CONFIG")
+                    TOTAL_PREMINE=$(jq -r '.totalPremine' "$CONFIG")
                 ;;
                 "updateEpoch")
-                    local VALUE=$(jq '.updateEpoch' "$CONFIG")
+                    local VALUE=$(jq -r '.updateEpoch' "$CONFIG")
                     if [[ "$VALUE" == "true" ]]; then
                         UPDATE_EPOCH="Y"
                     fi
                 ;;
                 "rewardHeightStart")
-                    REWARD_HEIGHT_START=$(jq '.rewardHeightStart' "$CONFIG")
+                    REWARD_HEIGHT_START=$(jq -r '.rewardHeightStart' "$CONFIG")
                 ;;
                 "rewardPerBlock")
-                    REWARD_PER_BLOCK=$(jq '.rewardPerBlock' "$CONFIG")
+                    REWARD_PER_BLOCK=$(jq -r '.rewardPerBlock' "$CONFIG")
                 ;;
                 "bridgechainPath")
-                    SIDECHAIN_PATH=$(jq '.bridgechainPath' "$CONFIG")
+                    SIDECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
                 ;;
             esac
         done
