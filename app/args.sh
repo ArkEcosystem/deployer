@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-parse_explorer_args()
+parse_generic_args()
 {
     while [[ $# -ne 0 ]] ; do
         case $1 in
-            "--path")
-                EXPLORER_PATH="$2"
-            ;;
             "--name")
                 CHAIN_NAME="$2"
             ;;
@@ -39,8 +36,24 @@ parse_explorer_args()
     done
 }
 
+parse_explorer_args()
+{
+    parse_generic_args "$@"
+
+    while [[ $# -ne 0 ]] ; do
+        case $1 in
+            "--path")
+                EXPLORER_PATH="$2"
+            ;;
+        esac
+        shift
+    done
+}
+
 parse_node_args()
 {
+    parse_generic_args "$@"
+
     while [[ $# -ne 0 ]] ; do
         case "$1" in
             "--path")
@@ -48,24 +61,6 @@ parse_node_args()
             ;;
             "--database")
                 DATABASE_NAME="$2"
-            ;;
-            "--name")
-                CHAIN_NAME="$2"
-            ;;
-            "--node-ip")
-                NODE_IP="$2"
-            ;;
-            "--node-port")
-                NODE_PORT="$2"
-            ;;
-            "--explorer-ip")
-                EXPLORER_IP="$2"
-            ;;
-            "--explorer-port")
-                EXPLORER_PORT="$2"
-            ;;
-            "--token")
-                TOKEN="$2"
             ;;
             "--symbol")
                 SYMBOL="$2"
@@ -87,9 +82,6 @@ parse_node_args()
             ;;
             "--fee-multisig")
                 FEE_MULTISIG="$2"
-            ;;
-            "--forgers")
-                FORGERS="$2"
             ;;
             "--max-votes")
                 MAX_VOTES="$2"
@@ -114,12 +106,6 @@ parse_node_args()
             ;;
             "--update-epoch")
                 UPDATE_EPOCH="Y"
-            ;;
-            "--autoinstall-deps")
-                INSTALL_DEPS="Y"
-            ;;
-            "--skip-deps")
-                SKIP_DEPS="Y"
             ;;
         esac
         shift
