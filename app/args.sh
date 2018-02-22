@@ -34,10 +34,16 @@ parse_generic_args()
         esac
         shift
     done
+
+    ARGS_PROCESSED="Y"
 }
 
 parse_explorer_args()
 {
+    if [[ "$ARGS_PROCESSED" == "Y" ]]; then
+        return 1
+    fi
+
     parse_generic_args "$@"
 
     while [[ $# -ne 0 ]] ; do
@@ -52,6 +58,10 @@ parse_explorer_args()
 
 parse_node_args()
 {
+    if [[ "$ARGS_PROCESSED" == "Y" ]]; then
+        return 1
+    fi
+
     parse_generic_args "$@"
 
     while [[ $# -ne 0 ]] ; do
