@@ -91,6 +91,7 @@ parse_json_config()
 
 parse_generic_args()
 {
+    ARGS="$@"
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--config")
@@ -101,6 +102,7 @@ parse_generic_args()
         shift
     done
 
+    set -- $ARGS
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--name")
