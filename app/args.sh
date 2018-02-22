@@ -142,7 +142,7 @@ parse_generic_args()
 parse_explorer_args()
 {
     if [[ "$ARGS_PROCESSED" == "Y" ]]; then
-        return 1
+        return 0
     fi
 
     parse_generic_args "$@"
@@ -160,7 +160,7 @@ parse_explorer_args()
 parse_node_args()
 {
     if [[ "$ARGS_PROCESSED" == "Y" ]]; then
-        return 1
+        return 0
     fi
 
     parse_generic_args "$@"
