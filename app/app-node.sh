@@ -2,7 +2,7 @@
 
 app_install_node()
 {
-    process_node_args "$@"
+    parse_node_args "$@"
 
     if [[ "$SKIP_DEPS" != "Y" ]]; then
         heading "Checking Dependencies..."

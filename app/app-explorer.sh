@@ -2,7 +2,7 @@
 
 app_install_explorer()
 {
-    process_explorer_args "$@"
+    parse_explorer_args "$@"
 
     if [[ "$SKIP_DEPS" != "Y" ]]; then
         heading "Checking Dependencies..."
@@ -27,7 +27,7 @@ app_install_explorer()
 app_uninstall_explorer()
 {
     heading "Uninstalling Explorer..."
-    process_explorer_args "$@"
+    parse_explorer_args "$@"
     killall npm || true
     rm -rf "$EXPLORER_PATH"
     success "Uninstall OK!"
