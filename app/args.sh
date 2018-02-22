@@ -1,7 +1,106 @@
 #!/usr/bin/env bash
 
+parse_json_config()
+{
+    if [[ "$CONFIG_PROCESSED" == "Y" ]]; then
+        return 1
+    fi
+
+    if [[ -f "$CONFIG" ]]; then
+        KEYS=$(jq '. | keys[]' "$CONFIG")
+        for key in $(jq '. | keys[]' "$CONFIG"); do
+            case $key in
+                "nodeIp")
+                    NODE_IP=$(jq '.nodeIp' "$CONFIG")
+                ;;
+                "nodePort")
+                    NODE_PORT=$(jq '.nodePort' "$CONFIG")
+                ;;
+                "explorerIp")
+                    EXPLORER_IP=$(jq '.explorerIp' "$CONFIG")
+                ;;
+                "explorerPort")
+                    EXPLORER_PORT=$(jq '.explorerPort' "$CONFIG")
+                ;;
+                "chainName")
+                    CHAIN_NAME=$(jq '.chainName' "$CONFIG")
+                ;;
+                "token")
+                    TOKEN=$(jq '.token' "$CONFIG")
+                ;;
+                "database")
+                    DATABASE_NAME=$(jq '.database' "$CONFIG")
+                ;;
+                "symbol")
+                    SYMBOL=$(jq '.symbol' "$CONFIG")
+                ;;
+                "prefix")
+                    PREFIX=$(jq '.prefix' "$CONFIG")
+                ;;
+                "feeSend")
+                    FEE_SEND=$(jq '.feeSend' "$CONFIG")
+                ;;
+                "feeVote")
+                    FEE_VOTE=$(jq '.feeVote' "$CONFIG")
+                ;;
+                "feeSecondPassphrase")
+                    FEE_SECOND_PASSPHRASE=$(jq '.feeSecondPassphrase' "$CONFIG")
+                ;;
+                "feeDelegate")
+                    FEE_DELEGATE=$(jq '.feeDelegate' "$CONFIG")
+                ;;
+                "feeMultisig")
+                    FEE_MULTISIG=$(jq '.feeMultisig' "$CONFIG")
+                ;;
+                "forgers")
+                    FORGERS=$(jq '.forgers' "$CONFIG")
+                ;;
+                "maxVotes")
+                    MAX_VOTES=$(jq '.maxVotes' "$CONFIG")
+                ;;
+                "blockTime")
+                    BLOCK_TIME=$(jq '.blockTime' "$CONFIG")
+                ;;
+                "txsPerBlock")
+                    TXS_PER_BLOCK=$(jq '.txsPerBlock' "$CONFIG")
+                ;;
+                "totalPremine")
+                    TOTAL_PREMINE=$(jq '.totalPremine' "$CONFIG")
+                ;;
+                "updateEpoch")
+                    local VALUE=$(jq '.updateEpoch' "$CONFIG")
+                    if [[ "$VALUE" == "true" ]]; then
+                        UPDATE_EPOCH="Y"
+                    fi
+                ;;
+                "rewardHeightStart")
+                    REWARD_HEIGHT_START=$(jq '.rewardHeightStart' "$CONFIG")
+                ;;
+                "rewardPerBlock")
+                    REWARD_PER_BLOCK=$(jq '.rewardPerBlock' "$CONFIG")
+                ;;
+                "bridgechainPath")
+                    SIDECHAIN_PATH=$(jq '.bridgechainPath' "$CONFIG")
+                ;;
+            esac
+        done
+    fi
+
+    CONFIG_PROCESSED="Y"
+}
+
 parse_generic_args()
 {
+    while [[ $# -ne 0 ]] ; do
+        case $1 in
+            "--config")
+                CONFIG="$2"
+                parse_json_config
+            ;;
+        esac
+        shift
+    done
+
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--name")
