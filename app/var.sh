@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-SIDECHAIN_PATH="/home/$USER/ark-sidechain"
+BRIDGECHAIN_PATH="/home/$USER/ark-bridgechain"
 EXPLORER_PATH="/home/$USER/ark-explorer"
-CHAIN_NAME="sidechain"
+CHAIN_NAME="bridgechain"
 DATABASE_NAME="ark_$CHAIN_NAME"
 NODE_IP="0.0.0.0"
 NODE_PORT="4100"
@@ -40,7 +40,7 @@ TOTAL_PREMINE=2100000000000000
 ## Max Tokens per Account
 MAX_TOKENS_PER_ACCOUNT=12500000000000000
 
-## Whether to update epoch time for sidechain
+## Whether to update epoch time for bridgechain
 UPDATE_EPOCH="N"
 
 ## Rewards

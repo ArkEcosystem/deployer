@@ -21,15 +21,15 @@ CHAIN_NAME=$(cat "$CONFIG_PATH" | jq -r '.chainName')
 
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-./sidechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps
-./sidechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps
+./bridgechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps
+./bridgechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps
 
 ## Setup scripts to run at startup
 cat > ~/startup.sh <<- EOS
 #!/bin/bash -l
 export PATH=/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.nvm/versions/node/v8.9.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-~/ark-deployer/sidechain.sh start-node --name "$CHAIN_NAME" &>> ~/node.log &
-~/ark-deployer/sidechain.sh start-explorer &>> ~/explorer.log &
+~/ark-deployer/bridgechain.sh start-node --name "$CHAIN_NAME" &>> ~/node.log &
+~/ark-deployer/bridgechain.sh start-explorer &>> ~/explorer.log &
 EOS
 chmod u+x ~/startup.sh
 

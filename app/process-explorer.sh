@@ -7,7 +7,7 @@ process_explorer_start()
     heading "Starting Explorer..."
     parse_explorer_args "$@"
     cd $EXPLORER_PATH
-    nohup npm run sidechain &
+    nohup npm run bridgechain &
     success "Start OK!"
 }
 
