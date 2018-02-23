@@ -92,6 +92,12 @@ As mentioned in the parameters list, it's possible to pass in a JSON config file
 }
 ```
 
+To use a config file during an install, simply use the `--config` argument. For example: 
+
+```bash
+./bridgechain.sh install-node --config /path/to/config.json
+```
+
 ## Vagrant
 
 Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
