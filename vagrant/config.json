@@ -21,5 +21,6 @@
     "updateEpoch": false,
     "rewardHeightStart": 0,
     "rewardPerBlock": 200000000,
-    "bridgechainPath": "/home/vagrant/ark-sidechain"
+    "bridgechainPath": "/home/vagrant/ark-sidechain",
+    "explorerPath": "/home/vagrant/ark-explorer"
 }

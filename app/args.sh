@@ -82,6 +82,9 @@ parse_json_config()
                 "bridgechainPath")
                     SIDECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
                 ;;
+                "explorerPath")
+                    EXPLORER_PATH=$(jq -r '.explorerPath' "$CONFIG")
+                ;;
             esac
         done
     fi
