@@ -4,7 +4,7 @@ process_node_start()
 {
     heading "Starting..."
     parse_node_args "$@"
-    cd $SIDECHAIN_PATH
+    cd $BRIDGECHAIN_PATH
     forever start app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
     success "Start OK!"
 
@@ -32,6 +32,6 @@ process_node_restart()
 
 process_node_logs()
 {
-    cd $SIDECHAIN_PATH
+    cd $BRIDGECHAIN_PATH
     tail -fn 500 logs/ark.log
 }

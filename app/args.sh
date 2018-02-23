@@ -80,7 +80,7 @@ parse_json_config()
                     REWARD_PER_BLOCK=$(jq -r '.rewardPerBlock' "$CONFIG")
                 ;;
                 "bridgechainPath")
-                    SIDECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
+                    BRIDGECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
                 ;;
                 "explorerPath")
                     EXPLORER_PATH=$(jq -r '.explorerPath' "$CONFIG")
@@ -171,7 +171,7 @@ parse_node_args()
     while [[ $# -ne 0 ]] ; do
         case "$1" in
             "--path")
-                SIDECHAIN_PATH="$2"
+                BRIDGECHAIN_PATH="$2"
             ;;
             "--database")
                 DATABASE_NAME="$2"
