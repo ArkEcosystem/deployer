@@ -19,7 +19,7 @@ app_install_explorer()
     npm install
     echo "{\"title\": \"$CHAIN_NAME Explorer\", \"server\": \"http:\/\/$NODE_IP:$NODE_PORT\/api\", \"alias\": \"Bridgechain\", \"activeDelegates\": \"$FORGERS\", \"rewardOffset\": 0, \"currencies\": [], \"knownWallets\": {}, \"defaults\": {\"currency\": null}, \"config\": {\"priceChart\": false}}" > "$EXPLORER_PATH/networks/bridgechain.json"
     mv "$EXPLORER_PATH/package.json" "$EXPLORER_PATH/package.orig.json"
-    jq ".scripts.bridgechain = \"npm run dev -- --env.network=\"bridgechain\" --env.host=$EXPLORER_IP --env.port=$EXPLORER_PORT\"" "$EXPLORER_PATH/package.orig.json" > "$EXPLORER_PATH/package.json"
+    jq ".scripts.bridgechain = \"npm run dev -- --env.network=bridgechain --env.host=$EXPLORER_IP --env.port=$EXPLORER_PORT\"" "$EXPLORER_PATH/package.orig.json" > "$EXPLORER_PATH/package.json"
 
     success "Explorer Installed!"
 }
