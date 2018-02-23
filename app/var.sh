@@ -49,3 +49,9 @@ REWARD_HEIGHT_START=75600
 
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
+
+## Flag to indicate if args has been processed
+ARGS_PROCESSED="N"
+
+## Flag to indicate if JSON config has been processed
+CONFIG_PROCESSED="N"

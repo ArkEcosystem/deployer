@@ -38,8 +38,9 @@ sudo apt-get install -y jq
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
-    --autoinstall-deps - Automatically instal dependencies without prompt
     --max-tokens-per-account - Max amount of tokens per account [12500000000000000 (125 million)]
+    --config - Path to JSON config file for install options (see below section for more information)
+    --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*
@@ -70,8 +71,22 @@ sudo apt-get install -y jq
     --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
+    --config - Path to JSON config file for install options (see below section for more information)
     --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
+
+## JSON Config
+
+As mentioned in the parameters list, it's possible to pass in a JSON config file to load all properties, although they're not all required. For a full sample file, take a look [here](config.sample.json). For a small sample, see below:
+
+```json
+{
+    "nodeIp": "localhost",
+    "nodePort": 4100,
+    "explorerIp": "1.2.3.4",
+    "explorerPort": 4200
+}
+```
 
 ## Vagrant
 

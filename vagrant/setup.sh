@@ -2,29 +2,6 @@
 #   ARK Deployer Vagrant   #
 ############################
 
-## Config
-CHAIN_NAME="MyTest"
-DATABASE_NAME="ark_mytest"
-TOKEN_NAME="MYTEST"
-SYMBOL="MT"
-NODE_IP="192.168.33.10"
-NODE_PORT="4100"
-EXPLORER_IP="192.168.33.10"
-EXPLORER_PORT="4200"
-TOKEN_PREFIX="T"
-FEE_SEND=10000000
-FEE_VOTE=100000000
-FEE_SECOND_PASSPHRASE=500000000
-FEE_DELEGATE=2500000000
-FEE_MULTISIG=500000000
-FORGERS=5
-MAX_VOTES=1
-BLOCK_TIME=16
-TXS_PER_BLOCK=500
-REWARD_HEIGHT_START=0
-REWARD_PER_BLOCK=200000000
-TOTAL_PREMINE=2100000000000000
-
 ## Update and Install Initial Packages
 sudo apt-get update && sudo apt-get install -y jq git curl
 
@@ -38,36 +15,14 @@ if [[ ! -d ~/ark-deployer/ ]]; then
     ln -s /vagrant ~/ark-deployer
 fi
 
+## Config
+CONFIG_PATH="/vagrant/vagrant/config.json"
+CHAIN_NAME=$(cat "$CONFIG_PATH" | jq -r '.chainName')
+
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-./sidechain.sh install-node --name "$CHAIN_NAME" \
-                            --database "$DATABASE_NAME" \
-                            --token "$TOKEN_NAME" \
-                            --symbol "$SYMBOL" \
-                            --prefix "$TOKEN_PREFIX" \
-                            --fee-send "$FEE_SEND" \
-                            --fee-vote "$FEE_VOTE" \
-                            --fee-second-passphrase "$FEE_SECOND_PASSPHRASE" \
-                            --fee-delegate "$FEE_DELEGATE" \
-                            --fee-multisig "$FEE_MULTISIG" \
-                            --forgers "$FORGERS" \
-                            --max-votes "$MAX_VOTES" \
-                            --blocktime "$BLOCK_TIME" \
-                            --transactions-per-block "$TXS_PER_BLOCK" \
-                            --reward-height-start "$REWARD_HEIGHT_START" \
-                            --reward-per-block "$REWARD_PER_BLOCK" \
-                            --total-premine "$TOTAL_PREMINE" \
-                            --node-ip "$NODE_IP" \
-                            --node-port "$NODE_PORT" \
-                            --autoinstall-deps
-./sidechain.sh install-explorer --name "$CHAIN_NAME" \
-                                --token "$TOKEN_NAME" \
-                                --node-ip "$NODE_IP" \
-                                --node-port "$NODE_PORT" \
-                                --explorer-ip "$EXPLORER_IP" \
-                                --explorer-port "$EXPLORER_PORT" \
-                                --forgers "$FORGERS" \
-                                --skip-deps
+./sidechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps
+./sidechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps
 
 ## Setup scripts to run at startup
 cat > ~/startup.sh <<- EOS
