@@ -10,6 +10,10 @@ nvm install 8.9.1
 sudo apt-get install -y jq
 ```
 
+## Guide
+
+Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
+
 ### Node
 
 *Note: Change <MACHINE_IP> to your Machine's IP*
@@ -90,7 +94,7 @@ As mentioned in the parameters list, it's possible to pass in a JSON config file
 
 ## Vagrant
 
-Deploy a sidechain and explorer within its own Vagrant setup.
+Deploy a sidechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
 
 ```bash
 git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer

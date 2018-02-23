@@ -17,9 +17,9 @@ app_install_explorer()
     rm -rf "$EXPLORER_PATH"
     git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH" && cd "$EXPLORER_PATH"
     npm install
-    echo "{\"title\": \"$CHAIN_NAME Explorer\", \"server\": \"http:\/\/$NODE_IP:$NODE_PORT\/api\", \"alias\": \"Sidechain\", \"activeDelegates\": \"$FORGERS\", \"currencies\": [], \"knownWallets\": {}, \"defaults\": {\"currency\": null}, \"config\": {\"priceChart\": false}}" > "$EXPLORER_PATH/networks/sidechain.json"
+    echo "{\"title\": \"$CHAIN_NAME Explorer\", \"server\": \"http:\/\/$NODE_IP:$NODE_PORT\/api\", \"alias\": \"Sidechain\", \"activeDelegates\": \"$FORGERS\", \"rewardOffset\": 0, \"currencies\": [], \"knownWallets\": {}, \"defaults\": {\"currency\": null}, \"config\": {\"priceChart\": false}}" > "$EXPLORER_PATH/networks/sidechain.json"
     mv "$EXPLORER_PATH/package.json" "$EXPLORER_PATH/package.orig.json"
-    (cat "$EXPLORER_PATH/package.orig.json" | jq ".scripts.sidechain = \"HOST=$EXPLORER_IP PORT=$EXPLORER_PORT EXP_NETWORK=sidechain npm run dev\"") > "$EXPLORER_PATH/package.json"
+    jq ".scripts.sidechain = \"npm run dev -- --env.network=\"sidechain\" --env.host=$EXPLORER_IP --env.port=$EXPLORER_PORT\"" "$EXPLORER_PATH/package.orig.json" > "$EXPLORER_PATH/package.json"
 
     success "Explorer Installed!"
 }
