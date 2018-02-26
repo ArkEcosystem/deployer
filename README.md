@@ -19,16 +19,19 @@ Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
 ```bash
-./sidechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --ip <MACHINE_IP>
-./sidechain.sh start-node --name MyTest
+./bridgechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --node-ip <NODE_IP>
+./bridgechain.sh start-node --name MyTest
 ```
 
 #### Optional Parameters
 
-    --path - Path to install Side Chain [/home/$USER/ark-sidechain]
-    --name - Name of Side Chain [sidechain]
-    --database - Database Name [ark_sidechain]
-    --ip - IP for node (Only used for Explorer) [localhost]
+    --path - Path to install Bridgechain [/home/$USER/ark-bridgechain]
+    --name - Name of Bridgechain [bridgechain]
+    --database - Database Name [ark_bridgechain]
+    --node-ip - IP for node [0.0.0.0]
+    --node-port - Port for node [4100]
+    --explorer-ip - IP for explorer [127.0.0.1]
+    --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --symbol - Symbol for Token [M]
     --prefix - Address Prefix [M]
@@ -39,6 +42,8 @@ Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
+    --max-tokens-per-account - Max amount of tokens per account [12500000000000000 (125 million)]
+    --config - Path to JSON config file for install options (see below section for more information)
     --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
@@ -56,23 +61,46 @@ Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
 ```bash
-./sidechain.sh install-explorer --name MyTest --token MYTEST --ip <MACHINE_IP>
-./sidechain.sh start-explorer
+./bridgechain.sh install-explorer --name MyTest --token MYTEST --explorer-ip <EXPLORER_IP> --node-ip <NODE_IP>
+./bridgechain.sh start-explorer
 ```
 
 #### Optional Parameters
 
     --path - Path to install Explorer [/home/$USER/ark-explorer]
-    --name - Name of Side Chain [sidechain]
-    --ip - IP for Explorer to run on [localhost]
+    --name - Name of Bridgechain [bridgechain]
+    --node-ip - IP for node [0.0.0.0]
+    --node-port - Port for node [4100]
+    --explorer-ip - IP for explorer [127.0.0.1]
+    --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
+    --config - Path to JSON config file for install options (see below section for more information)
     --autoinstall-deps - Automatically instal dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
+## JSON Config
+
+As mentioned in the parameters list, it's possible to pass in a JSON config file to load all properties, although they're not all required. For a full sample file, take a look [here](config.sample.json). For a small sample, see below:
+
+```json
+{
+    "nodeIp": "localhost",
+    "nodePort": 4100,
+    "explorerIp": "1.2.3.4",
+    "explorerPort": 4200
+}
+```
+
+To use a config file during an install, simply use the `--config` argument. For example: 
+
+```bash
+./bridgechain.sh install-node --config /path/to/config.json
+```
+
 ## Vagrant
 
-Deploy a sidechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
+Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
 
 ```bash
 git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
@@ -81,8 +109,8 @@ vagrant up
 
 Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
 
-Node API: `http://127.0.0.1:14100/api/`
-Explorer: `http://127.0.0.1:14200/`
+Node API (port forwarded): `http://127.0.0.1:14100/api/`
+Explorer (port forwarded): `http://127.0.0.1:14200/`
 
 ## Credits
 

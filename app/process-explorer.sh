@@ -1,43 +1,13 @@
 #!/usr/bin/env bash
 
-process_explorer_args()
-{
-    while [[ $# -ne 0 ]] ; do
-        case $1 in
-            "--path")
-                EXPLORER_PATH="$2"
-            ;;
-            "--name")
-                CHAIN_NAME="$2"
-            ;;
-            "--ip")
-                NODE_IP="$2"
-            ;;
-            "--token")
-                TOKEN="$2"
-            ;;
-            "--forgers")
-                FORGERS="$2"
-            ;;
-            "--autoinstall-deps")
-                INSTALL_DEPS="Y"
-            ;;
-            "--skip-deps")
-                SKIP_DEPS="Y"
-            ;;
-        esac
-        shift
-    done
-}
-
 process_explorer_start()
 {
     process_explorer_stop
 
     heading "Starting Explorer..."
-    process_explorer_args "$@"
+    parse_explorer_args "$@"
     cd $EXPLORER_PATH
-    npm run sidechain
+    nohup npm run bridgechain &
     success "Start OK!"
 }
 

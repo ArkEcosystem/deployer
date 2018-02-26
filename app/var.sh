@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-SIDECHAIN_PATH="/home/$USER/ark-sidechain"
+BRIDGECHAIN_PATH="/home/$USER/ark-bridgechain"
 EXPLORER_PATH="/home/$USER/ark-explorer"
-CHAIN_NAME="sidechain"
+CHAIN_NAME="bridgechain"
 DATABASE_NAME="ark_$CHAIN_NAME"
-NODE_IP="localhost"
+NODE_IP="0.0.0.0"
+NODE_PORT="4100"
+EXPLORER_IP="127.0.0.1"
+EXPLORER_PORT="4200"
 TOKEN="MINE"
 SYMBOL="M"
 PREFIX="M"
@@ -34,7 +37,10 @@ TXS_PER_BLOCK=50
 ## Total Premined Tokens
 TOTAL_PREMINE=2100000000000000
 
-## Whether to update epoch time for sidechain
+## Max Tokens per Account
+MAX_TOKENS_PER_ACCOUNT=12500000000000000
+
+## Whether to update epoch time for bridgechain
 UPDATE_EPOCH="N"
 
 ## Rewards
@@ -43,3 +49,9 @@ REWARD_HEIGHT_START=75600
 
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
+
+## Flag to indicate if args has been processed
+ARGS_PROCESSED="N"
+
+## Flag to indicate if JSON config has been processed
+CONFIG_PROCESSED="N"
