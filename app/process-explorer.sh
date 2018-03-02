@@ -14,7 +14,7 @@ process_explorer_start()
 process_explorer_stop()
 {
     heading "Stopping..."
-    killall npm || true
+    kill $(ps aux | grep 'webpack' | awk '{print $2}') || true
     success "Stop OK!"
 }
 
