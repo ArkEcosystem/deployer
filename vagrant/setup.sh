@@ -21,8 +21,8 @@ CHAIN_NAME=$(cat "$CONFIG_PATH" | jq -r '.chainName')
 
 ## Install Node & Explorer with Dependencies
 cd ~/ark-deployer
-./bridgechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps
-./bridgechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps
+./bridgechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps --non-interactive
+./bridgechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps --non-interactive
 
 ## Setup scripts to run at startup
 cat > ~/startup.sh <<- EOS

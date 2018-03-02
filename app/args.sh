@@ -135,6 +135,9 @@ parse_generic_args()
             "--skip-deps")
                 SKIP_DEPS="Y"
             ;;
+            "--non-interactive")
+                INTERACTIVE="N"
+            ;;
         esac
         shift
     done

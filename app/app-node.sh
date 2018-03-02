@@ -21,8 +21,11 @@ app_install_node()
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
-        read -p "Database $DATABASE_NAME already exists. Recreate? [y/N]: " choice
-        if [[ "$choice" =~ ^(yes|y) ]]; then
+        RECREATE_DATABASE="Y"
+        if [[ "$INTERACTIVE" == "Y" ]]; then
+            read -p "Database $DATABASE_NAME already exists. Recreate? [y/N]: " RECREATE_DATABASE
+        fi
+        if [[ "$RECREATE_DATABASE" =~ ^(yes|y) ]]; then
             dropdb "$DATABASE_NAME"
         else
             abort 1 "Database $DATABASE_NAME already exists."
@@ -30,8 +33,11 @@ app_install_node()
     fi
     PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$USER'" | awk '{$1=$1};1')
     if [[ "$PQ_USER" == "$USER" ]]; then
-        read -p "User $USER already exists. Recreate? [y/N]: " choice
-        if [[ "$choice" =~ ^(yes|y) ]]; then
+        RECREATE_USER="N"
+        if [[ "$INTERACTIVE" == "Y" ]]; then
+            read -p "User $USER already exists. Recreate? [y/N]: " RECREATE_USER
+        fi
+        if [[ "$RECREATE_USER" =~ ^(yes|y) ]]; then
             sudo -u postgres psql -c "DROP USER $USER"
             sudo -u postgres psql -c "CREATE USER $USER WITH PASSWORD 'password' CREATEDB;"
         else
