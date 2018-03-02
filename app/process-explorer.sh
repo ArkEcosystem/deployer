@@ -7,14 +7,14 @@ process_explorer_start()
     heading "Starting Explorer..."
     parse_explorer_args "$@"
     cd $EXPLORER_PATH
-    nohup npm run bridgechain &
+    ./start-explorer.sh
     success "Start OK!"
 }
 
 process_explorer_stop()
 {
     heading "Stopping..."
-    kill $(ps aux | grep 'webpack' | awk '{print $2}') || true
+    uid=$(forever list | grep server.js | cut -c24-27) && forever stop $uid
     success "Stop OK!"
 }
 
