@@ -34,7 +34,7 @@ app_uninstall_explorer()
 {
     heading "Uninstalling Explorer..."
     parse_explorer_args "$@"
-    killall npm || true
+    process_explorer_stop
     rm -rf "$EXPLORER_PATH"
     success "Uninstall OK!"
 }
