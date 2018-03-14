@@ -14,7 +14,7 @@ app_install_explorer()
 
     heading "Installing Explorer to '$EXPLORER_PATH'..."
 
-    DEPLOYER_PATH=`pwd`
+    DEPLOYER_PATH="$__dir"
     rm -rf "$EXPLORER_PATH"
     git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH" && cd "$EXPLORER_PATH"
     npm install
