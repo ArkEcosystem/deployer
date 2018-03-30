@@ -221,6 +221,9 @@ parse_node_args()
             "--max-tokens-per-account")
                 MAX_TOKENS_PER_ACCOUNT="$2"
             ;;
+            "--no-autoforger")
+                AUTO_FORGER="N"
+            ;;
             "--update-epoch")
                 UPDATE_EPOCH="Y"
             ;;

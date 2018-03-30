@@ -14,6 +14,7 @@ PREFIX="M"
 INSTALL_DEPS="N"
 SKIP_DEPS="N"
 INTERACTIVE="Y"
+AUTO_FORGER="Y"
 
 ## Constants
 ## Fees
