@@ -24,7 +24,7 @@ app_install_explorer()
     mv "$EXPLORER_PATH/package.json" "$EXPLORER_PATH/package.orig.json"
     jq ".scripts.bridgechain = \"npm run dev -- --env.network=bridgechain --env.host=$EXPLORER_IP --env.port=$EXPLORER_PORT\"" "$EXPLORER_PATH/package.orig.json" > "$EXPLORER_PATH/package.json"
     HOST="$EXPLORER_IP" PORT="$EXPLORER_PORT" node "$EXPLORER_PATH/build/build.js" --network bridgechain
-    echo "HOST=\"$EXPLORER_IP\" PORT=\"$EXPLORER_PORT\" forever start \"$EXPLORER_PATH/server.js\"" > "$EXPLORER_PATH/start-explorer.sh"
+    echo "HOST=\"$EXPLORER_IP\" PORT=\"$EXPLORER_PORT\" forever start -s \"$EXPLORER_PATH/server.js\"" > "$EXPLORER_PATH/start-explorer.sh"
     chmod u+x "$EXPLORER_PATH/start-explorer.sh"
 
     success "Explorer Installed!"

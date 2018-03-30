@@ -6,9 +6,9 @@ process_node_start()
     parse_node_args "$@"
     cd $BRIDGECHAIN_PATH
     if [[ "$AUTO_FORGER" == "Y" ]]; then
-        forever start app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
+        forever start -s app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
     else
-        forever start app.js --config "config.$CHAIN_NAME.json" --genesis "genesisBlock.$CHAIN_NAME.json"
+        forever start -s app.js --config "config.$CHAIN_NAME.json" --genesis "genesisBlock.$CHAIN_NAME.json"
     fi
     success "Start OK!"
 
