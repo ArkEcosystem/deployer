@@ -2,6 +2,8 @@
 
 process_node_start()
 {
+    process_node_stop
+
     heading "Starting..."
     parse_node_args "$@"
     cd $BRIDGECHAIN_PATH
