@@ -15,16 +15,17 @@ sudo apt-get install -y jq
 Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
 
 ## Quick setup with Vagrant
-
-1. Install Vagrant on your local computer
-
 Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
 
+1. Install Vagrant on your local computer
+2. Clone the ark-deployer from our repository
 ```bash
-git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
-vagrant up
+$> git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
 ```
-
+3. Run the vagrant command
+```bash
+$> vagrant up
+```
 Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
 
 Node API (port forwarded): `http://127.0.0.1:14100/api/`
