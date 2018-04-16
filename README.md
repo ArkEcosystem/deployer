@@ -10,6 +10,10 @@ nvm install 8.9.1
 sudo apt-get install -y jq
 ```
 
+## Detailed Guide
+
+Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
+
 ## Quick setup with Vagrant
 
 1. Install Vagrant on your local computer
@@ -26,11 +30,10 @@ Vagrant will then reboot. Once finished, wait a further minute or so and you can
 Node API (port forwarded): `http://127.0.0.1:14100/api/`
 Explorer (port forwarded): `http://127.0.0.1:14200/`
 
-## Guide
 
-Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
+## Installig from you local shell
 
-### Node
+### Node installation
 
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
@@ -72,7 +75,7 @@ Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0
     --fee-multisig - Fee for Multisignature Transaction [500000000 (5)]
     --update-epoch - Set Epoch based on time the chain was created
 
-### Explorer
+### Explorer installation
 
 *Note: Change <MACHINE_IP> to your Machine's IP*
 
@@ -113,20 +116,6 @@ To use a config file during an install, simply use the `--config` argument. For 
 ```bash
 ./bridgechain.sh install-node --config /path/to/config.json
 ```
-
-## Vagrant
-
-Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
-
-```bash
-git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
-vagrant up
-```
-
-Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
-
-Node API (port forwarded): `http://127.0.0.1:14100/api/`
-Explorer (port forwarded): `http://127.0.0.1:14200/`
 
 ## Credits
 
