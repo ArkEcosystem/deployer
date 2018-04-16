@@ -10,6 +10,22 @@ nvm install 8.9.1
 sudo apt-get install -y jq
 ```
 
+## Quick setup with Vagrant
+
+1. Install Vagrant on your local computer
+
+Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
+
+```bash
+git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
+vagrant up
+```
+
+Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
+
+Node API (port forwarded): `http://127.0.0.1:14100/api/`
+Explorer (port forwarded): `http://127.0.0.1:14200/`
+
 ## Guide
 
 Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
