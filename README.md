@@ -31,7 +31,7 @@ Node API (port forwarded): `http://127.0.0.1:14100/api/`
 Explorer (port forwarded): `http://127.0.0.1:14200/`
 
 
-## Installig from you local shell
+## Manual installation
 
 ### Node installation
 
