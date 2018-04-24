@@ -58,13 +58,13 @@ Explorer (port forwarded): `http://127.0.0.1:14200/`
     --forgers - How many forgers for the network [51]
     --max-votes - Max Votes per Wallet [1]
     --blocktime - Time per block (seconds) [8]
-    --transactions-per-block - Max Transaciton count per Block [50]
+    --transactions-per-block - Max Transaction count per Block [50]
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
     --max-tokens-per-account - Max amount of tokens per account [12500000000000000 (125 million)]
     --config - Path to JSON config file for install options (see below section for more information)
-    --autoinstall-deps - Automatically instal dependencies without prompt
+    --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*
@@ -96,7 +96,7 @@ Explorer (port forwarded): `http://127.0.0.1:14200/`
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
     --config - Path to JSON config file for install options (see below section for more information)
-    --autoinstall-deps - Automatically instal dependencies without prompt
+    --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
 ## JSON Config
