@@ -1,5 +1,10 @@
 ![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/35097070-78c0dc40-fc46-11e7-9bb0-ad36f7182f39.png)
 
+## Prerequisites
+
+- Because the ARK Node is recommended to be run on Ubuntu 16 (see the [node guide](https://blog.ark.io/how-to-setup-a-node-for-ark-and-a-basic-cheat-sheet-4f82910719da)), we recommend that the deployer is only run on Ubuntu 16 also.
+- User running the deployer commands must be a sudoer
+
 ## Installation
 
 ```bash
