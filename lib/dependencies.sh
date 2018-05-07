@@ -8,14 +8,24 @@ case "$(uname -s)" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
+apt_package_installed()
+{
+    local package="$1"
+    INSTALLED=$(dpkg -l "$package" 2>/dev/null | fgrep "$package" | egrep "^[a-zA-Z]" | awk '{print $2}') || true
+    if [[ "$INSTALLED" == "$package" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 check_program_dependencies()
 {
     local -a dependencies="${1}"
 
     TO_INSTALL=""
     for dependency in ${dependencies[@]}; do
-        INSTALLED=$(dpkg -l "$dependency" 2>/dev/null | fgrep "$dependency" | egrep "^[a-zA-Z]" | awk '{print $2}') || true
-        if [[ "$INSTALLED" != "$dependency" ]]; then
+        if ! apt_package_installed "$dependency" ; then
             TO_INSTALL="$TO_INSTALL$dependency "
         fi
     done
