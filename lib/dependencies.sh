@@ -11,8 +11,12 @@ esac
 apt_package_installed()
 {
     local package="$1"
-    INSTALLED=$(dpkg -l "$package" 2>/dev/null | fgrep "$package" | egrep "^[a-zA-Z]" | awk '{print $2}') || true
-    if [[ "$INSTALLED" == "$package" ]]; then
+    local install_status
+
+    install_status=$(dpkg --list "$package" | tail -n 1 | head -c 3) || true
+    # interpretation of the 3 characters of install status
+    # https://linuxprograms.wordpress.com/2010/05/11/status-dpkg-list/
+    if [[ "$install_status" == "ii " ]]; then
         return 0
     else
         return 1
