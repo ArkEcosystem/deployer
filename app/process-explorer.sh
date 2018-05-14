@@ -14,7 +14,7 @@ process_explorer_start()
 process_explorer_stop()
 {
     heading "Stopping..."
-    (uid=$(forever list | grep server.js | cut -c24-27) && forever stop $uid) || true
+    pm2 stop explorer &>/dev/null || true
     success "Stop OK!"
 }
 

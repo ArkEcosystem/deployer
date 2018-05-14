@@ -2,13 +2,16 @@
 
 process_node_start()
 {
+    process_node_stop "$@"
+
     heading "Starting..."
     parse_node_args "$@"
-    cd $BRIDGECHAIN_PATH
+    cd "$BRIDGECHAIN_PATH"
+    local CONFIG_PATH="$BRIDGECHAIN_PATH/deployer-$CHAIN_NAME"
     if [[ "$AUTO_FORGER" == "Y" ]]; then
-        forever start -s app.js --config "config.$CHAIN_NAME.autoforging.json" --genesis "genesisBlock.$CHAIN_NAME.json"
+        ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH" --network-start
     else
-        forever start -s app.js --config "config.$CHAIN_NAME.json" --genesis "genesisBlock.$CHAIN_NAME.json"
+        pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
     fi
     success "Start OK!"
 
@@ -25,7 +28,7 @@ process_node_stop()
 {
     heading "Stopping..."
     parse_node_args "$@"
-    uid=$(forever list | grep app.js | cut -c24-27) && forever stop $uid
+    pm2 stop ark &>/dev/null || true
     success "Stop OK!"
 }
 
@@ -40,5 +43,5 @@ process_node_restart()
 process_node_logs()
 {
     cd $BRIDGECHAIN_PATH
-    tail -fn 500 logs/ark.log
+    pm2 logs ark
 }
