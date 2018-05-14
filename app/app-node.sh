@@ -48,7 +48,7 @@ app_install_node()
         sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD 'password' CREATEDB;"
     fi
 
-    createdb "$DATABASE_NAME"
+    sudo -u postgres createdb "$DATABASE_NAME"
 
     local CONFIG_PATH="$BRIDGECHAIN_PATH/deployer-$CHAIN_NAME"
 
@@ -111,7 +111,7 @@ app_uninstall_node()
 
     DB=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME" | awk '{$1=$1};1' | awk '{print $1}')
     if [[ "$DB" == "$DATABASE_NAME" ]]; then
-        dropdb "$DATABASE_NAME"
+        sudo -u postgres dropdb "$DATABASE_NAME"
     fi
     rm -rf "$BRIDGECHAIN_PATH"
 
