@@ -22,7 +22,7 @@
     "txsPerBlock": 500,
     "totalPremine": 2100000000000000,
     "updateEpoch": false,
-    "rewardHeightStart": 0,
+    "rewardHeightStart": 1,
     "rewardPerBlock": 200000000,
     "bridgechainPath": "/home/vagrant/ark-bridgechain",
     "explorerPath": "/home/vagrant/ark-explorer"
