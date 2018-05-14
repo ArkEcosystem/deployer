@@ -31,20 +31,21 @@ app_install_node()
             abort 1 "Database $DATABASE_NAME already exists."
         fi
     fi
-    PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$USER'" | awk '{$1=$1};1')
-    if [[ "$PQ_USER" == "$USER" ]]; then
+    DB_USER="node"
+    PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$DB_USER'" | awk '{$1=$1};1')
+    if [[ "$PQ_USER" == "$DB_USER" ]]; then
         RECREATE_USER="N"
         if [[ "$INTERACTIVE" == "Y" ]]; then
-            read -p "User $USER already exists. Recreate? [y/N]: " RECREATE_USER
+            read -p "User $DB_USER already exists. Recreate? [y/N]: " RECREATE_USER
         fi
         if [[ "$RECREATE_USER" =~ ^(yes|y) ]]; then
-            sudo -u postgres psql -c "DROP USER $USER"
-            sudo -u postgres psql -c "CREATE USER $USER WITH PASSWORD 'password' CREATEDB;"
+            sudo -u postgres psql -c "DROP USER $DB_USER"
+            sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD 'password' CREATEDB;"
         else
-            echo "Skipping User Creation for $USER"
+            echo "Skipping User Creation for $DB_USER"
         fi
     else
-        sudo -u postgres psql -c "CREATE USER $USER WITH PASSWORD 'password' CREATEDB;"
+        sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD 'password' CREATEDB;"
     fi
 
     createdb "$DATABASE_NAME"
@@ -54,7 +55,6 @@ app_install_node()
     rm -rf "$CONFIG_PATH" "$BRIDGECHAIN_PATH"
     git clone git@github.com:alexbarnsley/ark-core.git -b deployer "$BRIDGECHAIN_PATH"
     cd "$BRIDGECHAIN_PATH"
-
 
     npm install
     lerna bootstrap
@@ -74,7 +74,7 @@ app_install_node()
                                           --apiPort "$API_PORT"  \
                                           --dbHost "$DATABASE_HOST"  \
                                           --dbPort "$DATABASE_PORT"  \
-                                          --dbUsername "$USER"  \
+                                          --dbUsername "$DB_USER"  \
                                           --dbPassword "password"  \
                                           --dbDatabase "$DATABASE_NAME"  \
                                           --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT"  \
