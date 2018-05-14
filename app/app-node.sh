@@ -12,7 +12,7 @@ app_install_node()
 
     app_uninstall_node "$@"
 
-    heading "Installing Node to $BRIDGECHAIN_PATH..."
+    heading "Installing Core to $BRIDGECHAIN_PATH..."
 
     PREFIX=$(sh -c "jq '.$PREFIX' $__dir/prefixes.json")
     if [[ -z "$PREFIX" ]]; then
@@ -49,57 +49,52 @@ app_install_node()
 
     createdb "$DATABASE_NAME"
 
-    rm -rf "$BRIDGECHAIN_PATH"
-    git clone https://github.com/ArkEcosystem/ark-node.git -b explorer "$BRIDGECHAIN_PATH"
+    local CONFIG_PATH="$BRIDGECHAIN_PATH/deployer-$CHAIN_NAME"
+
+    rm -rf "$CONFIG_PATH" "$BRIDGECHAIN_PATH"
+    git clone git@github.com:alexbarnsley/ark-core.git -b deployer "$BRIDGECHAIN_PATH"
     cd "$BRIDGECHAIN_PATH"
 
-    npm install libpq
-    npm install secp256k1
-    npm install bindings
+
     npm install
+    lerna bootstrap
 
     local YEAR=$(date +"%-Y")
-    local MONTH=$(expr $(date +"%-m") - 1)
-    local DAY=$(date +"%-d")
-    local HOUR=$(date +"%-H")
-    local MINUTE=$(date +"%-M")
-    local SECOND=$(date +"%-S")
-    local FORGERS_OFFSET=$(expr $FORGERS + 1)
+    local MONTH=$(printf "%02d" $(expr $(date +"%-m") - 1))
+    local DAY=$(printf "%02d" $(date +"%-d"))
+    local HOUR=$(printf "%02d" $(date +"%-H"))
+    local MINUTE=$(printf "%02d" $(date +"%-M"))
+    local SECOND=$(printf "%02d" $(date +"%-S"))
 
-    mv "$BRIDGECHAIN_PATH/networks.json" "$BRIDGECHAIN_PATH/networks.json.orig"
-    jq ".$CHAIN_NAME = {\"messagePrefix\": \"$CHAIN_NAME message:\\n\", \"bip32\": {\"public\": 70617039, \"private\": 70615956}, \"pubKeyHash\": $PREFIX, \"wif\": 187, \"client\": {\"token\": \"$TOKEN\", \"symbol\": \"$SYMBOL\", \"explorer\": \"http://$EXPLORER_IP:$EXPLORER_PORT\"}}" "$BRIDGECHAIN_PATH/networks.json.orig" > "$BRIDGECHAIN_PATH/networks.json"
-    cd "$BRIDGECHAIN_PATH/tasks"
-    rm -rf demo
-    mkdir demo
-    sed -i -e "s/bitcoin/$CHAIN_NAME/g" createGenesisBlock.js
-    sed -i -e "s/var db_name = \"ark_\" + network_name;/var db_name = \"$DATABASE_NAME\";/g" createGenesisBlock.js
-    sed -i -e "s/for(var i=1; i<52; i++){/for(var i=1; i<$FORGERS_OFFSET; i++){/g" createGenesisBlock.js
-    sed -i -e "s/for(var i=0;i<51;i++){/for(var i=0;i<$FORGERS;i++){/g" createGenesisBlock.js
-    sed -i -e "s/var totalpremine = 2100000000000000;/var totalpremine = $TOTAL_PREMINE;/g" createGenesisBlock.js
-    sed -i -e "s/4100/$NODE_PORT/g" createGenesisBlock.js
-    sed -i -e "s/send: 10000000/send: $FEE_SEND/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/vote: 100000000/vote: $FEE_VOTE/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/secondsignature: 500000000/secondsignature: $FEE_SECOND_PASSPHRASE/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/delegate: 2500000000/delegate: $FEE_DELEGATE/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/multisignature: 500000000/multisignature: $FEE_MULTISIG/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/activeDelegates: 51/activeDelegates: $FORGERS/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/maximumVotes: 1/maximumVotes: $MAX_VOTES/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/blocktime: 8/blocktime: $BLOCK_TIME/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/maxTxsPerBlock: 50/maxTxsPerBlock: $TXS_PER_BLOCK/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/offset: 75600/offset: $REWARD_HEIGHT_START/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/200000000, \/\//$REWARD_PER_BLOCK, \/\//g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/200000000 \/\//$REWARD_PER_BLOCK \/\//g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    sed -i -e "s/totalAmount: 12500000000000000,/totalAmount: $MAX_TOKENS_PER_ACCOUNT,/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    if [[ "$UPDATE_EPOCH" == "Y" ]]; then
-        sed -i -e "s/epochTime: new Date(Date.UTC(2017, 2, 21, 13, 0, 0, 0))/epochTime: new Date(Date.UTC($YEAR, $MONTH, $DAY, $HOUR, $MINUTE, $SECOND, 0))/g" "$BRIDGECHAIN_PATH/helpers/constants.js"
-    fi
-    node createGenesisBlock.js
-    jq ".peers.list = [{\"ip\":\"$NODE_IP\", \"port\":$NODE_PORT}]" "$BRIDGECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.json" > "$BRIDGECHAIN_PATH/config.$CHAIN_NAME.json"
-    cp "$BRIDGECHAIN_PATH/tasks/demo/config.$CHAIN_NAME.autoforging.json" "$BRIDGECHAIN_PATH"
-    cp "$BRIDGECHAIN_PATH/tasks/demo/genesisBlock.$CHAIN_NAME.json" "$BRIDGECHAIN_PATH"
+    ./packages/core-deployer/bin/deployer --configPath "$CONFIG_PATH" \
+                                          --overwriteConfig \
+                                          --name "$CHAIN_NAME" \
+                                          --nodeIp "$NODE_IP" \
+                                          --p2pPort "$P2P_PORT" \
+                                          --apiPort "$API_PORT"  \
+                                          --dbHost "$DATABASE_HOST"  \
+                                          --dbPort "$DATABASE_PORT"  \
+                                          --dbUsername "$USER"  \
+                                          --dbPassword "password"  \
+                                          --dbDatabase "$DATABASE_NAME"  \
+                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT"  \
+                                          --activeDelegates "$FORGERS"  \
+                                          --feeSend "$FEE_SEND"  \
+                                          --feeVote "$FEE_VOTE"  \
+                                          --feeSecondSignature "$FEE_SECOND_PASSPHRASE"  \
+                                          --feeDelegate "$FEE_DELEGATE"  \
+                                          --feeMultisignature "$FEE_MULTISIG"  \
+                                          --epoch "${YEAR}-${MONTH}-${DAY}T${HOUR}:${MINUTE}:${SECOND}.000Z"  \
+                                          --rewardHeight "$REWARD_HEIGHT_START"  \
+                                          --rewardPerBlock "$REWARD_PER_BLOCK"  \
+                                          --blocktime "$BLOCK_TIME"  \
+                                          --token "$TOKEN"  \
+                                          --symbol "$SYMBOL"  \
+                                          --prefixHash "$PREFIX"  \
+                                          --transactionsPerBlock "$TXS_PER_BLOCK"
 
-    local PASSPHRASE=$(sh -c "jq '.passphrase' $BRIDGECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
-    local ADDRESS=$(sh -c "jq '.address' $BRIDGECHAIN_PATH/tasks/demo/genesisPassphrase.$CHAIN_NAME.json")
+    local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH/genesisWallet.json")
+    local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH/genesisWallet.json")
 
     echo "Your Genesis Details are:"
     echo "  Passphrase: $PASSPHRASE"
