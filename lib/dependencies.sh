@@ -8,14 +8,28 @@ case "$(uname -s)" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
+apt_package_installed()
+{
+    local package="$1"
+    local install_status
+
+    install_status=$(dpkg --list "$package" | tail -n 1 | head -c 3) || true
+    # interpretation of the 3 characters of install status
+    # https://linuxprograms.wordpress.com/2010/05/11/status-dpkg-list/
+    if [[ "$install_status" == "ii " ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 check_program_dependencies()
 {
     local -a dependencies="${1}"
 
     TO_INSTALL=""
     for dependency in ${dependencies[@]}; do
-        INSTALLED=$(dpkg -l "$dependency" 2>/dev/null | fgrep "$dependency" | egrep "^[a-zA-Z]" | awk '{print $2}') || true
-        if [[ "$INSTALLED" != "$dependency" ]]; then
+        if ! apt_package_installed "$dependency" ; then
             TO_INSTALL="$TO_INSTALL$dependency "
         fi
     done
