@@ -17,7 +17,6 @@
     "feeDelegate": 2500000000,
     "feeMultisig": 500000000,
     "forgers": 5,
-    "maxVotes": 1,
     "blockTime": 16,
     "txsPerBlock": 500,
     "totalPremine": 2100000000000000,

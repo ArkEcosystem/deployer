@@ -30,9 +30,6 @@ FEE_MULTISIG=500000000
 ## Forging Delegates
 FORGERS=51
 
-## Vote per Wallet
-MAX_VOTES=1
-
 ## Block time (seconds)
 BLOCK_TIME=8
 

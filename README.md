@@ -63,7 +63,6 @@ Explorer (port forwarded): `http://127.0.0.1:14200/`
     --symbol - Symbol for Token [M]
     --prefix - Address Prefix [M]
     --forgers - How many forgers for the network [51]
-    --max-votes - Max Votes per Wallet [1]
     --blocktime - Time per block (seconds) [8]
     --transactions-per-block - Max Transaction count per Block [50]
     --reward-height-start - Block Height when Forgers receive Rewards [75600]

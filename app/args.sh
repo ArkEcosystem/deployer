@@ -200,9 +200,6 @@ parse_node_args()
             "--fee-multisig")
                 FEE_MULTISIG="$2"
             ;;
-            "--max-votes")
-                MAX_VOTES="$2"
-            ;;
             "--blocktime")
                 BLOCK_TIME="$2"
             ;;
