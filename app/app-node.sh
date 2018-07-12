@@ -53,7 +53,7 @@ app_install_node()
     local CONFIG_PATH="$BRIDGECHAIN_PATH/deployer-$CHAIN_NAME"
 
     rm -rf "$CONFIG_PATH" "$BRIDGECHAIN_PATH"
-    git clone git@github.com:alexbarnsley/ark-core.git -b deployer "$BRIDGECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/core.git -b deployer "$BRIDGECHAIN_PATH"
     cd "$BRIDGECHAIN_PATH"
 
     npm install
