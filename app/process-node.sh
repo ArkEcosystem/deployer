@@ -8,8 +8,18 @@ process_node_start()
     parse_node_args "$@"
     cd "$BRIDGECHAIN_PATH"
     local CONFIG_PATH="$BRIDGECHAIN_PATH/deployer-$CHAIN_NAME"
+    if [[ ! -d "$CONFIG_PATH" ]]; then
+        abort 1 "Config path '$CONFIG_PATH' not found."
+    fi
+
     if [[ "$AUTO_FORGER" == "Y" ]]; then
-        ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH" --network-start
+        __node_check_last_height "$CONFIG_PATH"
+        LAST_HEIGHT=$(__node_check_last_height "$CONFIG_PATH")
+        if [[ "$LAST_HEIGHT" > "0" ]]; then
+            ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
+        else
+            ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH" --network-start
+        fi
     else
         pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
     fi
@@ -22,6 +32,12 @@ process_node_start()
     if [[ "$WATCH_LOGS" =~ ^(yes|y) ]]; then
         process_node_logs
     fi
+}
+
+__node_check_last_height() {
+    local CONFIG_PATH="$1"
+    local DATABASE_NAME=$(cat "$CONFIG_PATH/plugins.json" | jq -r '."@arkecosystem/core-database-sequelize".database // empty')
+    sudo -u postgres psql -qtAX -d ark_mytest -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1"
 }
 
 process_node_stop()
