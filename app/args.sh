@@ -37,20 +37,20 @@ parse_json_config()
                 "prefix")
                     PREFIX=$(jq -r '.prefix' "$CONFIG")
                 ;;
-                "feeSend")
-                    FEE_SEND=$(jq -r '.feeSend' "$CONFIG")
+                "feeTransfer")
+                    FEE_TRANSFER=$(jq -r '.feeTransfer' "$CONFIG")
                 ;;
                 "feeVote")
                     FEE_VOTE=$(jq -r '.feeVote' "$CONFIG")
                 ;;
-                "feeSecondPassphrase")
-                    FEE_SECOND_PASSPHRASE=$(jq -r '.feeSecondPassphrase' "$CONFIG")
+                "feeSecondSignature")
+                    FEE_SECOND_SIGNATURE=$(jq -r '.feeSecondSignature' "$CONFIG")
                 ;;
-                "feeDelegate")
-                    FEE_DELEGATE=$(jq -r '.feeDelegate' "$CONFIG")
+                "feeDelegateRegistration")
+                    FEE_DELEGATE_REGISTRATION=$(jq -r '.feeDelegateRegistration' "$CONFIG")
                 ;;
-                "feeMultisig")
-                    FEE_MULTISIG=$(jq -r '.feeMultisig' "$CONFIG")
+                "feeMultiSignature")
+                    FEE_MULTISIG_REGISTRATION=$(jq -r '.feeMultiSignature' "$CONFIG")
                 ;;
                 "forgers")
                     FORGERS=$(jq -r '.forgers' "$CONFIG")
@@ -185,20 +185,20 @@ parse_node_args()
             "--prefix")
                 PREFIX="$2"
             ;;
-            "--fee-send")
-                FEE_SEND="$2"
+            "--fee-transfer")
+                FEE_TRANSFER="$2"
             ;;
             "--fee-vote")
                 FEE_VOTE="$2"
             ;;
-            "--fee-second-passphrase")
-                FEE_SECOND_PASSPHRASE="$2"
+            "--fee-second-signature")
+                FEE_SECOND_SIGNATURE="$2"
             ;;
-            "--fee-delegate")
-                FEE_DELEGATE="$2"
+            "--fee-delegate-registration")
+                FEE_DELEGATE_REGISTRATION="$2"
             ;;
-            "--fee-multisig")
-                FEE_MULTISIG="$2"
+            "--fee-multisig-registration")
+                FEE_MULTISIG_REGISTRATION="$2"
             ;;
             "--blocktime")
                 BLOCK_TIME="$2"

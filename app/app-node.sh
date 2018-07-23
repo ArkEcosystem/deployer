@@ -79,11 +79,11 @@ app_install_node()
                                           --dbDatabase "$DATABASE_NAME"  \
                                           --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT"  \
                                           --activeDelegates "$FORGERS"  \
-                                          --feeSend "$FEE_SEND"  \
+                                          --feeTransfer "$FEE_TRANSFER"  \
                                           --feeVote "$FEE_VOTE"  \
-                                          --feeSecondSignature "$FEE_SECOND_PASSPHRASE"  \
-                                          --feeDelegate "$FEE_DELEGATE"  \
-                                          --feeMultisignature "$FEE_MULTISIG"  \
+                                          --feeSecondSignature "$FEE_SECOND_SIGNATURE"  \
+                                          --feeDelegateRegistration "$FEE_DELEGATE_REGISTRATION"  \
+                                          --feeMultiSignature "$FEE_MULTISIG_REGISTRATION"  \
                                           --epoch "${YEAR}-${MONTH}-${DAY}T${HOUR}:${MINUTE}:${SECOND}.000Z"  \
                                           --rewardHeight "$REWARD_HEIGHT_START"  \
                                           --rewardPerBlock "$REWARD_PER_BLOCK"  \

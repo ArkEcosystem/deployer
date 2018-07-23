@@ -75,11 +75,11 @@ Explorer (port forwarded): `http://127.0.0.1:14200/`
 
 *Note: Below Parameters do not work with standard wallets (with hardcoded values)*
 
-    --fee-send - Fee for sending Transaction [10000000 (0.1)]
+    --fee-transfer - Fee for sending Transaction [10000000 (0.1)]
     --fee-vote - Fee for Vote Transaction [100000000 (1)]
-    --fee-second-passphrase - Fee for Second Passphrase Transaction [500000000 (5)]
-    --fee-delegate - Fee for Register Delegate Transaction [2500000000 (25)]
-    --fee-multisig - Fee for Multisignature Transaction [500000000 (5)]
+    --fee-second-signature - Fee for Second Passphrase Transaction [500000000 (5)]
+    --fee-delegate-registration - Fee for Register Delegate Transaction [2500000000 (25)]
+    --fee-multisig-registration - Fee for Multisignature Transaction [500000000 (5)]
     --update-epoch - Set Epoch based on time the chain was created
 
 ### Explorer installation
