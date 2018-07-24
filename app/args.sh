@@ -13,8 +13,11 @@ parse_json_config()
                 "nodeIp")
                     NODE_IP=$(jq -r '.nodeIp' "$CONFIG")
                 ;;
-                "nodePort")
-                    NODE_PORT=$(jq -r '.nodePort' "$CONFIG")
+                "p2pPort")
+                    P2P_PORT=$(jq -r '.p2pPort' "$CONFIG")
+                ;;
+                "apiPort")
+                    API_PORT=$(jq -r '.apiPort' "$CONFIG")
                 ;;
                 "explorerIp")
                     EXPLORER_IP=$(jq -r '.explorerIp' "$CONFIG")
@@ -28,8 +31,14 @@ parse_json_config()
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
                 ;;
-                "database")
-                    DATABASE_NAME=$(jq -r '.database' "$CONFIG")
+                "databaseHost")
+                    DATABASE_HOST=$(jq -r '.databaseHost' "$CONFIG")
+                ;;
+                "databasePort")
+                    DATABASE_PORT=$(jq -r '.databasePort' "$CONFIG")
+                ;;
+                "databaseName")
+                    DATABASE_NAME=$(jq -r '.databaseName' "$CONFIG")
                 ;;
                 "symbol")
                     SYMBOL=$(jq -r '.symbol' "$CONFIG")
@@ -54,9 +63,6 @@ parse_json_config()
                 ;;
                 "forgers")
                     FORGERS=$(jq -r '.forgers' "$CONFIG")
-                ;;
-                "maxVotes")
-                    MAX_VOTES=$(jq -r '.maxVotes' "$CONFIG")
                 ;;
                 "blockTime")
                     BLOCK_TIME=$(jq -r '.blockTime' "$CONFIG")

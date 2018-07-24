@@ -8,7 +8,7 @@
     "token": "MINE",
     "databaseHost": "localhost",
     "databasePort": "5432",
-    "database": "ark_bridgechain",
+    "databaseName": "ark_bridgechain",
     "symbol": "M",
     "prefix": "M",
     "feeTransfer": 10000000,
