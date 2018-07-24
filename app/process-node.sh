@@ -37,7 +37,7 @@ process_node_start()
 __node_check_last_height() {
     local CONFIG_PATH="$1"
     local DATABASE_NAME=$(cat "$CONFIG_PATH/plugins.json" | jq -r '."@arkecosystem/core-database-sequelize".database // empty')
-    sudo -u postgres psql -qtAX -d ark_mytest -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1"
+    sudo -u postgres psql -qtAX -d ark_mytest -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" &>/dev/null || echo 0
 }
 
 process_node_stop()
