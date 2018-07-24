@@ -128,6 +128,10 @@ To use a config file during an install, simply use the `--config` argument. For 
 ./bridgechain.sh install-node --config /path/to/config.json
 ```
 
+## Security
+
+If you discover a security vulnerability within this project, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
+
 ## Credits
 
 - [Alex Barnsley](https://github.com/alexbarnsley)
