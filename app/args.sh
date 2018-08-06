@@ -224,6 +224,9 @@ parse_node_args()
             "--max-tokens-per-account")
                 MAX_TOKENS_PER_ACCOUNT="$2"
             ;;
+            "--force-network-start")
+                FORCE_NETWORK_START="Y"
+            ;;
             "--no-autoforger")
                 AUTO_FORGER="N"
             ;;

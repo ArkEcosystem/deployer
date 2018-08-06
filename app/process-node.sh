@@ -16,12 +16,12 @@ process_node_start()
         __node_check_last_height "$CONFIG_PATH"
         LAST_HEIGHT=$(__node_check_last_height "$CONFIG_PATH")
         if [[ "$LAST_HEIGHT" > "0" ]]; then
-            ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
+            __node_start
         else
             ARK_ENV=test pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH" --network-start
         fi
     else
-        pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
+        __node_start
     fi
     success "Start OK!"
 
@@ -31,6 +31,14 @@ process_node_start()
     fi
     if [[ "$WATCH_LOGS" =~ ^(yes|y) ]]; then
         process_node_logs
+    fi
+}
+
+__node_start() {
+    if [[ "$FORCE_NETWORK_START" == "N" ]]; then
+        pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH"
+    else
+        pm2 start ./packages/core/bin/ark -- start --config "$CONFIG_PATH" --network-start
     fi
 }
 
