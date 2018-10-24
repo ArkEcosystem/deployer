@@ -1,6 +1,8 @@
 FROM ubuntu:xenial
 
 ARG CONFIG_PATH=docker/config.json
+ARG NODE_PORT=4100
+ARG EXPLORER_PORT=4200
 ARG USER=deployer
 
 ENV USER $USER
@@ -8,6 +10,8 @@ ENV TERM linux
 
 ENV DEPLOYER_HOME /home/$USER
 ENV CONFIG_PATH $CONFIG_PATH
+ENV NODE_PORT $NODE_PORT
+ENV EXPLORER_PORT $EXPLORER_PORT
 ENV NVM_DIR $DEPLOYER_HOME/.nvm
 
 RUN apt-get update && \
@@ -34,6 +38,8 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh
     ./bridgechain.sh install-node --config "$CONFIG_PATH" --autoinstall-deps --non-interactive && \
     ./bridgechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps --non-interactive
 
-EXPOSE 4100
-EXPOSE 4200
+EXPOSE $NODE_PORT
+EXPOSE $EXPLORER_PORT
+
+ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["./docker-entrypoint.sh"]
