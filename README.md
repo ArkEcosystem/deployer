@@ -36,6 +36,26 @@ Vagrant will then reboot. Once finished, wait a further minute or so and you can
 Node API (port forwarded): `http://127.0.0.1:14100/api/`
 Explorer (port forwarded): `http://127.0.0.1:14200/`
 
+## Quick setup with Docker
+Deploy a bridgechain and explorer within its own Docker setup.
+
+1. Install Docker on your local computer
+2. Clone the ark-deployer from our repository
+```bash
+$> git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
+```
+3. Build the docker image
+```bash
+$> docker build -f docker/Dockerfile . -t deployer
+```
+4. Run deployer
+```bash
+$> docker run -p 4100:4100 -p 4200:4200 -d deployer:latest
+```
+
+Node API (port forwarded): `http://127.0.0.1:14100/api/`
+Explorer (port forwarded): `http://127.0.0.1:14200/`
+
 
 ## Manual installation
 
