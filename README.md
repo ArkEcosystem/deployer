@@ -50,7 +50,7 @@ $> docker build -f docker/Dockerfile . -t deployer
 ```
 4. Run deployer
 ```bash
-$> docker run -p 4100:4100 -p 4200:4200 -d deployer:latest
+$> docker run -p 4100:4100 -p 4200:4200 -d deployer
 ```
 
 Node API (port forwarded): `http://127.0.0.1:14100/api/`
