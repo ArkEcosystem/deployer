@@ -53,8 +53,8 @@ $> docker build -f docker/Dockerfile . -t deployer
 $> docker run -p 4100:4100 -p 4200:4200 -d deployer
 ```
 
-Node API (port forwarded): `http://127.0.0.1:14100/api/`
-Explorer (port forwarded): `http://127.0.0.1:14200/`
+Node API (port forwarded): `http://127.0.0.1:4100/api/`
+Explorer (port forwarded): `http://127.0.0.1:4200/`
 
 
 ## Manual installation
