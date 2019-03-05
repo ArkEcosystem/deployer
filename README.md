@@ -1,131 +1,164 @@
 ![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/35097070-78c0dc40-fc46-11e7-9bb0-ad36f7182f39.png)
 
-## Prerequisites
-
-- Because the ARK Node is recommended to be run on Ubuntu 16 (see the [node guide](https://blog.ark.io/how-to-setup-a-node-for-ark-and-a-basic-cheat-sheet-4f82910719da)), we recommend that the deployer is only run on Ubuntu 16 also.
-- User running the deployer commands must be a sudoer
-
-## Installation
-
-```bash
-git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-source ~/.profile
-nvm install 10
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get install -y jq yarn
-```
-
-## Detailed Guide
-
-Follow this [full guide](https://blog.ark.io/ark-deployer-setup-guide-c10825ebb0e4) to get the best out of your Bridgechain.
-
 ## Quick setup with Vagrant
 Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
 
 1. Install Vagrant on your local computer
 2. Clone the ark-deployer from our repository
 ```bash
-$> git clone https://github.com/ArkEcosystem/ark-deployer.git && cd ark-deployer
+git clone https://github.com/ArkEcosystem/deployer.git ark-deployer && cd ark-deployer
 ```
 3. Run the vagrant command
 ```bash
-$> vagrant up
+vagrant up
 ```
-Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Node and Explorer using the below URLs:
 
-Node API (port forwarded): `http://127.0.0.1:14100/api/`
-Explorer (port forwarded): `http://127.0.0.1:14200/`
+Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Core and Explorer using the below URLs:
 
+Core P2P API: `http://192.168.33.10:4102/`
+Core Public API: `http://192.168.33.10:4103/`
+Explorer: `http://192.168.33.10:4200/`
 
 ## Manual installation
 
-### Node installation
+### Prerequisites
 
-*Note: Change <MACHINE_IP> to your Machine's IP*
+- User running the deployer commands must has sudo access
+
+### Installation
 
 ```bash
-./bridgechain.sh install-node --name MyTest --database ark_mytest --token MYTEST --symbol MT --node-ip <NODE_IP>
-./bridgechain.sh start-node --name MyTest
+sudo apt-get update && sudo apt-get install -y git curl
+git clone https://github.com/ArkEcosystem/deployer.git ark-deployer && cd ark-deployer
+source setup.sh
 ```
 
-#### Optional Parameters
+#### Core installation
 
-    --path - Path to install Bridgechain [/home/$USER/ark-bridgechain]
+*Note: Change <MACHINE_IP> to your Machine's IP. You can also set to "0.0.0.0" to run on all IPs (recommended)*
+
+```bash
+./bridgechain.sh install-core --name MyTest --database-name core_mytest --token MYTEST --symbol MT --core-ip <MACHINE_IP>
+./bridgechain.sh start-core --network testnet
+```
+
+##### Optional Parameters
+
+###### Database
+
+    --database-host - Database Host [localhost]
+    --database-port - Database Port [5432]
+    --database-name - Database Name [core_bridgechain]
+
+###### Bridgechain Config
+
+    --config - Path to JSON config file for install (see below section for more information)
+    --path - Path to install Bridgechain [/home/$USER/core-bridgechain]
     --name - Name of Bridgechain [bridgechain]
-    --database-host - Database Name [localhost]
-    --database-port - Database Name [5432]
-    --database-name - Database Name [ark_bridgechain]
-    --node-ip - IP for node [0.0.0.0]
-    --p2p-port - Port for p2p [4102]
-    --api-port - Port for api [4103]
-    --explorer-ip - IP for explorer [127.0.0.1]
-    --explorer-port - Port for explorer [4200]
+    --core-ip - IP for core [0.0.0.0]
+    --p2p-port - Port for p2p API [4102]
+    --api-port - Port for Public API [4103]
+    --webhook-port - Port for webhook API [4104]
+    --json-rpc-port - Port for JSON RPC API [8080]
+    --mainnet-peers - Comma separated list of additional mainnet peers
+    --devnet-peers - Comma separated list of additional devnet peers
+    --testnet-peers - Comma separated list of additional testnet peers
+    --mainnet-prefix - Mainnet Address Prefix [M]
+    --devnet-prefix - Devnet Address Prefix [D]
+    --testnet-prefix - Testnet Address Prefix [T]
     --token - Token Name [MINE]
     --symbol - Symbol for Token [M]
-    --prefix - Address Prefix [M]
     --forgers - How many forgers for the network [51]
     --blocktime - Time per block (seconds) [8]
-    --transactions-per-block - Max Transaction count per Block [50]
+    --transactions-per-block - Max Transaction count per Block [150]
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
-    --max-tokens-per-account - Max amount of tokens per account [12500000000000000 (125 million)]
-    --config - Path to JSON config file for install options (see below section for more information)
+    --explorer-ip - IP for explorer [127.0.0.1]
+    --explorer-port - Port for explorer [4200]
+
+###### Static Fees
+
+    --fee-static-transfer - Fee for sending Transaction [10000000 (0.1)]
+    --fee-static-vote - Fee for Vote Transaction [100000000 (1)]
+    --fee-static-second-signature - Fee for Second Passphrase Transaction [500000000 (5)]
+    --fee-static-delegate-registration - Fee for Register Delegate Transaction [2500000000 (25)]
+    --fee-static-multisig-registration - Fee for Multisignature Transaction [500000000 (5)]
+
+###### Dynamic Fees ([more information](https://blog.ark.io/towards-flexible-marketplace-with-ark-dynamic-fees-running-on-new-core-31f1aaf1e867))
+
+    --fee-dynamic-enabled - Enable Dynamic Fees
+    --fee-dynamic-pool-min-fee - Minimum fee for transaction pool to accept [3000]
+    --fee-dynamic-broadcast-min-fee - Minimum fee for transaction to be broadcast on the network [3000]
+    --fee-dynamic-bytes-transfer - Adjust fee calculation for transfer transaction with additional bytes [100]
+    --fee-dynamic-bytes-second-signature - Adjust fee calculation for transfers with additional bytes [250]
+    --fee-dynamic-bytes-delegate-registration - Adjust fee calculation for delegate registrations with additional bytes [400000]
+    --fee-dynamic-bytes-vote - Adjust fee calculation for votes with additional bytes [100]
+    --fee-dynamic-bytes-multisig-registration - Adjust fee calculation for multisig registrations with additional bytes [500]
+    --fee-dynamic-bytes-ipfs - Adjust fee calculation for IPFS transactions with additional bytes [250]
+    --fee-dynamic-bytes-timelock-transfer - Adjust fee calculation for timelock transfers with additional bytes [500]
+    --fee-dynamic-bytes-multipayment - Adjust fee calculation for multi-payments with additional bytes [500]
+    --fee-dynamic-bytes-delegate-resignation - Adjust fee calculation for delegate resignations with additional bytes [400000]
+
+###### Generic
+
+    --git-commit - Commit changes to core on a new branch
+    --git-origin - Set git origin and attempt to push changes
+    --license-name - The name to appear in the License below "Ark Ecosystem"
+    --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
+    --no-autoforger - Forces core to run in "normal" mode, without last height checks or network start mode
+    --force-network-start - Force network to start in genesis-block mode (not recommended unless you know what you're doing)
 
-*Note: Below Parameters do not work with standard wallets (with hardcoded values)*
+#### Explorer installation
 
-    --fee-transfer - Fee for sending Transaction [10000000 (0.1)]
-    --fee-vote - Fee for Vote Transaction [100000000 (1)]
-    --fee-second-signature - Fee for Second Passphrase Transaction [500000000 (5)]
-    --fee-delegate-registration - Fee for Register Delegate Transaction [2500000000 (25)]
-    --fee-multisig-registration - Fee for Multisignature Transaction [500000000 (5)]
-    --update-epoch - Set Epoch based on time the chain was created
-
-### Explorer installation
-
-*Note: Change <MACHINE_IP> to your Machine's IP*
+*Note: Change <MACHINE_IP> to your Machine's IP. Set <CORE_IP> to an IP address you can access where core will be running.*
 
 ```bash
-./bridgechain.sh install-explorer --name MyTest --token MYTEST --explorer-ip <EXPLORER_IP> --node-ip <NODE_IP>
-./bridgechain.sh start-explorer
+./bridgechain.sh install-explorer --name MyTest --token MYTEST --explorer-ip <MACHINE_IP> --core-ip <CORE_IP>
+./bridgechain.sh start-explorer --network testnet
 ```
 
-#### Optional Parameters
+##### Optional Parameters
 
-    --path - Path to install Explorer [/home/$USER/ark-explorer]
+    --config - Path to JSON config file for install options (see below section for more information)
+    --path - Path to install Explorer [/home/$USER/core-explorer]
     --name - Name of Bridgechain [bridgechain]
-    --node-ip - IP for node [0.0.0.0]
-    --p2p-port - Port for p2p [4102]
-    --api-port - Port for api [4103]
-    --explorer-ip - IP for explorer [127.0.0.1]
+    --core-ip - IP for core [127.0.0.1]
+    --core-port - Port for api [4103]
+    --explorer-ip - IP for explorer [0.0.0.0]
     --explorer-port - Port for explorer [4200]
     --token - Token Name [MINE]
     --forgers - How many forgers for the network [51]
-    --config - Path to JSON config file for install options (see below section for more information)
+
+###### Generic
+
+    --git-commit - Commit changes to core on a new branch
+    --git-origin - Set git origin and attempt to push changes
+    --license-name - The name to appear in the License below "Ark Ecosystem"
+    --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
 
-## JSON Config
+### JSON Config
 
-As mentioned in the parameters list, it's possible to pass in a JSON config file to load all properties, although they're not all required. For a full sample file, take a look [here](config.sample.json). For a small sample, see below:
+As mentioned in the parameters list, it's possible to pass in a JSON config file to load all properties, although they're not all required. For a full example file of all possible options, take a look [here](config.sample.json). For a small example, see below:
 
 ```json
 {
-    "nodeIp": "localhost",
-    "nodePort": 4100,
-    "explorerIp": "1.2.3.4",
+    "coreIp": "0.0.0.0",
+    "p2pPort": 4102,
+    "apiPort": 4103,
+    "explorerIp": "127.0.0.1",
     "explorerPort": 4200
 }
 ```
 
-To use a config file during an install, simply use the `--config` argument. For example: 
+To use a config file for installation, simply use the `--config` argument. For example:
 
 ```bash
-./bridgechain.sh install-node --config /path/to/config.json
+./bridgechain.sh install-core --config /path/to/config.json
 ```
 
 ## Security
@@ -140,4 +173,4 @@ If you discover a security vulnerability within this project, please send an e-m
 
 ## License
 
-ARK Deployer is licensed under the MIT License - see the [LICENSE](./LICENSE.md) file for details.
+ARK Deployer is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.

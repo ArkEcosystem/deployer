@@ -1,28 +1,56 @@
 {
-    "nodeIp": "localhost",
+    "coreIp": "localhost",
     "p2pPort": 4102,
     "apiPort": 4103,
+    "webhookPort": 4104,
+    "jsonRpcPort": 8080,
     "explorerIp": "1.2.3.4",
     "explorerPort": 4200,
     "chainName": "bridgechain",
     "token": "MINE",
     "databaseHost": "localhost",
     "databasePort": "5432",
-    "databaseName": "ark_bridgechain",
+    "databaseName": "core_bridgechain",
     "symbol": "M",
-    "prefix": "M",
-    "feeTransfer": 10000000,
-    "feeVote": 100000000,
-    "feeSecondSignature": 500000000,
-    "feeDelegateRegistration": 2500000000,
-    "feeMultiSignature": 500000000,
+    "mainnetPrefix": "M",
+    "devnetPrefix": "D",
+    "testnetPrefix": "T",
+    "fees": {
+        "static": {
+            "transfer": 10000000,
+            "vote": 100000000,
+            "secondSignature": 500000000,
+            "delegateRegistration": 2500000000,
+            "multiSignature": 500000000
+        },
+        "dynamic": {
+            "enabled": false,
+            "minFeePool": 3000,
+            "minFeeBroadcast": 3000,
+            "addonBytes": {
+                "transfer": 100,
+                "secondSignature": 250,
+                "delegateRegistration": 400000,
+                "vote": 100,
+                "multiSignature": 500,
+                "ipfs": 250,
+                "timelockTransfer": 500,
+                "multiPayment": 500,
+                "delegateResignation": 400000
+            }
+        }
+    },
     "forgers": 51,
     "blockTime": 8,
-    "txsPerBlock": 50,
+    "transactionsPerBlock": 50,
     "totalPremine": 2100000000000000,
     "updateEpoch": false,
     "rewardHeightStart": 75600,
     "rewardPerBlock": 200000000,
-    "bridgechainPath": "/home/vagrant/ark-bridgechain",
-    "explorerPath": "/home/vagrant/ark-explorer"
+    "bridgechainPath": "/home/vagrant/core-bridgechain",
+    "explorerPath": "/home/vagrant/core-explorer",
+    "gitCommit": true,
+    "gitOrigin": null,
+    "licenseName": "mytest",
+    "licenseEmail": "mytest@mytest.com"
 }

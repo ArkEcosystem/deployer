@@ -10,14 +10,20 @@ parse_json_config()
         KEYS=$(jq -r '. | keys[]' "$CONFIG")
         for KEY in $(jq -r '. | keys[]' "$CONFIG"); do
             case $KEY in
-                "nodeIp")
-                    NODE_IP=$(jq -r '.nodeIp' "$CONFIG")
+                "coreIp")
+                    CORE_IP=$(jq -r '.coreIp' "$CONFIG")
                 ;;
                 "p2pPort")
                     P2P_PORT=$(jq -r '.p2pPort' "$CONFIG")
                 ;;
                 "apiPort")
                     API_PORT=$(jq -r '.apiPort' "$CONFIG")
+                ;;
+                "webhookPort")
+                    WEBHOOK_PORT=$(jq -r '.webhookPort' "$CONFIG")
+                ;;
+                "jsonRpcPort")
+                    JSON_RPC_PORT=$(jq -r '.jsonRpcPort' "$CONFIG")
                 ;;
                 "explorerIp")
                     EXPLORER_IP=$(jq -r '.explorerIp' "$CONFIG")
@@ -26,7 +32,14 @@ parse_json_config()
                     EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG")
                 ;;
                 "chainName")
+                    local CHANGE_DATABASE="N"
+                    if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
+                        CHANGE_DATABASE="Y"
+                    fi
                     CHAIN_NAME=$(jq -r '.chainName' "$CONFIG")
+                    if [ "$CHANGE_DATABASE" == "Y" ]; then
+                        DATABASE_NAME="core_$CHAIN_NAME"
+                    fi
                 ;;
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
@@ -43,23 +56,91 @@ parse_json_config()
                 "symbol")
                     SYMBOL=$(jq -r '.symbol' "$CONFIG")
                 ;;
-                "prefix")
-                    PREFIX=$(jq -r '.prefix' "$CONFIG")
+                "mainnetPrefix")
+                    PREFIX=$(jq -r '.mainnetPrefix' "$CONFIG")
                 ;;
-                "feeTransfer")
-                    FEE_TRANSFER=$(jq -r '.feeTransfer' "$CONFIG")
+                "devnetPrefix")
+                    PREFIX=$(jq -r '.devnetPrefix' "$CONFIG")
                 ;;
-                "feeVote")
-                    FEE_VOTE=$(jq -r '.feeVote' "$CONFIG")
+                "testnetPrefix")
+                    PREFIX=$(jq -r '.testnetPrefix' "$CONFIG")
                 ;;
-                "feeSecondSignature")
-                    FEE_SECOND_SIGNATURE=$(jq -r '.feeSecondSignature' "$CONFIG")
-                ;;
-                "feeDelegateRegistration")
-                    FEE_DELEGATE_REGISTRATION=$(jq -r '.feeDelegateRegistration' "$CONFIG")
-                ;;
-                "feeMultiSignature")
-                    FEE_MULTISIG_REGISTRATION=$(jq -r '.feeMultiSignature' "$CONFIG")
+                "fees")
+                    local STATIC_FEES=$(jq -r '.fees.static // empty' "$CONFIG")
+                    if [ ! -z "$STATIC_FEES" ]; then
+                        local STATIC_TRANSFER=$(jq -r '.fees.static.transfer // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_TRANSFER" ]; then
+                            FEE_STATIC_TRANSFER="$STATIC_TRANSFER"
+                        fi
+                        local STATIC_VOTE=$(jq -r '.fees.static.vote // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_VOTE" ]; then
+                            FEE_STATIC_VOTE="$STATIC_VOTE"
+                        fi
+                        local STATIC_SECOND_SIGNATURE=$(jq -r '.fees.static.secondSignature // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_SECOND_SIGNATURE" ]; then
+                            FEE_STATIC_SECOND_SIGNATURE="$STATIC_SECOND_SIGNATURE"
+                        fi
+                        local STATIC_DELEGATE_REGISTRATION=$(jq -r '.fees.static.delegateRegistration // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_DELEGATE_REGISTRATION" ]; then
+                            FEE_STATIC_DELEGATE_REGISTRATION="$STATIC_DELEGATE_REGISTRATION"
+                        fi
+                        local STATIC_MULTISIG_REGISTRATION=$(jq -r '.fees.static.multiSignature // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_MULTISIG_REGISTRATION" ]; then
+                            FEE_STATIC_MULTISIG_REGISTRATION="$STATIC_MULTISIG_REGISTRATION"
+                        fi
+                    fi
+
+                    local DYNAMIC_FEES=$(jq -r '.fees.dynamic // empty' "$CONFIG")
+                    if [ ! -z "$DYNAMIC_FEES" ]; then
+                        local IS_ENABLED=$(jq -r '.fees.dynamic.enabled' "$CONFIG")
+                        if [[ "$IS_ENABLED" == "false" ]]; then
+                            FEE_DYNAMIC_ENABLED="Y"
+                        fi
+                        local POOL_MIN_FEE=$(jq -r '.fees.dynamic.minFeePool // empty' "$CONFIG")
+                        if [ ! -z "$POOL_MIN_FEE" ]; then
+                            FEE_DYNAMIC_POOL_MIN_FEE="$POOL_MIN_FEE"
+                        fi
+                        local BROADCAST_MIN_FEE=$(jq -r '.fees.dynamic.minFeeBroadcast // empty' "$CONFIG")
+                        if [ ! -z "$BROADCAST_MIN_FEE" ]; then
+                            FEE_DYNAMIC_BROADCAST_MIN_FEE="$BROADCAST_MIN_FEE"
+                        fi
+                        local BYTES_TRANSFER=$(jq -r '.fees.dynamic.addonBytes.transfer // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_TRANSFER" ]; then
+                            FEE_DYNAMIC_BYTES_TRANSFER="$BYTES_TRANSFER"
+                        fi
+                        local BYTES_SECOND_SIGNATURE=$(jq -r '.fees.dynamic.addonBytes.secondSignature // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_SECOND_SIGNATURE" ]; then
+                            FEE_DYNAMIC_BYTES_SECOND_SIGNATURE="$BYTES_SECOND_SIGNATURE"
+                        fi
+                        local BYTES_DELEGATE_REGISTRATION=$(jq -r '.fees.dynamic.addonBytes.delegateRegistration // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_DELEGATE_REGISTRATION" ]; then
+                            FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION="$BYTES_DELEGATE_REGISTRATION"
+                        fi
+                        local BYTES_VOTE=$(jq -r '.fees.dynamic.addonBytes.vote // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_VOTE" ]; then
+                            FEE_DYNAMIC_BYTES_VOTE="$BYTES_VOTE"
+                        fi
+                        local BYTES_MULTISIG_REGISTRATION=$(jq -r '.fees.dynamic.addonBytes.multiSignature // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_MULTISIG_REGISTRATION" ]; then
+                            FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$BYTES_MULTISIG_REGISTRATION"
+                        fi
+                        local BYTES_IPFS=$(jq -r '.fees.dynamic.addonBytes.ipfs // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_IPFS" ]; then
+                            FEE_DYNAMIC_BYTES_IPFS="$BYTES_IPFS"
+                        fi
+                        local BYTES_TIMELOCK_TRANSFER=$(jq -r '.fees.dynamic.addonBytes.timelockTransfer // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_TIMELOCK_TRANSFER" ]; then
+                            FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$BYTES_TIMELOCK_TRANSFER"
+                        fi
+                        local BYTES_MULTIPAYMENT=$(jq -r '.fees.dynamic.addonBytes.multiPayment // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_MULTIPAYMENT" ]; then
+                            FEE_DYNAMIC_BYTES_MULTIPAYMENT="$BYTES_MULTIPAYMENT"
+                        fi
+                        local BYTES_DELEGATE_RESIGNATION=$(jq -r '.fees.dynamic.addonBytes.delegateResignation // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_DELEGATE_RESIGNATION" ]; then
+                            FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$BYTES_DELEGATE_RESIGNATION"
+                        fi
+                    fi
                 ;;
                 "forgers")
                     FORGERS=$(jq -r '.forgers' "$CONFIG")
@@ -67,17 +148,11 @@ parse_json_config()
                 "blockTime")
                     BLOCK_TIME=$(jq -r '.blockTime' "$CONFIG")
                 ;;
-                "txsPerBlock")
-                    TXS_PER_BLOCK=$(jq -r '.txsPerBlock' "$CONFIG")
+                "transactionsPerBlock")
+                    TXS_PER_BLOCK=$(jq -r '.transactionsPerBlock' "$CONFIG")
                 ;;
                 "totalPremine")
                     TOTAL_PREMINE=$(jq -r '.totalPremine' "$CONFIG")
-                ;;
-                "updateEpoch")
-                    local VALUE=$(jq -r '.updateEpoch' "$CONFIG")
-                    if [[ "$VALUE" == "true" ]]; then
-                        UPDATE_EPOCH="Y"
-                    fi
                 ;;
                 "rewardHeightStart")
                     REWARD_HEIGHT_START=$(jq -r '.rewardHeightStart' "$CONFIG")
@@ -90,6 +165,30 @@ parse_json_config()
                 ;;
                 "explorerPath")
                     EXPLORER_PATH=$(jq -r '.explorerPath' "$CONFIG")
+                ;;
+                "gitCoreCommit")
+                    local VALUE=$(jq -r '.gitCoreCommit' "$CONFIG")
+                    if [[ "$VALUE" == "true" ]]; then
+                        GIT_CORE_COMMIT="Y"
+                    fi
+                ;;
+                "gitCoreOrigin")
+                    GIT_CORE_ORIGIN=$(jq -r '.gitCoreOrigin' "$CONFIG")
+                ;;
+                "gitExplorerCommit")
+                    local VALUE=$(jq -r '.gitExplorerCommit' "$CONFIG")
+                    if [[ "$VALUE" == "true" ]]; then
+                        GIT_EXPLORER_COMMIT="Y"
+                    fi
+                ;;
+                "gitExplorerOrigin")
+                    GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin' "$CONFIG")
+                ;;
+                "licenseName")
+                    LICENSE_NAME=$(jq -r '.licenseName' "$CONFIG")
+                ;;
+                "licenseEmail")
+                    LICENSE_EMAIL=$(jq -r '.licenseEmail' "$CONFIG")
                 ;;
             esac
         done
@@ -115,13 +214,17 @@ parse_generic_args()
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--name")
+                local CHANGE_DATABASE="N"
+                if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
+                    CHANGE_DATABASE="Y"
+                fi
                 CHAIN_NAME="$2"
+                if [ "$CHANGE_DATABASE" == "Y" ]; then
+                    DATABASE_NAME="core_$CHAIN_NAME"
+                fi
             ;;
-            "--node-ip")
-                NODE_IP="$2"
-            ;;
-            "--node-port")
-                NODE_PORT="$2"
+            "--core-ip")
+                CORE_IP="$2"
             ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
@@ -144,6 +247,30 @@ parse_generic_args()
             "--non-interactive")
                 INTERACTIVE="N"
             ;;
+            "--git-commit")
+                if [[ $METHOD == "install-core" ]]; then
+                    GIT_CORE_COMMIT="Y"
+                elif [[ $METHOD == "install-explorer" ]]; then
+                    GIT_EXPLORER_COMMIT="Y"
+                fi
+            ;;
+            "--git-origin")
+                if [[ $METHOD == "install-core" ]]; then
+                    GIT_CORE_ORIGIN="$2"
+                elif [[ $METHOD == "install-explorer" ]]; then
+                    GIT_EXPLORER_ORIGIN="$2"
+                fi
+            ;;
+            "--license-name")
+                LICENSE_NAME="$2"
+            ;;
+            "--license-email")
+                LICENSE_EMAIL="$2"
+            ;;
+            ## Starting options
+            "--network")
+                NETWORK="$2"
+            ;;
         esac
         shift
     done
@@ -164,12 +291,15 @@ parse_explorer_args()
             "--path")
                 EXPLORER_PATH="$2"
             ;;
+            "--core-port")
+                API_PORT="$2"
+            ;;
         esac
         shift
     done
 }
 
-parse_node_args()
+parse_core_args()
 {
     if [[ "$ARGS_PROCESSED" == "Y" ]]; then
         return 0
@@ -185,26 +315,29 @@ parse_node_args()
             "--database")
                 DATABASE_NAME="$2"
             ;;
+            "--p2p-port")
+                P2P_PORT="$2"
+            ;;
+            "--api-port")
+                API_PORT="$2"
+            ;;
+            "--webhook-port")
+                WEBHOOK_PORT="$2"
+            ;;
+            "--json-rpc-port")
+                JSON_RPC_PORT="$2"
+            ;;
             "--symbol")
                 SYMBOL="$2"
             ;;
-            "--prefix")
-                PREFIX="$2"
+            "--mainnet-prefix")
+                MAINNET_PREFIX="$2"
             ;;
-            "--fee-transfer")
-                FEE_TRANSFER="$2"
+            "--devnet-prefix")
+                DEVNET_PREFIX="$2"
             ;;
-            "--fee-vote")
-                FEE_VOTE="$2"
-            ;;
-            "--fee-second-signature")
-                FEE_SECOND_SIGNATURE="$2"
-            ;;
-            "--fee-delegate-registration")
-                FEE_DELEGATE_REGISTRATION="$2"
-            ;;
-            "--fee-multisig-registration")
-                FEE_MULTISIG_REGISTRATION="$2"
+            "--testnet-prefix")
+                TESTNET_PREFIX="$2"
             ;;
             "--blocktime")
                 BLOCK_TIME="$2"
@@ -221,23 +354,66 @@ parse_node_args()
             "--total-premine")
                 TOTAL_PREMINE="$2"
             ;;
-            "--max-tokens-per-account")
-                MAX_TOKENS_PER_ACCOUNT="$2"
-            ;;
             "--force-network-start")
                 FORCE_NETWORK_START="Y"
             ;;
             "--no-autoforger")
                 AUTO_FORGER="N"
             ;;
-            "--update-epoch")
-                UPDATE_EPOCH="Y"
+            ## Static Fees
+            "--fee-static-transfer")
+                FEE_STATIC_TRANSFER="$2"
+            ;;
+            "--fee-static-vote")
+                FEE_STATIC_VOTE="$2"
+            ;;
+            "--fee-static-second-signature")
+                FEE_STATIC_SECOND_SIGNATURE="$2"
+            ;;
+            "--fee-static-delegate-registration")
+                FEE_STATIC_DELEGATE_REGISTRATION="$2"
+            ;;
+            "--fee-static-multisig-registration")
+                FEE_STATIC_MULTISIG_REGISTRATION="$2"
+            ;;
+            ## Dynamic Fees
+            "--fee-dynamic-enabled")
+                FEE_DYNAMIC_ENABLED="Y"
+            ;;
+            "--fee-dynamic-pool-min-fee")
+                FEE_DYNAMIC_POOL_MIN_FEE="$2"
+            ;;
+            "--fee-dynamic-broadcast-min-fee")
+                FEE_DYNAMIC_BROADCAST_MIN_FEE="$2"
+            ;;
+            "--fee-dynamic-bytes-transfer")
+                FEE_DYNAMIC_BYTES_TRANSFER="$2"
+            ;;
+            "--fee-dynamic-bytes-second-signature")
+                FEE_DYNAMIC_BYTES_SECOND_SIGNATURE="$2"
+            ;;
+            "--fee-dynamic-bytes-delegate-registration")
+                FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION="$2"
+            ;;
+            "--fee-dynamic-bytes-vote")
+                FEE_DYNAMIC_BYTES_VOTE="$2"
+            ;;
+            "--fee-dynamic-bytes-multisig-registration")
+                FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$2"
+            ;;
+            "--fee-dynamic-bytes-ipfs")
+                FEE_DYNAMIC_BYTES_IPFS="$2"
+            ;;
+            "--fee-dynamic-bytes-timelock-transfer")
+                FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$2"
+            ;;
+            "--fee-dynamic-bytes-multipayment")
+                FEE_DYNAMIC_BYTES_MULTIPAYMENT="$2"
+            ;;
+            "--fee-dynamic-bytes-delegate-resignation")
+                FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$2"
             ;;
         esac
         shift
     done
-
-    if [[ "$TOTAL_PREMINE" > "$MAX_TOKENS_PER_ACCOUNT" ]]; then
-        MAX_TOKENS_PER_ACCOUNT="$TOTAL_PREMINE"
-    fi
 }
