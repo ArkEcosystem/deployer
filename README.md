@@ -1,4 +1,4 @@
-![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/35097070-78c0dc40-fc46-11e7-9bb0-ad36f7182f39.png)
+![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/53840292-a86c7a00-3f91-11e9-93a7-3777a786acf5.png)
 
 ## Quick setup with Vagrant
 Deploy a bridgechain and explorer within its own Vagrant setup. This requires vagrant version 2 and up.
@@ -16,7 +16,9 @@ vagrant up
 Vagrant will then reboot. Once finished, wait a further minute or so and you can access the Core and Explorer using the below URLs:
 
 Core P2P API: `http://192.168.33.10:4102/`
+
 Core Public API: `http://192.168.33.10:4103/`
+
 Explorer: `http://192.168.33.10:4200/`
 
 ## Manual installation
@@ -25,7 +27,7 @@ Explorer: `http://192.168.33.10:4200/`
 
 - User running the deployer commands must has sudo access
 
-### Installation
+### Setup
 
 ```bash
 sudo apt-get update && sudo apt-get install -y git curl
@@ -33,7 +35,7 @@ git clone https://github.com/ArkEcosystem/deployer.git ark-deployer && cd ark-de
 source setup.sh
 ```
 
-#### Core installation
+#### Core Installation
 
 *Note: Change <MACHINE_IP> to your Machine's IP. You can also set to "0.0.0.0" to run on all IPs (recommended)*
 
@@ -111,7 +113,7 @@ source setup.sh
     --no-autoforger - Forces core to run in "normal" mode, without last height checks or network start mode
     --force-network-start - Force network to start in genesis-block mode (not recommended unless you know what you're doing)
 
-#### Explorer installation
+#### Explorer Installation
 
 *Note: Change <MACHINE_IP> to your Machine's IP. Set <CORE_IP> to an IP address you can access where core will be running.*
 
