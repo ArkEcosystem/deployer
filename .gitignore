@@ -1,2 +1,3 @@
 .vagrant
 *cloudimg-console.log
+/packages/*/node_modules/
