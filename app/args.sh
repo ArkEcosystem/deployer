@@ -56,6 +56,24 @@ parse_json_config()
                 "symbol")
                     SYMBOL=$(jq -r '.symbol' "$CONFIG")
                 ;;
+                "mainnetPeers")
+                    local MAINNET_PEERS_RAW=$(jq -r '.mainnetPeers // empty' "$CONFIG")
+                    if [ ! -z "$MAINNET_PEERS_RAW" ]; then
+                        MAINNET_PEERS=$(jq -r '.mainnetPeers // empty | join(",")' "$CONFIG")
+                    fi
+                ;;
+                "devnetPeers")
+                    local DEVNET_PEERS_RAW=$(jq -r '.devnetPeers // empty' "$CONFIG")
+                    if [ ! -z "$DEVNET_PEERS_RAW" ]; then
+                        DEVNET_PEERS=$(jq -r '.devnetPeers // empty | join(",")' "$CONFIG")
+                    fi
+                ;;
+                "testnetPeers")
+                    local TESTNET_PEERS_RAW=$(jq -r '.testnetPeers // empty' "$CONFIG")
+                    if [ ! -z "$TESTNET_PEERS_RAW" ]; then
+                        TESTNET_PEERS=$(jq -r '.testnetPeers // empty | join(",")' "$CONFIG")
+                    fi
+                ;;
                 "mainnetPrefix")
                     PREFIX=$(jq -r '.mainnetPrefix' "$CONFIG")
                 ;;
@@ -329,6 +347,15 @@ parse_core_args()
             ;;
             "--symbol")
                 SYMBOL="$2"
+            ;;
+            "--mainnet-peers")
+                MAINNET_PEERS="$2"
+            ;;
+            "--devnet-peers")
+                DEVNET_PEERS="$2"
+            ;;
+            "--testnet-peers")
+                TESTNET_PEERS="$2"
             ;;
             "--mainnet-prefix")
                 MAINNET_PREFIX="$2"

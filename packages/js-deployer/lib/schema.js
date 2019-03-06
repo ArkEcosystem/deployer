@@ -28,6 +28,7 @@ module.exports = Joi.object().keys({
   blocktime: Joi.number().required(),
   token: Joi.string().required(),
   symbol: Joi.string().required(),
+  additionalPeers: Joi.string().allow(''),
   prefixHash: Joi.number().required(),
   transactionsPerBlock: Joi.number().required(),
   wifPrefix: Joi.number()

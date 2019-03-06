@@ -12,6 +12,21 @@
     "databasePort": "5432",
     "databaseName": "core_bridgechain",
     "symbol": "M",
+    "mainnetPeers": [
+        "127.0.0.1",
+        "127.0.0.2",
+        "127.0.0.3"
+    ],
+    "devnetPeers": [
+        "127.0.0.4",
+        "127.0.0.5",
+        "127.0.0.6"
+    ],
+    "testnetPeers": [
+        "127.0.0.7",
+        "127.0.0.8",
+        "127.0.0.9"
+    ],
     "mainnetPrefix": "M",
     "devnetPrefix": "D",
     "testnetPrefix": "T",

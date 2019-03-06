@@ -139,6 +139,7 @@ app_install_core()
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
+                                          --additionalPeers "$MAINNET_PEERS" \
                                           --prefixHash "$MAINNET_PREFIX" \
                                           --transactionsPerBlock "$TXS_PER_BLOCK"
 
@@ -183,6 +184,7 @@ app_install_core()
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
+                                          --additionalPeers "$DEVNET_PEERS" \
                                           --prefixHash "$DEVNET_PREFIX" \
                                           --transactionsPerBlock "$TXS_PER_BLOCK"
 
@@ -227,6 +229,7 @@ app_install_core()
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
+                                          --additionalPeers "$TESTNET_PEERS" \
                                           --prefixHash "$TESTNET_PREFIX" \
                                           --transactionsPerBlock "$TXS_PER_BLOCK"
 

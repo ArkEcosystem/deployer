@@ -61,9 +61,9 @@ source setup.sh
     --api-port - Port for Public API [4103]
     --webhook-port - Port for webhook API [4104]
     --json-rpc-port - Port for JSON RPC API [8080]
-    --mainnet-peers - Comma separated list of additional mainnet peers
-    --devnet-peers - Comma separated list of additional devnet peers
-    --testnet-peers - Comma separated list of additional testnet peers
+    --mainnet-peers - Comma separated list of additional mainnet peer IPs
+    --devnet-peers - Comma separated list of additional devnet peer IPs
+    --testnet-peers - Comma separated list of additional testnet peer IPs
     --mainnet-prefix - Mainnet Address Prefix [M]
     --devnet-prefix - Devnet Address Prefix [D]
     --testnet-prefix - Testnet Address Prefix [T]
