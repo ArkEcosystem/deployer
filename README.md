@@ -41,7 +41,6 @@ source setup.sh
 
 ```bash
 ./bridgechain.sh install-core --name MyTest --database-name core_mytest --token MYTEST --symbol MT --core-ip <MACHINE_IP>
-./bridgechain.sh start-core --network testnet
 ```
 
 ##### Optional Parameters
@@ -110,6 +109,16 @@ source setup.sh
     --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
+
+#### Core Start
+
+```bash
+./bridgechain.sh start-core --network testnet
+```
+
+##### Parameters
+
+    --network - The network to start core as (mainnet, devnet or testnet)
     --no-autoforger - Forces core to run in "normal" mode, without last height checks or network start mode
     --force-network-start - Force network to start in genesis-block mode (not recommended unless you know what you're doing)
 
@@ -119,7 +128,6 @@ source setup.sh
 
 ```bash
 ./bridgechain.sh install-explorer --name MyTest --token MYTEST --explorer-ip <MACHINE_IP> --core-ip <CORE_IP>
-./bridgechain.sh start-explorer --network testnet
 ```
 
 ##### Optional Parameters
@@ -142,6 +150,16 @@ source setup.sh
     --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt
     --skip-deps - Skips check for installing dependencies
+
+#### Explorer Start
+
+```bash
+./bridgechain.sh start-explorer --network testnet
+```
+
+##### Parameters
+
+    --network - The network to start core as (mainnet, devnet or testnet)
 
 ### JSON Config
 
