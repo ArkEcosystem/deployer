@@ -68,12 +68,6 @@ parse_json_config()
                         DEVNET_PEERS=$(jq -r '.devnetPeers // empty | join(",")' "$CONFIG")
                     fi
                 ;;
-                "testnetPeers")
-                    local TESTNET_PEERS_RAW=$(jq -r '.testnetPeers // empty' "$CONFIG")
-                    if [ ! -z "$TESTNET_PEERS_RAW" ]; then
-                        TESTNET_PEERS=$(jq -r '.testnetPeers // empty | join(",")' "$CONFIG")
-                    fi
-                ;;
                 "mainnetPrefix")
                     PREFIX=$(jq -r '.mainnetPrefix' "$CONFIG")
                 ;;
@@ -353,9 +347,6 @@ parse_core_args()
             ;;
             "--devnet-peers")
                 DEVNET_PEERS="$2"
-            ;;
-            "--testnet-peers")
-                TESTNET_PEERS="$2"
             ;;
             "--mainnet-prefix")
                 MAINNET_PREFIX="$2"

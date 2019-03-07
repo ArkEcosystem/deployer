@@ -35,7 +35,7 @@ commander
   .option('--blocktime <value>', 'Time per block (seconds) [8]', 8)
   .option('--token <value>', 'Token Name [CHAIN]', 'CHAIN')
   .option('--symbol <value>', 'Symbol for Token [C]', 'C')
-  .option('--additionalPeers <value>', 'Comma separated list of additional peers IPs')
+  .option('--peers <value>', 'Comma separated list of peer IPs')
   .option('--prefixHash <value>', 'Address Prefix Hash [28]', 28)
   .option('--transactionsPerBlock <value>', 'Max Transaction count per Block [50]', 50)
   .option('--wifPrefix <value>', 'Prefix for generating a WIF [rand(1, 255)]', getRandomNumber(1, 255))
@@ -219,21 +219,21 @@ updateConfig(
 
 // Update peers config
 const peerConfig = {
-  list: [
-    {
-      ip: options.coreIp === '0.0.0.0' ? '127.0.0.1' : options.coreIp,
-      port: options.p2pPort
-    }
-  ],
+  list: [],
   sources: []
 }
-if (options.additionalPeers) {
-  for (const ip of options.additionalPeers.split(',')) {
+if (options.peers) {
+  for (const ip of options.peers.split(',')) {
     peerConfig.list.push({
       ip: ip.trim(),
       port: options.p2pPort
     })
   }
+} else {
+  peerConfig.list.push({
+    ip: options.coreIp === '0.0.0.0' ? '127.0.0.1' : options.coreIp,
+    port: options.p2pPort
+  })
 }
 updateConfig('peers.json', peerConfig, coreNetworkPath)
 
