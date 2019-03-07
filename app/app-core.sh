@@ -304,8 +304,8 @@ app_install_core()
     echo "  Address: $ADDRESS"
     echo ""
     echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_TESTNET/genesisWallet.json'"
-    echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_TESTNET/delegates.json' or" \
-    "'$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
+    echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_TESTNET/delegates.json'"
+    echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
     echo "------------------------------------"
 
     success "Bridgechain Installed!"
