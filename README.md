@@ -25,7 +25,7 @@ Explorer: `http://192.168.33.10:4200/`
 
 ### Prerequisites
 
-- User running the deployer commands must has sudo access
+- User running the deployer commands must have sudo access
 
 ### Setup
 
