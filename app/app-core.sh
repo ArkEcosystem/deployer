@@ -30,9 +30,9 @@ app_install_core()
     local DATABASE_NAME_DEVNET="${DATABASE_NAME}_devnet"
     local DATABASE_NAME_TESTNET="${DATABASE_NAME}_testnet"
 
-    local DB_EXISTS_MAINNET=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME_MAINNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
-    local DB_EXISTS_DEVNET=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME_DEVNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
-    local DB_EXISTS_TESTNET=$(sudo -u postgres psql -t -c "\l $DATABASE_NAME_TESTNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_MAINNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_MAINNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_DEVNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_DEVNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_TESTNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_TESTNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
 
     local DB_EXISTS="$DB_EXISTS_MAINNET $DB_EXISTS_DEVNET $DB_EXISTS_TESTNET"
     local DB_EXISTS=$(echo "$DB_EXISTS" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
