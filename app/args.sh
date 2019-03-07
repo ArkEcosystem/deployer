@@ -241,9 +241,6 @@ parse_generic_args()
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
             ;;
-            "--core-ip")
-                CORE_IP="$2"
-            ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
             ;;
@@ -308,6 +305,9 @@ parse_explorer_args()
         case $1 in
             "--path")
                 EXPLORER_PATH="$2"
+            ;;
+            "--core-ip")
+                CORE_IP="$2"
             ;;
             "--core-port")
                 API_PORT="$2"

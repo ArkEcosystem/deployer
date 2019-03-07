@@ -29,7 +29,7 @@ CHAIN_NAME=$(jq -r '.chainName' "$CONFIG_PATH")
 ## Install Core & Explorer with Dependencies
 cd ~/ark-deployer
 ./bridgechain.sh install-core --config "$CONFIG_PATH" --autoinstall-deps --non-interactive
-./bridgechain.sh install-explorer --config "$CONFIG_PATH" --core-ip "192.168.33.10" --skip-deps --non-interactive
+./bridgechain.sh install-explorer --config "$CONFIG_PATH" --skip-deps --non-interactive
 
 ## Setup startup and login scripts
 cat >> ~/.profile <<- EOS

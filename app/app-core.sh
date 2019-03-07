@@ -104,7 +104,6 @@ app_install_core()
                                           --overwriteConfig \
                                           --network "mainnet" \
                                           --name "$CHAIN_NAME" \
-                                          --coreIp "$CORE_IP" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \
@@ -149,7 +148,6 @@ app_install_core()
                                           --overwriteConfig \
                                           --network "devnet" \
                                           --name "$CHAIN_NAME" \
-                                          --coreIp "$CORE_IP" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \
@@ -194,7 +192,6 @@ app_install_core()
                                           --overwriteConfig \
                                           --network "testnet" \
                                           --name "$CHAIN_NAME" \
-                                          --coreIp "$CORE_IP" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \

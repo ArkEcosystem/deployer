@@ -1,5 +1,5 @@
 {
-    "coreIp": "0.0.0.0",
+    "coreIp": "192.168.33.10",
     "p2pPort": 4102,
     "apiPort": 4103,
     "webhookPort": 4104,

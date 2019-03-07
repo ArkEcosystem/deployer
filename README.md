@@ -37,10 +37,10 @@ source setup.sh
 
 #### Core Installation
 
-*Note: Change <MACHINE_IP> to your Machine's IP. You can also set to "0.0.0.0" to run on all IPs (recommended)*
+*Note: You cannot specify the Core IP because the config that is generated would result all nodes only connecting to 1 forger. By default Core listens on all available IPs and 127.0.0.1 is used when forging.*
 
 ```bash
-./bridgechain.sh install-core --name MyTest --database-name core_mytest --token MYTEST --symbol MT --core-ip <MACHINE_IP>
+./bridgechain.sh install-core --name MyTest --database-name core_mytest --token MYTEST --symbol MT
 ```
 
 ##### Optional Parameters
@@ -56,7 +56,6 @@ source setup.sh
     --config - Path to JSON config file for install (see below section for more information)
     --path - Path to install Bridgechain [/home/$USER/core-bridgechain]
     --name - Name of Bridgechain [bridgechain]
-    --core-ip - IP for core [0.0.0.0]
     --p2p-port - Port for p2p API [4102]
     --api-port - Port for Public API [4103]
     --webhook-port - Port for webhook API [4104]
