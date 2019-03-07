@@ -261,7 +261,7 @@ app_install_core()
             git remote set-url origin "$GIT_CORE_ORIGIN"
             git push --set-upstream origin chore/bridgechain-changes || local CANT_PUSH="Y"
             if [[ "$CANT_PUSH" == "Y" ]]; then
-                echo "Could not push Git changes to '$GIT_CORE_ORIGIN'"
+                error "Could not push Git changes to '$GIT_CORE_ORIGIN'"
             fi
         fi
     fi
@@ -343,7 +343,7 @@ __yarn_setup()
     if [[ "$1" != "1" ]]; then
         cd "$BRIDGECHAIN_PATH"
     else
-        echo "Yarn setup failed. Trying again..."
+        error "Yarn setup failed. Trying again..."
     fi
     yarn setup || __yarn_setup 1
 }
