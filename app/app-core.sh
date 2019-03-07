@@ -42,7 +42,9 @@ app_install_core()
         if [[ "$INTERACTIVE" == "Y" ]]; then
             read -p "Database(s) ($DB_EXISTS) already exists. Recreate? [Y/n]: " RECREATE_DATABASES
         fi
-        if [[ "$RECREATE_DATABASES" =~ ^(yes|y|Y) ]]; then
+        if [[ "$RECREATE_DATABASES" =~ ^(no|n|N) ]]; then
+            echo "Skipping database re-creation"
+        else
             if [ ! -z "$DB_EXISTS_MAINNET" ]; then
                 sudo -u postgres dropdb "$DATABASE_NAME_MAINNET"
                 sudo -u postgres createdb "$DATABASE_NAME_MAINNET"
@@ -55,8 +57,6 @@ app_install_core()
                 sudo -u postgres dropdb "$DATABASE_NAME_TESTNET"
                 sudo -u postgres createdb "$DATABASE_NAME_TESTNET"
             fi
-        else
-            echo "Skipping database re-creation"
         fi
     else
         sudo -u postgres createdb "$DATABASE_NAME_MAINNET"
