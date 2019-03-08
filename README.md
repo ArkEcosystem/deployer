@@ -1,7 +1,7 @@
 ![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/53840292-a86c7a00-3f91-11e9-93a7-3777a786acf5.png)
 
 ## Quick setup with Vagrant
-Deploy a bridgechain and explorer within its own virtual setup. This requires Vagrant version 2 and up, and also requires VirtualBox to be installed on your machine.
+You can deploy a bridgechain and explorer within its own virtual setup on your Desktop machine. This requires Vagrant version 2 and up, and also requires VirtualBox to be installed.
 
 1. Install Vagrant on your local computer
 2. Clone the ark-deployer from our repository
