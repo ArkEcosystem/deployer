@@ -49,9 +49,9 @@ process_core_start()
 
 __core_start() {
     if [[ "$FORCE_NETWORK_START" == "Y" ]]; then
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart
+        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart --ignoreMinimumNetworkReach
     else
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK"
+        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --ignoreMinimumNetworkReach
     fi
 
     if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
