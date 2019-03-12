@@ -74,8 +74,16 @@ process_core_stop()
     if [ -d "$BRIDGECHAIN_PATH/packages/core" ]; then
         cd "$BRIDGECHAIN_PATH/packages/core"
 
-        ./bin/run relay:stop &>/dev/null || true
-        ./bin/run forger:stop &>/dev/null || true
+        local NETWORK=$(echo "$NETWORK" | awk '{print tolower($0)}')
+
+        if [ -z "$NETWORK" ]; then
+            abort 1 "Network must be specified"
+        elif [ ! -d "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK" ]; then
+            abort 1 "Network '$NETWORK' does not exist"
+        fi
+
+        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:stop &>/dev/null || true
+        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:stop &>/dev/null || true
 
         success "Stop OK!"
     else
