@@ -347,6 +347,10 @@ for (const replacement of pluginsToUpdate) {
   pluginsConfig = pluginsConfig.replace(replacement.from, replacement.to)
 }
 
+if (options.network === 'testnet') {
+  pluginsConfig = pluginsConfig.replace(/(minimumNetworkReach:) [0-9]+/g, `$1 2`)
+}
+
 fs.writeFileSync(path.resolve(coreNetworkPath, 'plugins.js'), pluginsConfig)
 
 // Update env config
