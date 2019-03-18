@@ -3,24 +3,24 @@
         "title": "ARK Bridgechain Deployment script.",
         "syntax": "bridgechain.sh [argument] [-option]",
         "author": "Alex Barnsley <alex@ark.io> & Brian Faust <hello@brianfaust.me>",
-        "version": "1.1.0"
+        "version": "2.0.0"
     },
     "commands": [{
-        "command": "start-node",
-        "description": "Start the Node",
-        "method": "process_node_start"
+        "command": "start-core",
+        "description": "Start the Core",
+        "method": "process_core_start"
     }, {
-        "command": "stop-node",
-        "description": "Stop the Node",
-        "method": "process_node_stop"
+        "command": "stop-core",
+        "description": "Stop the Core",
+        "method": "process_core_stop"
     }, {
-        "command": "restart-node",
-        "description": "Restart the Node",
-        "method": "process_node_restart"
+        "command": "restart-core",
+        "description": "Restart the Core",
+        "method": "process_core_restart"
     }, {
-        "command": "logs-node",
-        "description": "Show the Node logs",
-        "method": "process_node_logs"
+        "command": "logs-core",
+        "description": "Show the Core logs",
+        "method": "process_core_logs"
     }, {
         "command": "start-explorer",
         "description": "Start the Explorer",
@@ -34,13 +34,13 @@
         "description": "Restart the Explorer",
         "method": "process_explorer_restart"
     }, {
-        "command": "install-node",
-        "description": "Install the Node",
-        "method": "app_install_node"
+        "command": "install-core",
+        "description": "Install the Core",
+        "method": "app_install_core"
     }, {
-        "command": "uninstall-node",
-        "description": "Uninstall the Node",
-        "method": "app_uninstall_node"
+        "command": "uninstall-core",
+        "description": "Uninstall the Core",
+        "method": "app_uninstall_core"
     }, {
         "command": "install-explorer",
         "description": "Install the Explorer",

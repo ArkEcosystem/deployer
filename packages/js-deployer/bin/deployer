@@ -1,0 +1,422 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const commander = require('commander')
+const Joi = require('joi')
+const fs = require('fs-extra')
+const os = require('os')
+const path = require('path')
+const GenesisBlockBuilder = require('../lib/builder/genesis-block')
+const getRandomNumber = require('../lib/utils/get-random-number')
+const logger = require('../lib/utils/logger')
+const updateConfig = require('../lib/utils/update-config')
+const writeEnv = require('../lib/utils/write-env')
+
+commander
+  .version(require('../package.json').version)
+  .option('--network <value>', 'Network to initially copy', 'mainnet')
+  .option('--name <value>', 'Name', 'Bridgechain')
+  .option('--coreIp <value>', 'IP for core', '0.0.0.0')
+  .option('--p2pPort <value>', 'P2P API Port', 4102)
+  .option('--apiPort <value>', 'Public P2P Port', 4103)
+  .option('--webhookPort <value>', 'Webhook Port', 4104)
+  .option('--jsonRpcPort <value>', 'JSON RPC Port', 8080)
+  .option('--dbHost <value>', 'Database host', 'localhost')
+  .option('--dbPort <value>', 'Database port', 5432)
+  .option('--dbUsername <value>', 'Database username', 'core')
+  .option('--dbPassword <value>', 'Database password', 'password')
+  .option('--dbDatabase <value>', 'Database name', `core_${commander.name.toLowerCase()}`)
+  .option('--explorerUrl <value>', 'URL to link to explorer', 'http://localhost:4200')
+  .option('--forgers <value>', 'How many forgers for the network [51]', 51)
+  .option('--epoch <value>', 'Set Epoch based on time the chain was created', '2017-02-21T13:00:00.000Z')
+  .option('--rewardHeight <value>', 'Block Height when Forgers receive Rewards [1]', 1)
+  .option('--rewardPerBlock <value>', 'How many Rewarded Tokens per Forged Block [200000000 (2)]', 200000000)
+  .option('--blocktime <value>', 'Time per block (seconds) [8]', 8)
+  .option('--token <value>', 'Token Name [CHAIN]', 'CHAIN')
+  .option('--symbol <value>', 'Symbol for Token [C]', 'C')
+  .option('--peers <value>', 'Comma separated list of peer IPs')
+  .option('--prefixHash <value>', 'Address Prefix Hash [28]', 28)
+  .option('--transactionsPerBlock <value>', 'Max Transaction count per Block [50]', 50)
+  .option('--wifPrefix <value>', 'Prefix for generating a WIF [rand(1, 255)]', getRandomNumber(1, 255))
+  .option('--totalPremine <value>', 'Tokens added to genesis wallet [2100000000000000 (21 million)]', 2100000000000000)
+  .option('--overwriteConfig', 'Overwrite current deployer config files [off]', false)
+  .option('--configPath <value>', 'Deployer config path destination')
+  .option('--corePath <value>', 'Core path location [~/core-bridgechain]', `${path.resolve(os.homedir(), 'core-bridgechain')}`)
+  // Static Fees
+  .option('--feeStaticTransfer <value>', 'Fee for sending Transaction', 10000000)
+  .option('--feeStaticVote <value>', 'Fee for Vote Transaction', 100000000)
+  .option('--feeStaticSecondSignature <value>', 'Fee for Second Passphrase Transaction', 500000000)
+  .option('--feeStaticDelegateRegistration <value>', 'Fee for Register Delegate Transaction', 2500000000)
+  .option('--feeStaticMultiSignature <value>', 'Fee for Multisignature Transaction', 500000000)
+  // Dynamic Fees
+  .option('--feeDynamicEnabled <value>', 'Dynamic Fees enabled', false)
+  .option('--feeDynamicPoolMinFee <value>', 'Minimum fee for pool to accept transaction', 3000)
+  .option('--feeDynamicBroadcastMinFee <value>', 'Minimum fee to broadcast transaction', 3000)
+  .option('--feeDynamicBytesTransfer <value>', 'Fee Bytes for Transfer transaction', 100)
+  .option('--feeDynamicBytesSecondSignature <value>', 'Fee Bytes for Second Signature transaction', 250)
+  .option('--feeDynamicBytesDelegateRegistration <value>', 'Fee Bytes for Delegate Registration transaction', 400000)
+  .option('--feeDynamicBytesVote <value>', 'Fee Bytes for Vote transaction', 100)
+  .option('--feeDynamicBytesMultiSignature <value>', 'Fee Bytes for Multi-Signature transaction', 500)
+  .option('--feeDynamicBytesIpfs <value>', 'Fee Bytes for IPFS transaction', 250)
+  .option('--feeDynamicBytesTimelockTransfer <value>', 'Fee Bytes for Timelock transaction', 500)
+  .option('--feeDynamicBytesMultiPayment <value>', 'Fee Bytes for Multi-Payment transaction', 500)
+  .option('--feeDynamicBytesDelegateResignation <value>', 'Fee Bytes for Delegate Resignation transaction', 400000)
+  .parse(process.argv)
+
+// Validate Schema
+const { error, value } = Joi.validate(commander, require('../lib/schema.js'), {
+  allowUnknown: true,
+  convert: true,
+})
+
+if (error) {
+  error.details.forEach(detail => logger.error(detail.message))
+  process.exit(1)
+}
+
+// Store validated schema
+const options = value
+
+// Check whether config path already exists
+if (fs.existsSync(options.configPath)) {
+  if (options.overwriteConfig) {
+    fs.removeSync(options.configPath)
+  } else {
+    logger.error(
+      `Deployer config already exists in '${
+        options.configPath
+      }' - to overwrite, use the '--overwriteConfig' flag`,
+    )
+    process.exit(1)
+  }
+}
+
+// Store original network paths
+const oldCoreNetworkPath = path.resolve(options.corePath, `packages/core/bin/config/${options.network}`)
+const oldCryptoNetworkPath = path.resolve(options.corePath, `packages/crypto/src/networks/${options.network}`)
+
+// Check network to copy exists
+if (!fs.existsSync(oldCoreNetworkPath) || !fs.existsSync(oldCryptoNetworkPath)) {
+  logger.error(`Network '${options.network}' does not exist`)
+  process.exit(1)
+}
+
+// Create config path
+fs.ensureDirSync(options.configPath)
+
+const coreNetworkPath = path.resolve(options.configPath, 'core/')
+const cryptoNetworkPath = path.resolve(options.configPath, 'crypto/')
+
+// Copy core config
+fs.copySync(oldCoreNetworkPath, coreNetworkPath)
+
+// Copy crypto config
+fs.copySync(oldCryptoNetworkPath, cryptoNetworkPath)
+
+let networkConfig = {
+  name: options.name.toLowerCase(),
+  messagePrefix: `${options.token} message:\n`,
+  pubKeyHash: options.prefixHash,
+  wif: options.wifPrefix,
+  client: {
+    token: options.token,
+    symbol: options.symbol,
+    explorer: options.explorerUrl
+  }
+}
+
+let milestones = [
+  {
+    height: 1,
+    reward: 0,
+    activeDelegates: options.forgers,
+    blocktime: options.blocktime,
+    block: {
+      version: 0,
+      maxTransactions: options.transactionsPerBlock,
+      maxPayload: (2097152 / 50) * options.transactionsPerBlock
+    },
+    epoch: options.epoch,
+    fees: {
+      staticFees: {
+        transfer: options.feeStaticTransfer,
+        secondSignature: options.feeStaticSecondSignature,
+        delegateRegistration: options.feeStaticDelegateRegistration,
+        vote: options.feeStaticVote,
+        multiSignature: options.feeStaticMultiSignature,
+        ipfs: 0,
+        timelockTransfer: 0,
+        multiPayment: 0,
+        delegateResignation: 0
+      }
+    },
+    ignoreInvalidSecondSignatureField: true
+  }
+]
+
+// Update network config
+networkConfig = updateConfig('network.json', networkConfig, cryptoNetworkPath)
+
+const genesis = new GenesisBlockBuilder(networkConfig, options).generate()
+networkConfig.nethash = genesis.genesisBlock.payloadHash
+
+updateConfig('network.json', networkConfig, cryptoNetworkPath)
+
+// Update milestones config
+if (+options.rewardHeight === 1) {
+  milestones = [milestones[0]]
+  milestones[0].height = 1
+  milestones[0].reward = options.rewardPerBlock
+} else {
+  if (milestones.length < 2) {
+    milestones.push({
+      height: options.rewardHeight,
+      reward: options.rewardPerBlock
+    })
+  }
+}
+
+updateConfig('milestones.json', milestones, cryptoNetworkPath, true)
+
+// Update exceptions config
+updateConfig(
+  'exceptions.json',
+  {
+    blocks: [],
+    transactions: [],
+    outlookTable: {},
+    transactionIdFixTable: {}
+  },
+  cryptoNetworkPath
+)
+
+// Update peers config
+const peerConfig = {
+  list: [],
+  sources: []
+}
+if (options.peers) {
+  for (const ip of options.peers.split(',')) {
+    peerConfig.list.push({
+      ip: ip.trim(),
+      port: options.p2pPort
+    })
+  }
+} else {
+  peerConfig.list.push({
+    ip: options.coreIp === '0.0.0.0' ? '127.0.0.1' : options.coreIp,
+    port: options.p2pPort
+  })
+}
+updateConfig('peers.json', peerConfig, coreNetworkPath)
+
+// Update genesis block
+updateConfig(
+  'genesisBlock.json',
+  genesis.genesisBlock,
+  cryptoNetworkPath,
+  true
+)
+
+// Store genesis wallet config
+updateConfig(
+  'genesisWallet.json',
+  {
+    address: genesis.genesisWallet.address,
+    passphrase: genesis.genesisWallet.passphrase,
+  },
+  options.configPath,
+  true,
+)
+
+// Store delegate passphrase config
+updateConfig(
+  'delegates.json',
+  {
+    secrets: genesis.delegatePassphrases,
+  },
+  options.configPath,
+  true,
+)
+
+// Update plugins config
+let pluginsConfig = fs.readFileSync(path.resolve(coreNetworkPath, 'plugins.js')).toString()
+const pluginsToUpdate = [
+  // Database config
+  {
+    from: /process\.env\.CORE_DB_HOST \|\| "(\w+)"/g,
+    to: `process.env.CORE_DB_HOST || "${options.dbHost}"`
+  },
+  {
+    from: /process\.env\.CORE_DB_PORT \|\| (\d+)/g,
+    to: `process.env.CORE_DB_PORT || ${options.dbPort}`
+  },
+  {
+    from: /process\.env\.CORE_DB_PASSWORD \|\| "(.+)"/g,
+    to: `process.env.CORE_DB_PASSWORD || "${options.dbPassword}"`
+  },
+  // P2P config
+  {
+    from: /process\.env\.CORE_P2P_HOST \|\| "(.+)"/g,
+    to: `process.env.CORE_P2P_HOST || "${options.coreIp}"`
+  },
+  {
+    from: /process\.env\.CORE_P2P_PORT \|\| (\d+)/g,
+    to: `process.env.CORE_P2P_PORT || ${options.p2pPort}`
+  },
+  // API config
+  {
+    from: /process\.env\.CORE_API_HOST \|\| "(.+)"/g,
+    to: `process.env.CORE_API_HOST || "${options.coreIp}"`
+  },
+  {
+    from: /process\.env\.CORE_API_PORT \|\| (\d+)/g,
+    to: `process.env.CORE_API_PORT || ${options.apiPort}`
+  },
+  // Webhook config
+  {
+    from: /process\.env\.CORE_WEBHOOKS_HOST \|\| "(.+)"/g,
+    to: `process.env.CORE_WEBHOOKS_HOST || "${options.coreIp}"`
+  },
+  {
+    from: /process\.env\.CORE_WEBHOOKS_PORT \|\| (\d+)/g,
+    to: `process.env.CORE_WEBHOOKS_PORT || ${options.webhookPort}`
+  },
+  // JSON RPC config
+  {
+    from: /process\.env\.CORE_JSON_RPC_HOST \|\| "(.+)"/g,
+    to: `process.env.CORE_JSON_RPC_HOST || "${options.coreIp}"`
+  },
+  {
+    from: /process\.env\.CORE_JSON_RPC_PORT \|\| (\d+)/g,
+    to: `process.env.CORE_JSON_RPC_PORT || ${options.jsonRpcPort}`
+  },
+  // Dynamic Fees
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*enabled: )(true|false+)/g,
+    to: `$1${options.feeDynamicEnabled}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*minFeePool: )([0-9]+)/g,
+    to: `$1${options.feeDynamicPoolMinFee}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*minFeeBroadcast: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBroadcastMinFee}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*transfer: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesTransfer}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*secondSignature: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesSecondSignature}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateRegistration: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesDelegateRegistration}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*vote: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesVote}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*multiSignature: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesMultiSignature}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*ipfs: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesIpfs}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*timelockTransfer: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesTimelockTransfer}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*multiPayment: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesMultiPayment}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesDelegateResignation}`
+  }
+]
+
+for (const replacement of pluginsToUpdate) {
+  pluginsConfig = pluginsConfig.replace(replacement.from, replacement.to)
+}
+
+if (options.network === 'testnet') {
+  pluginsConfig = pluginsConfig.replace(/(minimumNetworkReach:) [0-9]+/g, `$1 2`)
+}
+
+fs.writeFileSync(path.resolve(coreNetworkPath, 'plugins.js'), pluginsConfig)
+
+// Update env config
+let envConfig = fs.readFileSync(path.resolve(coreNetworkPath, '.env')).toString()
+const envToUpdate = [
+  // Database config
+  {
+    from: /^CORE_DB_HOST=.+$/m,
+    to: `CORE_DB_HOST=${options.dbHost}`
+  },
+  {
+    from: /^CORE_DB_PORT=.+$/m,
+    to: `CORE_DB_PORT=${options.dbPort}`
+  },
+  // P2P config
+  {
+    from: /^CORE_P2P_HOST=.+$/m,
+    to: `CORE_P2P_HOST=${options.coreIp}`
+  },
+  {
+    from: /^CORE_P2P_PORT=.+$/m,
+    to: `CORE_P2P_PORT=${options.p2pPort}`
+  },
+  // API config
+  {
+    from: /^CORE_API_HOST=.+$/m,
+    to: `CORE_API_HOST=${options.coreIp}`
+  },
+  {
+    from: /^CORE_API_PORT=.+$/m,
+    to: `CORE_API_PORT=${options.apiPort}`
+  },
+  // Webhook config
+  {
+    from: /^CORE_WEBHOOKS_HOST=.+$/m,
+    to: `CORE_WEBHOOKS_HOST=${options.coreIp}`
+  },
+  {
+    from: /^CORE_WEBHOOKS_PORT=.+$/m,
+    to: `CORE_WEBHOOKS_PORT=${options.webhookPort}`
+  },
+  // JSON RPC config
+  {
+    from: /^CORE_JSON_RPC_HOST=.+$/m,
+    to: `CORE_JSON_RPC_HOST=${options.coreIp}`
+  },
+  {
+    from: /^CORE_JSON_RPC_PORT=.+$/m,
+    to: `CORE_JSON_RPC_PORT=${options.jsonRpcPort}`
+  }
+]
+
+if (/^CORE_DB_USERNAME=.+$/m.test(envConfig)) {
+  envConfig = envConfig.replace(/^CORE_DB_USERNAME=.+$/m, `CORE_DB_USERNAME=${options.dbUsername}`)
+} else {
+  envConfig = envConfig.replace(/^(CORE_DB_PORT=.+)$/m, `$1\nCORE_DB_USERNAME=${options.dbUsername}`)
+}
+
+if (/^CORE_DB_DATABASE=.+$/m.test(envConfig)) {
+  envConfig = envConfig.replace(/^CORE_DB_DATABASE=.+$/m, `CORE_DB_DATABASE=${options.dbDatabase}`)
+} else {
+  envConfig = envConfig.replace(/^(CORE_DB_USERNAME=.+)$/m, `$1\nCORE_DB_DATABASE=${options.dbDatabase}`)
+}
+
+for (const replacement of envToUpdate) {
+  envConfig = envConfig.replace(replacement.from, replacement.to)
+}
+
+fs.writeFileSync(path.resolve(coreNetworkPath, '.env'), envConfig)
