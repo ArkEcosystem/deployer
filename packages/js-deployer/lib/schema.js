@@ -36,7 +36,7 @@ module.exports = Joi.object().keys({
     .min(1)
     .max(255)
     .required(),
-  totalPremine: Joi.number().required(),
+  totalPremine: Joi.string().required(),
   configPath: Joi.string().required(),
   // Static Fees
   feeStaticTransfer: Joi.number().required(),
