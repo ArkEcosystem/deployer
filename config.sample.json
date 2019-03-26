@@ -54,7 +54,6 @@
     "blockTime": 8,
     "transactionsPerBlock": 50,
     "totalPremine": 2100000000000000,
-    "updateEpoch": false,
     "rewardHeightStart": 75600,
     "rewardPerBlock": 200000000,
     "bridgechainPath": "/home/vagrant/core-bridgechain",

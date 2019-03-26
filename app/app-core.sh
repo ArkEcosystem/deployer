@@ -140,7 +140,8 @@ app_install_core()
                                           --symbol "$SYMBOL" \
                                           --peers "$MAINNET_PEERS" \
                                           --prefixHash "$MAINNET_PREFIX" \
-                                          --transactionsPerBlock "$TXS_PER_BLOCK"
+                                          --transactionsPerBlock "$TXS_PER_BLOCK" \
+                                          --totalPremine "$TOTAL_PREMINE"
 
     ## Build Devnet
     node "$ROOT_PATH/packages/js-deployer/bin/deployer" --configPath "$CONFIG_PATH_DEVNET" \
@@ -184,7 +185,8 @@ app_install_core()
                                           --symbol "$SYMBOL" \
                                           --peers "$DEVNET_PEERS" \
                                           --prefixHash "$DEVNET_PREFIX" \
-                                          --transactionsPerBlock "$TXS_PER_BLOCK"
+                                          --transactionsPerBlock "$TXS_PER_BLOCK" \
+                                          --totalPremine "$TOTAL_PREMINE"
 
     ## Build Testnet
     node "$ROOT_PATH/packages/js-deployer/bin/deployer" --configPath "$CONFIG_PATH_TESTNET" \
@@ -227,7 +229,8 @@ app_install_core()
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
                                           --prefixHash "$TESTNET_PREFIX" \
-                                          --transactionsPerBlock "$TXS_PER_BLOCK"
+                                          --transactionsPerBlock "$TXS_PER_BLOCK" \
+                                          --totalPremine "$TOTAL_PREMINE"
 
     rm -rf "$BRIDGECHAIN_PATH"/packages/core/bin/config/{mainnet,devnet,testnet}/
     rm -rf "$BRIDGECHAIN_PATH"/packages/crypto/src/networks/{mainnet,devnet,testnet}/
