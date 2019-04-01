@@ -91,8 +91,6 @@ app_install_core()
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
     git clone https://github.com/ArkEcosystem/core.git "$BRIDGECHAIN_PATH"
 
-    local EPOCH=$(__get_epoch)
-
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
         local DYNAMIC_FEE_ENABLED="true"
@@ -132,7 +130,6 @@ app_install_core()
                                           --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
-                                          --epoch "$EPOCH" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --blocktime "$BLOCK_TIME" \
@@ -177,7 +174,6 @@ app_install_core()
                                           --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
-                                          --epoch "$EPOCH" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --blocktime "$BLOCK_TIME" \
@@ -222,7 +218,6 @@ app_install_core()
                                           --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
-                                          --epoch "$EPOCH" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --blocktime "$BLOCK_TIME" \
@@ -327,18 +322,6 @@ app_uninstall_core()
     rm -rf "$BRIDGECHAIN_PATH"
 
     success "Uninstall OK!"
-}
-
-__get_epoch()
-{
-    local YEAR=$(date +"%-Y")
-    local MONTH=$(printf "%02d" $(expr $(date +"%-m") - 1))
-    local DAY=$(printf "%02d" $(date +"%-d"))
-    local HOUR=$(printf "%02d" $(date +"%-H"))
-    local MINUTE=$(printf "%02d" $(date +"%-M"))
-    local SECOND=$(printf "%02d" $(date +"%-S"))
-
-    echo "${YEAR}-${MONTH}-${DAY}T${HOUR}:${MINUTE}:${SECOND}.000Z"
 }
 
 __yarn_setup()
