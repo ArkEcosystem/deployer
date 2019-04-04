@@ -71,24 +71,24 @@ process_core_stop()
 {
     heading "Stopping..."
     parse_core_args "$@"
-    if [ -d "$BRIDGECHAIN_PATH/packages/core" ]; then
+
+    local NETWORK=$(echo "$NETWORK" | awk '{print tolower($0)}')
+    if [[ -d "$BRIDGECHAIN_PATH/packages/core" && ! -z "$NETWORK" ]]; then
         cd "$BRIDGECHAIN_PATH/packages/core"
 
-        local NETWORK=$(echo "$NETWORK" | awk '{print tolower($0)}')
-
-        if [ -z "$NETWORK" ]; then
-            abort 1 "Network must be specified"
-        elif [ ! -d "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK" ]; then
+        if [ ! -d "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK" ]; then
             abort 1 "Network '$NETWORK' does not exist"
         fi
 
         CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:stop &>/dev/null || true
         CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:stop &>/dev/null || true
-
-        success "Stop OK!"
     else
-        pm2 stop all &>/dev/null || true
+        for PROCESS in $(pm2 list | fgrep "online" | egrep -v "explorer|────|^│ App nam" | awk '{print $2}'); do
+            pm2 stop "$PROCESS" &>/dev/null || true
+        done
     fi
+
+    success "Stop OK!"
 }
 
 process_core_restart()
