@@ -94,7 +94,21 @@ app_install_core()
     fi
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
-    git clone https://github.com/ArkEcosystem/core.git "$BRIDGECHAIN_PATH"
+
+    if [ "$PEER_INSTALL" == "Y" ]; then
+        if [ -z "$GIT_CORE_ORIGIN" ]; then
+            abort "Git Origin is required to install peer."
+        fi
+
+        git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH"
+        __core_setup
+
+        success "Bridgechain Installed!"
+
+        return
+    else
+        git clone https://github.com/ArkEcosystem/core.git "$BRIDGECHAIN_PATH"
+    fi
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
@@ -269,12 +283,7 @@ app_install_core()
         fi
     fi
 
-    echo "Setting up Core..."
-
-    __yarn_setup
-
-    cd "$BRIDGECHAIN_PATH/packages/core/"
-    ./bin/run config:cli --token "$CHAIN_NAME"
+    __core_setup
 
     local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_MAINNET/genesisWallet.json")
     local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_MAINNET/genesisWallet.json")
@@ -327,6 +336,16 @@ app_uninstall_core()
     rm -rf "$BRIDGECHAIN_PATH"
 
     success "Uninstall OK!"
+}
+
+__core_setup()
+{
+    echo "Setting up Core..."
+
+    __yarn_setup
+
+    cd "$BRIDGECHAIN_PATH/packages/core/"
+    ./bin/run config:cli --token "$CHAIN_NAME"
 }
 
 __yarn_setup()

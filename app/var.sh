@@ -24,6 +24,7 @@ TESTNET_PREFIX="T"
 INSTALL_DEPS="N"
 SKIP_DEPS="N"
 INTERACTIVE="Y"
+PEER_INSTALL="N"
 if [[ $METHOD == "install-explorer" ]]; then
     CORE_IP="127.0.0.1"
     EXPLORER_IP="0.0.0.0"

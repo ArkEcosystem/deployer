@@ -378,6 +378,9 @@ parse_core_args()
             "--no-autoforger")
                 AUTO_FORGER="N"
             ;;
+            "--peer-install")
+                PEER_INSTALL="Y"
+            ;;
             ## Static Fees
             "--fee-static-transfer")
                 FEE_STATIC_TRANSFER="$2"
