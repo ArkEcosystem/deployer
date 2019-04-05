@@ -69,13 +69,13 @@ parse_json_config()
                     fi
                 ;;
                 "mainnetPrefix")
-                    PREFIX=$(jq -r '.mainnetPrefix' "$CONFIG")
+                    MAINNET_PREFIX=$(jq -r '.mainnetPrefix' "$CONFIG")
                 ;;
                 "devnetPrefix")
-                    PREFIX=$(jq -r '.devnetPrefix' "$CONFIG")
+                    DEVNET_PREFIX=$(jq -r '.devnetPrefix' "$CONFIG")
                 ;;
                 "testnetPrefix")
-                    PREFIX=$(jq -r '.testnetPrefix' "$CONFIG")
+                    TESTNET_PREFIX=$(jq -r '.testnetPrefix' "$CONFIG")
                 ;;
                 "fees")
                     local STATIC_FEES=$(jq -r '.fees.static // empty' "$CONFIG")

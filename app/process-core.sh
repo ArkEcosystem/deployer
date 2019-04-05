@@ -64,7 +64,7 @@ __core_start() {
 __core_check_last_height() {
     local CONFIG_PATH="$1"
     local DATABASE_NAME=$(cat "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK/.env" | fgrep 'CORE_DB_DATABASE=' | awk -F'=' '{print $2}')
-    sudo -u postgres psql -qtAX -d "$DATABASE_NAME" -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" 2>/dev/null || echo 0
+    psql -qtAX -d "$DATABASE_NAME" -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" 2>/dev/null || echo 0
 }
 
 process_core_stop()

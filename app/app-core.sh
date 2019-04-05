@@ -26,13 +26,17 @@ app_install_core()
         TESTNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
 
+    ## Create local user for psql
+    sudo -u postgres psql -c "CREATE USER $USER;"
+    sudo -u postgres psql -c "ALTER USER $USER WITH SUPERUSER;"
+
     local DATABASE_NAME_MAINNET="${DATABASE_NAME}_mainnet"
     local DATABASE_NAME_DEVNET="${DATABASE_NAME}_devnet"
     local DATABASE_NAME_TESTNET="${DATABASE_NAME}_testnet"
 
-    local DB_EXISTS_MAINNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_MAINNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
-    local DB_EXISTS_DEVNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_DEVNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
-    local DB_EXISTS_TESTNET=$(sudo -u postgres psql -t -c "\l" | fgrep "$DATABASE_NAME_TESTNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_MAINNET=$(psql -t -c "\l" postgres | fgrep "$DATABASE_NAME_MAINNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_DEVNET=$(psql -t -c "\l" postgres | fgrep "$DATABASE_NAME_DEVNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
+    local DB_EXISTS_TESTNET=$(psql -t -c "\l" postgres | fgrep "$DATABASE_NAME_TESTNET" | fgrep "|" | awk '{$1=$1};1' | awk '{print $1}')
 
     local DB_EXISTS="$DB_EXISTS_MAINNET $DB_EXISTS_DEVNET $DB_EXISTS_TESTNET"
     local DB_EXISTS=$(echo "$DB_EXISTS" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
@@ -46,22 +50,23 @@ app_install_core()
             echo "Skipping database re-creation"
         else
             if [ ! -z "$DB_EXISTS_MAINNET" ]; then
-                sudo -u postgres dropdb "$DATABASE_NAME_MAINNET"
-                sudo -u postgres createdb "$DATABASE_NAME_MAINNET"
+                dropdb "$DATABASE_NAME_MAINNET"
+                createdb "$DATABASE_NAME_MAINNET"
             fi
             if [ ! -z "$DB_EXISTS_DEVNET" ]; then
-                sudo -u postgres dropdb "$DATABASE_NAME_DEVNET"
-                sudo -u postgres createdb "$DATABASE_NAME_DEVNET"
+                dropdb "$DATABASE_NAME_DEVNET"
+                createdb "$DATABASE_NAME_DEVNET"
             fi
             if [ ! -z "$DB_EXISTS_TESTNET" ]; then
-                sudo -u postgres dropdb "$DATABASE_NAME_TESTNET"
-                sudo -u postgres createdb "$DATABASE_NAME_TESTNET"
+                dropdb "$DATABASE_NAME_TESTNET"
+                createdb "$DATABASE_NAME_TESTNET"
             fi
+            echo "Created databases"
         fi
     else
-        sudo -u postgres createdb "$DATABASE_NAME_MAINNET"
-        sudo -u postgres createdb "$DATABASE_NAME_DEVNET"
-        sudo -u postgres createdb "$DATABASE_NAME_TESTNET"
+        createdb "$DATABASE_NAME_MAINNET"
+        createdb "$DATABASE_NAME_DEVNET"
+        createdb "$DATABASE_NAME_TESTNET"
         echo "Created databases"
     fi
 
