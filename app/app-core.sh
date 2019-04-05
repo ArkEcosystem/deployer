@@ -27,7 +27,7 @@ app_install_core()
     fi
 
     ## Create local user for psql
-    sudo -u postgres psql -c "DROP USER $USER"
+    sudo -u postgres psql -c "DROP OWNED BY $USER; DROP USER $USER"
     sudo -u postgres psql -c "CREATE USER $USER;"
     sudo -u postgres psql -c "ALTER USER $USER WITH SUPERUSER;"
 
