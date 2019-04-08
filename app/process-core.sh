@@ -26,7 +26,7 @@ process_core_start()
         if [[ "$LAST_HEIGHT" > "0" ]]; then
             __core_start
         else
-            CORE_ENV=test CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart
+            CORE_ENV=test CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart --ignoreMinimumNetworkReach
             if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
                 CORE_ENV=test CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:start --network="$NETWORK"
             else
