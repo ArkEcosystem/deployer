@@ -31,7 +31,7 @@ app_install_core()
     for OWNED_DATABASE in $OWNED_DATABASES; do
         sudo -u postgres dropdb "$OWNED_DATABASE"
     done
-    sudo -u postgres psql -c "DROP OWNED BY $USER; DROP USER $USER"
+    sudo -u postgres psql -c "DROP OWNED BY $USER; DROP USER $USER" || true
     sudo -u postgres psql -c "CREATE USER $USER;"
     sudo -u postgres psql -c "ALTER USER $USER WITH SUPERUSER;"
     echo "Created local postgres user"
