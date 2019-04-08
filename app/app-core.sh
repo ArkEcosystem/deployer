@@ -102,7 +102,7 @@ app_install_core()
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
     if [ "$PEER_INSTALL" == "Y" ]; then
-        if [ -z "$GIT_CORE_ORIGIN" ]; then
+        if [ "$GIT_CORE_ORIGIN" == "" ]; then
             abort "Git Origin is required to install peer."
         fi
 
