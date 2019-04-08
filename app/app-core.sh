@@ -96,7 +96,7 @@ app_install_core()
     cd "$ROOT_PATH"
     if [ ! -d "$ROOT_PATH/packages/js-deployer/node_modules" ]; then
         cd "$ROOT_PATH/packages/js-deployer"
-        sudo yarn
+        yarn
     fi
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
