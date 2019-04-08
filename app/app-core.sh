@@ -27,13 +27,14 @@ app_install_core()
     fi
 
     ## Create local user for psql, remove if already exists
-    OWNED_DATABASES=$(sudo -u postgres psql -c "\l" | fgrep "| $USER |" | awk '{print $1}' | egrep "_(main|dev|test)net$")
+    OWNED_DATABASES=$(sudo -u postgres psql -c "\l" | fgrep "| $USER |" | awk '{print $1}' | egrep "_(main|dev|test)net$") || true
     for OWNED_DATABASE in $OWNED_DATABASES; do
         sudo -u postgres dropdb "$OWNED_DATABASE"
     done
     sudo -u postgres psql -c "DROP OWNED BY $USER; DROP USER $USER"
     sudo -u postgres psql -c "CREATE USER $USER;"
     sudo -u postgres psql -c "ALTER USER $USER WITH SUPERUSER;"
+    echo "Created local postgres user"
 
     local DATABASE_NAME_MAINNET="${DATABASE_NAME}_mainnet"
     local DATABASE_NAME_DEVNET="${DATABASE_NAME}_devnet"
