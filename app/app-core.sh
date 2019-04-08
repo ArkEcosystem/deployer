@@ -106,7 +106,11 @@ app_install_core()
             abort "Git Origin is required to install peer."
         fi
 
-        git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH"
+        GIT_PULL_FAILED="N"
+        git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH" || GIT_PULL_FAILED="Y"
+        if [ "$GIT_PULL_FAILED" == "Y" ]; then
+            git clone "$GIT_CORE_ORIGIN" -b master "$BRIDGECHAIN_PATH"
+        fi
         __core_setup
 
         success "Bridgechain Installed!"
