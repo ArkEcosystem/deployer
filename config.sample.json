@@ -58,8 +58,10 @@
     "rewardPerBlock": 200000000,
     "bridgechainPath": "/home/vagrant/core-bridgechain",
     "explorerPath": "/home/vagrant/core-explorer",
-    "gitCommit": true,
-    "gitOrigin": null,
+    "gitCoreCommit": true,
+    "gitCoreOrigin": null,
+    "gitExplorerCommit": true,
+    "gitExplorerOrigin": null,
     "licenseName": "mytest",
     "licenseEmail": "mytest@mytest.com"
 }
