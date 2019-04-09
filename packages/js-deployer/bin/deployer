@@ -151,7 +151,7 @@ let milestones = [
         delegateResignation: 0
       }
     },
-    ignoreInvalidSecondSignatureField: true
+    ignoreInvalidSecondSignatureField: false
   }
 ]
 
