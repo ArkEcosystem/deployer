@@ -13,15 +13,15 @@ app_install_core()
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
 
-    local MAINNET_PREFIX=$(sh -c "jq '.$MAINNET_PREFIX' $__dir/prefixes.json")
+    local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
         MAINNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
-    local DEVNET_PREFIX=$(sh -c "jq '.$DEVNET_PREFIX' $__dir/prefixes.json")
+    local DEVNET_PREFIX=$(sh -c "jq '.[\"$DEVNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$DEVNET_PREFIX" ]]; then
         DEVNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
-    local TESTNET_PREFIX=$(sh -c "jq '.$TESTNET_PREFIX' $__dir/prefixes.json")
+    local TESTNET_PREFIX=$(sh -c "jq '.[\"$TESTNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$TESTNET_PREFIX" ]]; then
         TESTNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
