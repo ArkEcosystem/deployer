@@ -4,7 +4,7 @@
     "apiPort": 4103,
     "webhookPort": 4104,
     "jsonRpcPort": 8080,
-    "explorerIp": "1.2.3.4",
+    "explorerIp": "0.0.0.0",
     "explorerPort": 4200,
     "chainName": "bridgechain",
     "token": "MINE",
