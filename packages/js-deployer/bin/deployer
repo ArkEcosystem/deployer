@@ -164,17 +164,13 @@ networkConfig.nethash = genesis.genesisBlock.payloadHash
 updateConfig('network.json', networkConfig, cryptoNetworkPath)
 
 // Update milestones config
-if (+options.rewardHeight === 1) {
-  milestones = [milestones[0]]
-  milestones[0].height = 1
+if (options.rewardHeight <= 1) {
   milestones[0].reward = options.rewardPerBlock
-} else {
-  if (milestones.length < 2) {
-    milestones.push({
-      height: options.rewardHeight,
-      reward: options.rewardPerBlock
-    })
-  }
+} else if (options.rewardHeight > 1) {
+  milestones.push({
+    height: options.rewardHeight,
+    reward: options.rewardPerBlock
+  })
 }
 
 updateConfig('milestones.json', milestones, cryptoNetworkPath, true)
