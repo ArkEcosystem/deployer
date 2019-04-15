@@ -185,7 +185,7 @@ parse_json_config()
                     fi
                 ;;
                 "gitCoreOrigin")
-                    GIT_CORE_ORIGIN=$(jq -r '.gitCoreOrigin' "$CONFIG")
+                    GIT_CORE_ORIGIN=$(jq -r '.gitCoreOrigin // empty' "$CONFIG")
                 ;;
                 "gitExplorerCommit")
                     local VALUE=$(jq -r '.gitExplorerCommit' "$CONFIG")
@@ -194,13 +194,13 @@ parse_json_config()
                     fi
                 ;;
                 "gitExplorerOrigin")
-                    GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin' "$CONFIG")
+                    GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin // empty' "$CONFIG")
                 ;;
                 "licenseName")
-                    LICENSE_NAME=$(jq -r '.licenseName' "$CONFIG")
+                    LICENSE_NAME=$(jq -r '.licenseName // empty' "$CONFIG")
                 ;;
                 "licenseEmail")
-                    LICENSE_EMAIL=$(jq -r '.licenseEmail' "$CONFIG")
+                    LICENSE_EMAIL=$(jq -r '.licenseEmail // empty' "$CONFIG")
                 ;;
             esac
         done
