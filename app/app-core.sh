@@ -311,6 +311,9 @@ app_install_core()
     echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
     echo "------------------------------------"
 
+    # Ask the user to publish a configuration to get started
+    ./bin/run config:publish
+
     success "Bridgechain Installed!"
 }
 
