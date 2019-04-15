@@ -26,9 +26,9 @@ process_core_start()
         if [[ "$LAST_HEIGHT" > "0" ]]; then
             __core_start
         else
-            CORE_ENV=test CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart
+            CORE_ENV=test ./bin/run relay:start --networkStart
             if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
-                CORE_ENV=test CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:start --network="$NETWORK"
+                CORE_ENV=test ./bin/run forger:start
             else
                 warning "No forging delegates found in 'delegates.json' config"
             fi
@@ -49,13 +49,13 @@ process_core_start()
 
 __core_start() {
     if [[ "$FORCE_NETWORK_START" == "Y" ]]; then
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --networkStart --ignoreMinimumNetworkReach
+        ./bin/run relay:start --networkStart --ignoreMinimumNetworkReach
     else
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:start --network="$NETWORK" --ignoreMinimumNetworkReach
+        ./bin/run relay:start --ignoreMinimumNetworkReach
     fi
 
     if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:start --network="$NETWORK"
+        ./bin/run forger:start
     else
         warning "No forging delegates found in 'delegates.json' config"
     fi
@@ -80,8 +80,8 @@ process_core_stop()
             abort 1 "Network '$NETWORK' does not exist"
         fi
 
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run relay:stop &>/dev/null || true
-        CORE_PATH_CONFIG=./bin/config/$NETWORK/ ./bin/run forger:stop &>/dev/null || true
+        ./bin/run relay:stop &>/dev/null || true
+        ./bin/run forger:stop &>/dev/null || true
     else
         for PROCESS in $(pm2 list | fgrep "online" | egrep -v "explorer|────|^│ App nam" | awk '{print $2}'); do
             pm2 stop "$PROCESS" &>/dev/null || true
