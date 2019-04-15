@@ -105,7 +105,7 @@ parse_json_config()
                     local DYNAMIC_FEES=$(jq -r '.fees.dynamic // empty' "$CONFIG")
                     if [ ! -z "$DYNAMIC_FEES" ]; then
                         local IS_ENABLED=$(jq -r '.fees.dynamic.enabled' "$CONFIG")
-                        if [[ "$IS_ENABLED" == "false" ]]; then
+                        if [[ "$IS_ENABLED" == "true" ]]; then
                             FEE_DYNAMIC_ENABLED="Y"
                         fi
                         local POOL_MIN_FEE=$(jq -r '.fees.dynamic.minFeePool // empty' "$CONFIG")
