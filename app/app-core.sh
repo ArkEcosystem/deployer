@@ -311,6 +311,18 @@ app_install_core()
     echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
     echo "------------------------------------"
 
+    ## Publish "mainnet" together with its delegates
+    ./bin/run config:publish --network "mainnet"
+    cp "$CONFIG_PATH_MAINNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/mainnet/delegates.json"
+
+    ## Publish "devnet" together with its delegates
+    ./bin/run config:publish --network "devnet"
+    cp "$CONFIG_PATH_DEVNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/devnet/delegates.json"
+
+    ## Publish "testnet" together with its delegates
+    ./bin/run config:publish --network "testnet"
+    cp "$CONFIG_PATH_TESTNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/testnet/delegates.json"
+
     success "Bridgechain Installed!"
 }
 
