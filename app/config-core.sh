@@ -17,6 +17,20 @@ app_install_core_configuration()
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
     local CONFIG_PATH_CORE="$XDG_CONFIG_HOME/${CHAIN_NAME}-core"
 
+    # Alias
+    local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+    local ALIAS_PATH=""
+    if [ -f "$HOME/.bash_aliases" ]; then
+        local ALIAS_PATH="$HOME/.bash_aliases"
+    elif [ -f "$HOME/.bashrc" ]; then
+        local ALIAS_PATH="$HOME/.bashrc"
+    fi
+
+    if [[ ! -z "$ALIAS_PATH" && -z $(fgrep "alias $ALIAS=" "$ALIAS_PATH") ]]; then
+        echo "alias $ALIAS=\"~/core-bridgechain/packages/core/bin/run\"" >> "$ALIAS_PATH"
+        echo "The command to interact with your bridgechain is '$ALIAS'"
+    fi
+
     # Production
     if [[ -d "$CONFIG_PATH_MAINNET" && ! -d "${CONFIG_PATH_CORE}/mainnet" ]]; then
         heading "Installing [mainnet] configuration to ${CONFIG_PATH_CORE}/mainnet..."
