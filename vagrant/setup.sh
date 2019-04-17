@@ -38,7 +38,6 @@ EOS
 
 cat > ~/startup.sh <<- EOS
 #!/bin/bash -l
-#export PATH="/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.yarn/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 ~/ark-deployer/bridgechain.sh start-core --network "testnet" &>> ~/core.log &
 ~/ark-deployer/bridgechain.sh start-explorer --network "testnet" &>> ~/explorer.log &
 EOS
