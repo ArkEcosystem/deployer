@@ -3,7 +3,7 @@
 parse_json_config()
 {
     if [[ "$CONFIG_PROCESSED" == "Y" ]]; then
-        return 1
+        return
     fi
 
     if [[ -f "$CONFIG" ]]; then
