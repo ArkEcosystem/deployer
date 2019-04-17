@@ -33,7 +33,7 @@ cd ~/ark-deployer
 
 ## Setup startup and login scripts
 cat >> ~/.profile <<- EOS
-export PATH="/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.yarn/bin:$PATH"
+export PATH="/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/.yarn/bin:\$PATH"
 EOS
 
 cat > ~/startup.sh <<- EOS
