@@ -3,8 +3,14 @@
 app_install_core_configuration()
 {
     parse_core_args "$@"
+    
+    if [ ! -d "$BRIDGECHAIN_PATH/packages/core" ]; then
+        error "Bridgechain path could not be found. Use '--path' to specify the location it was installed."
 
-    cd ~
+        return
+    fi
+
+    cd "$BRIDGECHAIN_PATH/packages/core"
 
     local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
