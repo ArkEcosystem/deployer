@@ -81,7 +81,9 @@ process_core_stop()
         cd "$BRIDGECHAIN_PATH/packages/core"
 
         if [ ! -d "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK" ]; then
-            abort 1 "Network '$NETWORK' does not exist"
+            error "Network '$NETWORK' does not exist"
+
+            return
         fi
 
         ./bin/run relay:stop &>/dev/null || true
