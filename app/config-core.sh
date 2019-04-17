@@ -18,7 +18,7 @@ app_install_core_configuration()
     local CONFIG_PATH_CORE="$HOME/.config/${CHAIN_NAME}-core"
 
     # Production
-    if [ -d "$CONFIG_PATH_MAINNET" ]; then
+    if [[ -d "$CONFIG_PATH_MAINNET" && ! -d "${CONFIG_PATH_CORE}/mainnet" ]]; then
         heading "Installing [mainnet] configuration to ${CONFIG_PATH_CORE}/mainnet..."
 
         ./bin/run config:publish --network "mainnet" &>/dev/null || true
@@ -31,7 +31,7 @@ app_install_core_configuration()
     fi
 
     # Development
-    if [ -d "$CONFIG_PATH_DEVNET" ]; then
+    if [[ -d "$CONFIG_PATH_DEVNET" && ! -d "${CONFIG_PATH_CORE}/devnet" ]]; then
         heading "Installing [devnet] configuration to ${CONFIG_PATH_CORE}/devnet..."
 
         ./bin/run config:publish --network "devnet" &>/dev/null || true
@@ -44,7 +44,7 @@ app_install_core_configuration()
     fi
 
     # Test
-    if [ -d "$CONFIG_PATH_TESTNET" ]; then
+    if [[ -d "$CONFIG_PATH_TESTNET" && ! -d "${CONFIG_PATH_CORE}/testnet" ]]; then
         heading "Installing [testnet] configuration to ${CONFIG_PATH_CORE}/testnet..."
 
         ./bin/run config:publish --network "testnet" &>/dev/null || true
