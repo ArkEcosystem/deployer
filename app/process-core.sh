@@ -7,13 +7,13 @@ process_core_start()
     heading "Starting..."
     parse_core_args "$@"
     
-    app_install_core_configuration
-    
     if [ ! -d "$BRIDGECHAIN_PATH/packages/core" ]; then
         error "Bridgechain path could not be found. Use '--path' to specify the location it was installed."
 
         return
     fi
+    
+    app_install_core_configuration
 
     cd "$BRIDGECHAIN_PATH/packages/core"
     local NETWORK=$(echo "$NETWORK" | awk '{print tolower($0)}')
