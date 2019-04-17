@@ -23,9 +23,7 @@ main()
 {
     parse_args "$@"
 
-    if [[ -d "$(cd ~ && pwd)/.bridgechain" ]]; then
-        app_install_core_configuration
-    fi
+    app_install_core_configuration
 
     trap cleanup SIGINT SIGTERM SIGKILL
 }

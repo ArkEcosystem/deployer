@@ -9,37 +9,44 @@ app_install_core_configuration()
     local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
+    local CONFIG_PATH_CORE="$HOME/.config/{$CHAIN_NAME}-core"
 
     # Production
-    heading "Installing [mainnet] configuration to $BRIDGECHAIN_PATH..."
+    if [ -d "$CONFIG_PATH_MAINNET" ]; then
+        heading "Installing [mainnet] configuration to ${CONFIG_PATH_CORE}/mainnet..."
 
-    ./bin/run config:publish --network "mainnet" &>/dev/null || true
+        ./bin/run config:publish --network "mainnet" &>/dev/null || true
 
-    if [[ ! -f "$HOME/.config/{$CHAIN_NAME}-core/mainnet/delegates.json" ]]; then
-        cp "$CONFIG_PATH_MAINNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/mainnet/delegates.json"
+        if [[ ! -f "${CONFIG_PATH_CORE}/mainnet/delegates.json" ]]; then
+            cp "$CONFIG_PATH_MAINNET/delegates.json" "{$CONFIG_PATH_CORE}/mainnet/delegates.json"
+        fi
+
+        success "[mainnet] configuration Installed!"
     fi
-
-    success "[mainnet] configuration Installed!"
 
     # Development
-    heading "Installing [devnet] configuration to $BRIDGECHAIN_PATH..."
+    if [ -d "$CONFIG_PATH_DEVNET" ]; then
+        heading "Installing [devnet] configuration to ${CONFIG_PATH_CORE}/devnet..."
 
-    ./bin/run config:publish --network "devnet" &>/dev/null || true
+        ./bin/run config:publish --network "devnet" &>/dev/null || true
 
-    if [[ ! -f "$HOME/.config/{$CHAIN_NAME}-core/devnet/delegates.json" ]]; then
-        cp "$CONFIG_PATH_DEVNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/devnet/delegates.json"
+        if [[ ! -f "${CONFIG_PATH_CORE}/devnet/delegates.json" ]]; then
+            cp "$CONFIG_PATH_DEVNET/delegates.json" "{$CONFIG_PATH_CORE}/devnet/delegates.json"
+        fi
+
+        success "[devnet] configuration Installed!"
     fi
-
-    success "[devnet] configuration Installed!"
 
     # Test
-    heading "Installing [testnet] configuration to $BRIDGECHAIN_PATH..."
+    if [ -d "$CONFIG_PATH_TESTNET" ]; then
+        heading "Installing [testnet] configuration to ${CONFIG_PATH_CORE}/testnet..."
 
-    ./bin/run config:publish --network "testnet" &>/dev/null || true
+        ./bin/run config:publish --network "testnet" &>/dev/null || true
 
-    if [[ ! -f "$HOME/.config/{$CHAIN_NAME}-core/testnet/delegates.json" ]]; then
-        cp "$CONFIG_PATH_TESTNET/delegates.json" "$HOME/.config/{$CHAIN_NAME}-core/testnet/delegates.json"
+        if [[ ! -f "${CONFIG_PATH_CORE}/testnet/delegates.json" ]]; then
+            cp "$CONFIG_PATH_TESTNET/delegates.json" "{$CONFIG_PATH_CORE}/testnet/delegates.json"
+        fi
+
+        success "[testnet] configuration Installed!"
     fi
-
-    success "[testnet] configuration Installed!"
 }
