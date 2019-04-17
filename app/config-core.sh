@@ -9,7 +9,7 @@ app_install_core_configuration()
     local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
-    local CONFIG_PATH_CORE="$HOME/.config/{$CHAIN_NAME}-core"
+    local CONFIG_PATH_CORE="$HOME/.config/${CHAIN_NAME}-core"
 
     # Production
     if [ -d "$CONFIG_PATH_MAINNET" ]; then
@@ -18,7 +18,7 @@ app_install_core_configuration()
         ./bin/run config:publish --network "mainnet" &>/dev/null || true
 
         if [[ ! -f "${CONFIG_PATH_CORE}/mainnet/delegates.json" ]]; then
-            cp "$CONFIG_PATH_MAINNET/delegates.json" "{$CONFIG_PATH_CORE}/mainnet/delegates.json"
+            cp "$CONFIG_PATH_MAINNET/delegates.json" "${CONFIG_PATH_CORE}/mainnet/delegates.json"
         fi
 
         success "[mainnet] configuration Installed!"
@@ -31,7 +31,7 @@ app_install_core_configuration()
         ./bin/run config:publish --network "devnet" &>/dev/null || true
 
         if [[ ! -f "${CONFIG_PATH_CORE}/devnet/delegates.json" ]]; then
-            cp "$CONFIG_PATH_DEVNET/delegates.json" "{$CONFIG_PATH_CORE}/devnet/delegates.json"
+            cp "$CONFIG_PATH_DEVNET/delegates.json" "${CONFIG_PATH_CORE}/devnet/delegates.json"
         fi
 
         success "[devnet] configuration Installed!"
@@ -44,7 +44,7 @@ app_install_core_configuration()
         ./bin/run config:publish --network "testnet" &>/dev/null || true
 
         if [[ ! -f "${CONFIG_PATH_CORE}/testnet/delegates.json" ]]; then
-            cp "$CONFIG_PATH_TESTNET/delegates.json" "{$CONFIG_PATH_CORE}/testnet/delegates.json"
+            cp "$CONFIG_PATH_TESTNET/delegates.json" "${CONFIG_PATH_CORE}/testnet/delegates.json"
         fi
 
         success "[testnet] configuration Installed!"
