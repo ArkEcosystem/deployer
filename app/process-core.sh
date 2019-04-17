@@ -6,13 +6,13 @@ process_core_start()
 
     heading "Starting..."
     parse_core_args "$@"
-    
+
     if [ ! -d "$BRIDGECHAIN_PATH/packages/core" ]; then
         error "Bridgechain path could not be found. Use '--path' to specify the location it was installed."
 
         return
     fi
-    
+
     app_install_core_configuration
 
     cd "$BRIDGECHAIN_PATH/packages/core"
@@ -20,7 +20,8 @@ process_core_start()
 
     if [ -z "$NETWORK" ]; then
         abort 1 "Network must be specified"
-    elif [ ! -d "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK" ]; then
+    elif [ ! -d "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK" ]; then
+        echo "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK"
         abort 1 "Network '$NETWORK' does not exist"
     fi
 
@@ -30,7 +31,7 @@ process_core_start()
             __core_start
         else
             CORE_ENV=test ./bin/run relay:start --network="$NETWORK" --networkStart
-            if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
+            if [ $(sh -c "jq '.secrets | length' $XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/delegates.json") <> "0" ]; then
                 CORE_ENV=test ./bin/run forger:start --network="$NETWORK"
             else
                 warning "No forging delegates found in 'delegates.json' config"
@@ -57,7 +58,7 @@ __core_start() {
         ./bin/run relay:start --network="$NETWORK" --ignoreMinimumNetworkReach
     fi
 
-    if [ $(sh -c "jq '.secrets | length' ./bin/config/$NETWORK/delegates.json") <> "0" ]; then
+    if [ $(sh -c "jq '.secrets | length' $XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/delegates.json") <> "0" ]; then
         ./bin/run forger:start --network="$NETWORK"
     else
         warning "No forging delegates found in 'delegates.json' config"
@@ -66,7 +67,7 @@ __core_start() {
 
 __core_check_last_height() {
     local CONFIG_PATH="$1"
-    local DATABASE_NAME=$(cat "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK/.env" | fgrep 'CORE_DB_DATABASE=' | awk -F'=' '{print $2}')
+    local DATABASE_NAME=$(cat "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/.env" | fgrep 'CORE_DB_DATABASE=' | awk -F'=' '{print $2}')
     psql -qtAX -d "$DATABASE_NAME" -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" 2>/dev/null || echo 0
 }
 
@@ -79,7 +80,7 @@ process_core_stop()
     if [[ -d "$BRIDGECHAIN_PATH/packages/core" && ! -z "$NETWORK" ]]; then
         cd "$BRIDGECHAIN_PATH/packages/core"
 
-        if [ ! -d "$BRIDGECHAIN_PATH/packages/core/bin/config/$NETWORK" ]; then
+        if [ ! -d "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK" ]; then
             abort 1 "Network '$NETWORK' does not exist"
         fi
 
