@@ -4,6 +4,7 @@ ROOT_PATH=$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pw
 BRIDGECHAIN_PATH="/home/$USER/core-bridgechain"
 EXPLORER_PATH="/home/$USER/core-explorer"
 CHAIN_NAME="bridgechain"
+CORE_ALIAS="bridgechain"
 DATABASE_HOST="localhost"
 DATABASE_PORT="5432"
 DATABASE_NAME="core_$CHAIN_NAME"

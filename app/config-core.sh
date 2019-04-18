@@ -18,7 +18,6 @@ app_install_core_configuration()
     local CONFIG_PATH_CORE="$XDG_CONFIG_HOME/${CHAIN_NAME}-core"
 
     # Alias
-    local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
     local ALIAS_PATH=""
     if [ -f "$HOME/.bash_aliases" ]; then
         local ALIAS_PATH="$HOME/.bash_aliases"
@@ -26,9 +25,9 @@ app_install_core_configuration()
         local ALIAS_PATH="$HOME/.bashrc"
     fi
 
-    if [[ ! -z "$ALIAS_PATH" && -z $(fgrep "alias $ALIAS=" "$ALIAS_PATH") ]]; then
-        echo "alias $ALIAS=\"~/core-bridgechain/packages/core/bin/run\"" >> "$ALIAS_PATH"
-        echo "The command to interact with your bridgechain is '$ALIAS'"
+    if [[ ! -z "$ALIAS_PATH" && -z $(fgrep "alias $CORE_ALIAS=" "$ALIAS_PATH") ]]; then
+        echo "alias $CORE_ALIAS=\"~/core-bridgechain/packages/core/bin/run\"" >> "$ALIAS_PATH"
+        echo "The command to interact with your bridgechain is '$CORE_ALIAS'"
     fi
 
     # Production

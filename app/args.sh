@@ -40,6 +40,7 @@ parse_json_config()
                     if [ "$CHANGE_DATABASE" == "Y" ]; then
                         DATABASE_NAME="core_$CHAIN_NAME"
                     fi
+                    CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
                 ;;
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
@@ -239,6 +240,7 @@ parse_generic_args()
                 if [ "$CHANGE_DATABASE" == "Y" ]; then
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
+                CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
@@ -456,6 +458,7 @@ write_args_env()
 BRIDGECHAIN_PATH="$BRIDGECHAIN_PATH"
 EXPLORER_PATH="$EXPLORER_PATH"
 CHAIN_NAME="$CHAIN_NAME"
+CORE_ALIAS="$CORE_ALIAS"
 DATABASE_HOST="$DATABASE_HOST"
 DATABASE_PORT="$DATABASE_PORT"
 DATABASE_NAME="$DATABASE_NAME"
