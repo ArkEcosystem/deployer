@@ -243,6 +243,19 @@ app_install_core()
     cp -R "$CONFIG_PATH_TESTNET/crypto" "$BRIDGECHAIN_PATH/packages/crypto/src/networks/testnet"
     cp "$CONFIG_PATH_TESTNET/delegates.json" "$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/"
 
+    ## Update core properties
+    local PACKAGE_JSON_PATH="$BRIDGECHAIN_PATH/packages/core/package.json"
+    local PACKAGE_JSON=$(cat "$PACKAGE_JSON_PATH" | jq ".name = \"@${CORE_ALIAS}/core\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".description = \"Core of the ${CHAIN_NAME} Blockchain\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".bin[\"${CORE_ALIAS}\"] = \"./bin/run\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq "del(.bin.ark)")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".scripts[\"${CORE_ALIAS}\"] = \"./bin/run\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq "del(.scripts.ark)")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".oclif.bin = \"${CORE_ALIAS}\"")
+    echo $PACKAGE_JSON
+    rm "$PACKAGE_JSON_PATH"
+    echo "$PACKAGE_JSON" > "$PACKAGE_JSON_PATH"
+
     if [ ! -z "$LICENSE_NAME" ]; then
         local YEAR=$(date +"%-Y")
         local LICENSE="Copyright (c) $YEAR $LICENSE_NAME"
