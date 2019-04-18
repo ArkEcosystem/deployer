@@ -86,8 +86,8 @@ process_core_stop()
             return
         fi
 
-        ./bin/run relay:stop &>/dev/null || true
-        ./bin/run forger:stop &>/dev/null || true
+        ./bin/run relay:stop --network="$NETWORK" &>/dev/null || true
+        ./bin/run forger:stop --network="$NETWORK" &>/dev/null || true
     else
         for PROCESS in $(pm2 list | fgrep "online" | egrep -v "explorer|────|^│ App nam" | awk '{print $2}'); do
             pm2 stop "$PROCESS" &>/dev/null || true
