@@ -23,6 +23,8 @@ main()
 {
     parse_args "$@"
 
+    app_install_core_configuration
+
     trap cleanup SIGINT SIGTERM SIGKILL
 }
 
