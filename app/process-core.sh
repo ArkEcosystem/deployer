@@ -67,8 +67,8 @@ __core_start() {
 
 __core_check_last_height() {
     local CONFIG_PATH="$1"
-    local DATABASE_NAME=$(cat "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/.env" | fgrep 'CORE_DB_DATABASE=' | awk -F'=' '{print $2}')
-    psql -qtAX -d "$DATABASE_NAME" -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" 2>/dev/null || echo 0
+    local DATABASE_DATABASE=$(cat "$XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/.env" | fgrep 'CORE_DB_DATABASE=' | awk -F'=' '{print $2}')
+    psql -qtAX -d "$DATABASE_DATABASE" -c "SELECT height FROM blocks ORDER BY height DESC LIMIT 1" 2>/dev/null || echo 0
 }
 
 process_core_stop()

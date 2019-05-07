@@ -32,14 +32,7 @@ parse_json_config()
                     EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG")
                 ;;
                 "chainName")
-                    local CHANGE_DATABASE="N"
-                    if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
-                        CHANGE_DATABASE="Y"
-                    fi
                     CHAIN_NAME=$(jq -r '.chainName' "$CONFIG")
-                    if [ "$CHANGE_DATABASE" == "Y" ]; then
-                        DATABASE_NAME="core_$CHAIN_NAME"
-                    fi
                     CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
                 ;;
                 "token")
@@ -52,7 +45,13 @@ parse_json_config()
                     DATABASE_PORT=$(jq -r '.databasePort' "$CONFIG")
                 ;;
                 "databaseName")
-                    DATABASE_NAME=$(jq -r '.databaseName' "$CONFIG")
+                    DATABASE_DATABASE=$(jq -r '.databaseName' "$CONFIG")
+                ;;
+                "databaseUsername")
+                    DATABASE_USERNAME=$(jq -r '.databaseUsername' "$CONFIG")
+                ;;
+                "databasePassword")
+                    DATABASE_PASSWORD=$(jq -r '.databasePassword' "$CONFIG")
                 ;;
                 "symbol")
                     SYMBOL=$(jq -r '.symbol' "$CONFIG")
@@ -232,14 +231,7 @@ parse_generic_args()
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--name")
-                local CHANGE_DATABASE="N"
-                if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
-                    CHANGE_DATABASE="Y"
-                fi
                 CHAIN_NAME="$2"
-                if [ "$CHANGE_DATABASE" == "Y" ]; then
-                    DATABASE_NAME="core_$CHAIN_NAME"
-                fi
                 CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             ;;
             "--explorer-ip")
@@ -333,8 +325,20 @@ parse_core_args()
             "--path")
                 BRIDGECHAIN_PATH="$2"
             ;;
-            "--database")
-                DATABASE_NAME="$2"
+            "--database-host")
+                DATABASE_HOST="$2"
+            ;;
+            "--database-port")
+                DATABASE_PORT="$2"
+            ;;
+            "--database-database")
+                DATABASE_DATABASE="$2"
+            ;;
+            "--database-username")
+                DATABASE_USERNAME="$2"
+            ;;
+            "--database-password")
+                DATABASE_PASSWORD="$2"
             ;;
             "--p2p-port")
                 P2P_PORT="$2"
@@ -461,7 +465,9 @@ CHAIN_NAME="$CHAIN_NAME"
 CORE_ALIAS="$CORE_ALIAS"
 DATABASE_HOST="$DATABASE_HOST"
 DATABASE_PORT="$DATABASE_PORT"
-DATABASE_NAME="$DATABASE_NAME"
+DATABASE_DATABASE="$DATABASE_DATABASE"
+DATABASE_USERNAME="$DATABASE_USERNAME"
+DATABASE_PASSWORD="$DATABASE_PASSWORD"
 CORE_IP="$CORE_IP"
 P2P_PORT="$P2P_PORT"
 API_PORT="$API_PORT"
