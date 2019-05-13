@@ -297,9 +297,9 @@ app_install_core()
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
             local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
-            local ARK_ALIAS="alias ark=\"~/core-bridgechain/packages/core/bin/run\""
-            local CORE_ALIAS="echo 'alias $ALIAS=\"~/core-bridgechain/packages/core/bin/run\"' >> ~/.bashrc"
-            local GIT_CLONE="git clone $GIT_CORE_ORIGIN ~/core-bridgechain"
+            local ARK_ALIAS="alias ark=\"$BRIDGECHAIN_PATH/packages/core/bin/run\""
+            local CORE_ALIAS="echo 'alias $ALIAS=\"$BRIDGECHAIN_PATH/packages/core/bin/run\"' >> ~/.bashrc"
+            local GIT_CLONE="git clone $GIT_CORE_ORIGIN $BRIDGECHAIN_PATH"
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
             sed -i "s|yarn global add @arkecosystem/core|$ARK_ALIAS\n$CORE_ALIAS\n$GIT_CLONE|gi" "$BRIDGECHAIN_PATH/install.sh"
         fi

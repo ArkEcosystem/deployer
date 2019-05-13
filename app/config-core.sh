@@ -26,7 +26,7 @@ app_install_core_configuration()
     fi
 
     if [[ ! -z "$ALIAS_PATH" && -z $(fgrep "alias $CORE_ALIAS=" "$ALIAS_PATH") ]]; then
-        echo "alias $CORE_ALIAS=\"~/core-bridgechain/packages/core/bin/run\"" >> "$ALIAS_PATH"
+        echo "alias $CORE_ALIAS=\"$BRIDGECHAIN_PATH/packages/core/bin/run\"" >> "$ALIAS_PATH"
         echo "The command to interact with your bridgechain is '$CORE_ALIAS'"
     fi
 
