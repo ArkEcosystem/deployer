@@ -10,8 +10,11 @@ parse_json_config()
         KEYS=$(jq -r '. | keys[]' "$CONFIG")
         for KEY in $(jq -r '. | keys[]' "$CONFIG"); do
             case $KEY in
-                "coreIp")
+                "coreIp") ## Used when accessing Explorer
                     CORE_IP=$(jq -r '.coreIp' "$CONFIG")
+                    if [ "$CORE_IP" == "127.0.0.1" ]; then
+                        CORE_IP=$(get_ip)
+                    fi
                 ;;
                 "p2pPort")
                     P2P_PORT=$(jq -r '.p2pPort' "$CONFIG")
@@ -309,6 +312,9 @@ parse_explorer_args()
             ;;
             "--core-ip")
                 CORE_IP="$2"
+                if [ "$CORE_IP" == "127.0.0.1" ]; then
+                    CORE_IP=$(get_ip)
+                fi
             ;;
             "--core-port")
                 API_PORT="$2"
