@@ -216,20 +216,23 @@ parse_json_config()
 parse_generic_args()
 {
     ARGS="$@"
-
-    if [[ -d "$XDG_CONFIG_HOME/deployer" && -f "$XDG_CONFIG_HOME/deployer/.env" ]]; then
-        export $(grep -v '^#' "$XDG_CONFIG_HOME/deployer/.env" | xargs)
-    fi
+    HAS_JSON_CONFIG="N"
 
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--config")
                 CONFIG="$2"
-                parse_json_config
+                HAS_JSON_CONFIG="Y"
             ;;
         esac
         shift
     done
+
+    if [ "$HAS_JSON_CONFIG" == "Y" ]; then
+        parse_json_config
+    elif [[ -d "$XDG_CONFIG_HOME/deployer" && -f "$XDG_CONFIG_HOME/deployer/.env" ]]; then
+        export $(grep -v '^#' "$XDG_CONFIG_HOME/deployer/.env" | xargs)
+    fi
 
     set -- $ARGS
     while [[ $# -ne 0 ]] ; do
