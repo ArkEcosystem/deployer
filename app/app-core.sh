@@ -297,11 +297,11 @@ app_install_core()
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
             local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
-            local ARK_ALIAS="alias ark=\"$BRIDGECHAIN_PATH/packages/core/bin/run\""
-            local CORE_ALIAS="echo 'alias $ALIAS=\"$BRIDGECHAIN_PATH/packages/core/bin/run\"' >> ~/.bashrc"
+            local ALIAS_ARK="alias ark=\"$BRIDGECHAIN_PATH/packages/core/bin/run\""
+            local ALIAS_CORE="echo 'alias $ALIAS=\"$BRIDGECHAIN_PATH/packages/core/bin/run\"' >> ~/.bashrc"
             local GIT_CLONE="git clone $GIT_CORE_ORIGIN $BRIDGECHAIN_PATH"
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-            sed -i "s|yarn global add @arkecosystem/core|$ARK_ALIAS\n$CORE_ALIAS\n$GIT_CLONE|gi" "$BRIDGECHAIN_PATH/install.sh"
+            sed -i "s|yarn global add @arkecosystem/core|$ALIAS_ARK\n$ALIAS_CORE\n$GIT_CLONE|gi" "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
         git commit -m "chore: prepare new network config 🎉"
