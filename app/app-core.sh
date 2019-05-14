@@ -117,7 +117,7 @@ app_install_core()
 
         return
     else
-        git clone https://github.com/ArkEcosystem/core.git --branch 2.2.2 "$BRIDGECHAIN_PATH"
+        git clone https://github.com/ArkEcosystem/core.git --branch 2.3.22 "$BRIDGECHAIN_PATH"
     fi
 
     local DYNAMIC_FEE_ENABLED="false"
