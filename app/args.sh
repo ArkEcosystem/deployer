@@ -39,7 +39,7 @@ parse_json_config()
                     if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
                         CHANGE_DATABASE="Y"
                     fi
-                    CHAIN_NAME=$(jq -r '.chainName' "$CONFIG")
+                    CHAIN_NAME=$(jq -r '.chainName' "$CONFIG" | tr -cs '[:alnum:]\r\n' '-')
                     if [ "$CHANGE_DATABASE" == "Y" ]; then
                         DATABASE_NAME="core_$CHAIN_NAME"
                     fi
@@ -242,7 +242,7 @@ parse_generic_args()
                 if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
                     CHANGE_DATABASE="Y"
                 fi
-                CHAIN_NAME="$2"
+                CHAIN_NAME=$(echo $2 | tr -cs '[:alnum:]\r\n' '-')
                 if [ "$CHANGE_DATABASE" == "Y" ]; then
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
