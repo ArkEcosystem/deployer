@@ -13,6 +13,9 @@ app_install_core()
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
 
+    rm -rf "$(cd ~ && pwd)/.config/@${CHAIN_NAME}"
+    rm -rf "$(cd ~ && pwd)/.config/${CHAIN_NAME}-core"
+
     local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
         MAINNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
