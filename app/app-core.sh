@@ -325,15 +325,17 @@ fi
 
 cd "$BRIDGECHAIN_PATH"
 YARN_SETUP="N"
-while [ "$YARN_SETUP" == "N" ]; do
+while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
   yarn setup || YARN_SETUP="N"
 done
 rm -rf $MAIN_CONFIG_PATH
 rm -rf $CORE_CONFIG_PATH
 EOM
+            COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
+            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-            sed -i "s|yarn global add @arkecosystem/core|$COMMANDS|gi" "$BRIDGECHAIN_PATH/install.sh"
+            rm "$BRIDGECHAIN_PATH/install.sh" && echo "$INSTALL_SH" > "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
         git commit -m "chore: prepare new network config 🎉"
