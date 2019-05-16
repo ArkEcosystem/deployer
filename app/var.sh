@@ -68,9 +68,11 @@ TOTAL_PREMINE=2100000000000000
 ## Rewards
 ## Start Block Height
 REWARD_HEIGHT_START=75600
-
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
+
+## VendorField/SmartBridge Length
+VENDORFIELD_LENGTH=255
 
 ## Flag to indicate if args has been processed
 ARGS_PROCESSED="N"

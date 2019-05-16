@@ -32,6 +32,7 @@ commander
   .option('--epoch <value>', 'Set Epoch based on time the chain was created', (new Date()).toISOString())
   .option('--rewardHeight <value>', 'Block Height when Forgers receive Rewards [1]', 1)
   .option('--rewardPerBlock <value>', 'How many Rewarded Tokens per Forged Block [200000000 (2)]', 200000000)
+  .option('--vendorFieldLength <value>', 'Maximum length allowed for VendorField [255]', 255)
   .option('--blocktime <value>', 'Time per block (seconds) [8]', 8)
   .option('--token <value>', 'Token Name [CHAIN]', 'CHAIN')
   .option('--symbol <value>', 'Symbol for Token [C]', 'C')
@@ -150,7 +151,8 @@ let milestones = [
         multiPayment: 0,
         delegateResignation: 0
       }
-    }
+    },
+    vendorFieldLength: options.vendorFieldLength
   }
 ]
 

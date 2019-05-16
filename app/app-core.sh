@@ -166,6 +166,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
@@ -210,6 +211,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
@@ -254,6 +256,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
