@@ -302,18 +302,18 @@ app_install_core()
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
             local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
-            read -r -d '' COMMANDS << EOM
+            read -r -d '' COMMANDS << EOM || true
 shopt -s expand_aliases
 alias ark="$BRIDGECHAIN_PATH/packages/core/bin/run"
 echo 'alias $ALIAS="$BRIDGECHAIN_PATH/packages/core/bin/run"' >> ~/.bashrc
 rm -rf "$BRIDGECHAIN_PATH"
 git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH" || FAILED="Y"
 
-if [ "$FAILED" == "Y" ]; then
+if [ "\$FAILED" == "Y" ]; then
     FAILED="N"
     git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH" || FAILED="Y"
 
-    if [ "$FAILED" == "Y" ]; then
+    if [ "\$FAILED" == "Y" ]; then
         echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
 
         exit 1
