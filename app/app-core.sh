@@ -13,8 +13,10 @@ app_install_core()
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
 
-    rm -rf "$(cd ~ && pwd)/.config/@${CHAIN_NAME}"
-    rm -rf "$(cd ~ && pwd)/.config/${CHAIN_NAME}-core"
+    MAIN_CONFIG_PATH="$(cd ~ && pwd)/.config/@${CHAIN_NAME}"
+    CORE_CONFIG_PATH="$(cd ~ && pwd)/.config/${CHAIN_NAME}-core"
+    rm -rf "$MAIN_CONFIG_PATH"
+    rm -rf "$CORE_CONFIG_PATH"
 
     local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
@@ -300,11 +302,35 @@ app_install_core()
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
             local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
-            local ALIAS_ARK="alias ark=\"$BRIDGECHAIN_PATH/packages/core/bin/run\""
-            local ALIAS_CORE="echo 'alias $ALIAS=\"$BRIDGECHAIN_PATH/packages/core/bin/run\"' >> ~/.bashrc"
-            local GIT_CLONE="git clone $GIT_CORE_ORIGIN $BRIDGECHAIN_PATH"
+            read -r -d '' COMMANDS << EOM
+shopt -s expand_aliases
+alias ark="$BRIDGECHAIN_PATH/packages/core/bin/run"
+echo 'alias $ALIAS="$BRIDGECHAIN_PATH/packages/core/bin/run"' >> ~/.bashrc
+rm -rf "$BRIDGECHAIN_PATH"
+git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH" || FAILED="Y"
+
+if [ "$FAILED" == "Y" ]; then
+    FAILED="N"
+    git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH" || FAILED="Y"
+
+    if [ "$FAILED" == "Y" ]; then
+        echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
+
+        exit 1
+    fi
+fi
+
+cd "$BRIDGECHAIN_PATH"
+YARN_SETUP="N"
+while [ "$YARN_SETUP" == "N" ]; do
+  YARN_SETUP="Y"
+  yarn setup || YARN_SETUP="N"
+done
+rm -rf $MAIN_CONFIG_PATH
+rm -rf $CORE_CONFIG_PATH
+EOM
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-            sed -i "s|yarn global add @arkecosystem/core|$ALIAS_ARK\n$ALIAS_CORE\n$GIT_CLONE|gi" "$BRIDGECHAIN_PATH/install.sh"
+            sed -i "s|yarn global add @arkecosystem/core|$COMMANDS|gi" "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
         git commit -m "chore: prepare new network config 🎉"
