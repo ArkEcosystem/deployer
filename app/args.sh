@@ -161,8 +161,8 @@ parse_json_config()
                 "forgers")
                     FORGERS=$(jq -r '.forgers' "$CONFIG")
                 ;;
-                "blockTime")
-                    BLOCK_TIME=$(jq -r '.blockTime' "$CONFIG")
+                "blocktime")
+                    BLOCK_TIME=$(jq -r '.blocktime' "$CONFIG")
                 ;;
                 "transactionsPerBlock")
                     TXS_PER_BLOCK=$(jq -r '.transactionsPerBlock' "$CONFIG")

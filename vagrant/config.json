@@ -43,7 +43,7 @@
         }
     },
     "forgers": 5,
-    "blockTime": 16,
+    "blocktime": 16,
     "transactionsPerBlock": 500,
     "totalPremine": 2100000000000000,
     "rewardHeightStart": 100,
