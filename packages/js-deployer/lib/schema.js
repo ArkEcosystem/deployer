@@ -25,6 +25,7 @@ module.exports = Joi.object().keys({
     .positive()
     .required(),
   rewardPerBlock: Joi.number().required(),
+  vendorFieldLength: Joi.number().required(),
   blocktime: Joi.number().required(),
   token: Joi.string().required(),
   symbol: Joi.string().required(),
