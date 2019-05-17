@@ -176,8 +176,8 @@ parse_json_config()
                 "rewardPerBlock")
                     REWARD_PER_BLOCK=$(jq -r '.rewardPerBlock' "$CONFIG")
                 ;;
-                "vendorfieldLength")
-                    VENDORFIELD_LENGTH=$(jq -r '.vendorfieldLength' "$CONFIG")
+                "vendorFieldLength")
+                    VENDORFIELD_LENGTH=$(jq -r '.vendorFieldLength' "$CONFIG")
                 ;;
                 "bridgechainPath")
                     BRIDGECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
