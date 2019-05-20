@@ -16,6 +16,7 @@ const writeEnv = require('../lib/utils/write-env')
 commander
   .version(require('../package.json').version)
   .option('--network <value>', 'Network to initially copy', 'mainnet')
+  .option('--name <value>', 'Name', 'Bridgechain')
   .option('--coreIp <value>', 'IP for core', '0.0.0.0')
   .option('--p2pPort <value>', 'P2P API Port', 4102)
   .option('--apiPort <value>', 'Public P2P Port', 4103)

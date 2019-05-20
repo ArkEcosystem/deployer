@@ -135,6 +135,7 @@ app_install_core()
                                           --corePath "$BRIDGECHAIN_PATH" \
                                           --overwriteConfig \
                                           --network "mainnet" \
+                                          --name "$CHAIN_NAME" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \
@@ -179,6 +180,7 @@ app_install_core()
                                           --corePath "$BRIDGECHAIN_PATH" \
                                           --overwriteConfig \
                                           --network "devnet" \
+                                          --name "$CHAIN_NAME" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \
@@ -223,6 +225,7 @@ app_install_core()
                                           --corePath "$BRIDGECHAIN_PATH" \
                                           --overwriteConfig \
                                           --network "testnet" \
+                                          --name "$CHAIN_NAME" \
                                           --p2pPort "$P2P_PORT" \
                                           --apiPort "$API_PORT" \
                                           --webhookPort "$WEBHOOK_PORT" \
