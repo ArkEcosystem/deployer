@@ -9,14 +9,13 @@ app_install_core()
     heading "Installing Core to $BRIDGECHAIN_PATH..."
     cd ~
 
-    local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
-    local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
-    local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
+    local CONFIG_PATH_MAINNET="$HOME/.bridgechain/mainnet/$CHAIN_NAME"
+    local CONFIG_PATH_DEVNET="$HOME/.bridgechain/devnet/$CHAIN_NAME"
+    local CONFIG_PATH_TESTNET="$HOME/.bridgechain/testnet/$CHAIN_NAME"
 
-    MAIN_CONFIG_PATH="$(cd ~ && pwd)/.config/@${CHAIN_NAME}"
-    CORE_CONFIG_PATH="$(cd ~ && pwd)/.config/${CHAIN_NAME}-core"
-    rm -rf "$MAIN_CONFIG_PATH"
-    rm -rf "$CORE_CONFIG_PATH"
+    rm -rf "$HOME/.config/@${CORE_ALIAS}"
+    rm -rf "$HOME/.config/@${CHAIN_NAME}"
+    rm -rf "$HOME/.config/${CHAIN_NAME}-core"
 
     local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
@@ -307,14 +306,14 @@ app_install_core()
             local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             read -r -d '' COMMANDS << EOM || true
 shopt -s expand_aliases
-alias ark="$BRIDGECHAIN_PATH/packages/core/bin/run"
-echo 'alias $ALIAS="$BRIDGECHAIN_PATH/packages/core/bin/run"' >> ~/.bashrc
-rm -rf "$BRIDGECHAIN_PATH"
-git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH" || FAILED="Y"
+alias ark="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"
+echo 'alias $ALIAS="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"' >> ~/.bashrc
+rm -rf "$BRIDGECHAIN_PATH_RAW"
+git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
 
 if [ "\$FAILED" == "Y" ]; then
     FAILED="N"
-    git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH" || FAILED="Y"
+    git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
 
     if [ "\$FAILED" == "Y" ]; then
         echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
@@ -323,14 +322,15 @@ if [ "\$FAILED" == "Y" ]; then
     fi
 fi
 
-cd "$BRIDGECHAIN_PATH"
+cd "$BRIDGECHAIN_PATH_RAW"
 YARN_SETUP="N"
 while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
   yarn setup || YARN_SETUP="N"
 done
-rm -rf $MAIN_CONFIG_PATH
-rm -rf $CORE_CONFIG_PATH
+rm -rf "\$HOME/.config/@${CORE_ALIAS}"
+rm -rf "\$HOME/.config/@${CHAIN_NAME}"
+rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
             INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')

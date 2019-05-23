@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 ROOT_PATH=$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)
-BRIDGECHAIN_PATH="/home/$USER/core-bridgechain"
-EXPLORER_PATH="/home/$USER/core-explorer"
+BRIDGECHAIN_PATH="$HOME/core-bridgechain"
+BRIDGECHAIN_PATH_RAW="\$HOME/core-bridgechain"
+EXPLORER_PATH="$HOME/core-explorer"
+EXPLORER_PATH_RAW="\$HOME/core-explorer"
 CHAIN_NAME="bridgechain"
 CORE_ALIAS="bridgechain"
 DATABASE_HOST="localhost"

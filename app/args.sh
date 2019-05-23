@@ -180,10 +180,12 @@ parse_json_config()
                     VENDORFIELD_LENGTH=$(jq -r '.vendorFieldLength' "$CONFIG")
                 ;;
                 "bridgechainPath")
-                    BRIDGECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
+                    BRIDGECHAIN_PATH_RAW=$(jq -r '.bridgechainPath' "$CONFIG")
+                    BRIDGECHAIN_PATH=$(eval echo "$BRIDGECHAIN_PATH_RAW")
                 ;;
                 "explorerPath")
-                    EXPLORER_PATH=$(jq -r '.explorerPath' "$CONFIG")
+                    EXPLORER_PATH_RAW=$(jq -r '.explorerPath' "$CONFIG")
+                    EXPLORER_PATH=$(eval echo "$EXPLORER_PATH_RAW")
                 ;;
                 "gitCoreCommit")
                     local VALUE=$(jq -r '.gitCoreCommit' "$CONFIG")
@@ -314,7 +316,8 @@ parse_explorer_args()
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--path")
-                EXPLORER_PATH="$2"
+                EXPLORER_PATH_RAW="$2"
+                EXPLORER_PATH=$(eval echo "$EXPLORER_PATH_RAW")
             ;;
             "--core-ip")
                 CORE_IP="$2"
@@ -343,7 +346,8 @@ parse_core_args()
     while [[ $# -ne 0 ]] ; do
         case "$1" in
             "--path")
-                BRIDGECHAIN_PATH="$2"
+                BRIDGECHAIN_PATH_RAW="$2"
+                BRIDGECHAIN_PATH=$(eval echo "$BRIDGECHAIN_PATH_RAW")
             ;;
             "--database")
                 DATABASE_NAME="$2"
