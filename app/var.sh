@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 ROOT_PATH=$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" >/dev/null 2>&1 && pwd)
-BRIDGECHAIN_PATH="/home/$USER/core-bridgechain"
-EXPLORER_PATH="/home/$USER/core-explorer"
+BRIDGECHAIN_PATH="$HOME/core-bridgechain"
+BRIDGECHAIN_PATH_RAW="\$HOME/core-bridgechain"
+EXPLORER_PATH="$HOME/core-explorer"
+EXPLORER_PATH_RAW="\$HOME/core-explorer"
 CHAIN_NAME="bridgechain"
 CORE_ALIAS="bridgechain"
 DATABASE_HOST="localhost"
@@ -67,9 +69,11 @@ TOTAL_PREMINE=2100000000000000
 ## Rewards
 ## Start Block Height
 REWARD_HEIGHT_START=75600
-
 ## ARK reward per Block
 REWARD_PER_BLOCK=200000000
+
+## VendorField/SmartBridge Length
+VENDORFIELD_LENGTH=255
 
 ## Flag to indicate if args has been processed
 ARGS_PROCESSED="N"

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source "${__dir}/lib/utils.sh"
 source "${__dir}/lib/alerts.sh"
 source "${__dir}/lib/errors.sh"
 

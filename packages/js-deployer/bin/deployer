@@ -32,6 +32,7 @@ commander
   .option('--epoch <value>', 'Set Epoch based on time the chain was created', (new Date()).toISOString())
   .option('--rewardHeight <value>', 'Block Height when Forgers receive Rewards [1]', 1)
   .option('--rewardPerBlock <value>', 'How many Rewarded Tokens per Forged Block [200000000 (2)]', 200000000)
+  .option('--vendorFieldLength <value>', 'Maximum length allowed for VendorField [255]', 255)
   .option('--blocktime <value>', 'Time per block (seconds) [8]', 8)
   .option('--token <value>', 'Token Name [CHAIN]', 'CHAIN')
   .option('--symbol <value>', 'Symbol for Token [C]', 'C')
@@ -115,7 +116,7 @@ fs.copySync(oldCoreNetworkPath, coreNetworkPath)
 fs.copySync(oldCryptoNetworkPath, cryptoNetworkPath)
 
 let networkConfig = {
-  name: options.name.toLowerCase(),
+  name: options.network,
   messagePrefix: `${options.token} message:\n`,
   pubKeyHash: options.prefixHash,
   wif: options.wifPrefix,
@@ -150,7 +151,8 @@ let milestones = [
         multiPayment: 0,
         delegateResignation: 0
       }
-    }
+    },
+    vendorFieldLength: options.vendorFieldLength
   }
 ]
 
@@ -163,17 +165,13 @@ networkConfig.nethash = genesis.genesisBlock.payloadHash
 updateConfig('network.json', networkConfig, cryptoNetworkPath)
 
 // Update milestones config
-if (+options.rewardHeight === 1) {
-  milestones = [milestones[0]]
-  milestones[0].height = 1
+if (options.rewardHeight <= 1) {
   milestones[0].reward = options.rewardPerBlock
-} else {
-  if (milestones.length < 2) {
-    milestones.push({
-      height: options.rewardHeight,
-      reward: options.rewardPerBlock
-    })
-  }
+} else if (options.rewardHeight > 1) {
+  milestones.push({
+    height: options.rewardHeight,
+    reward: options.rewardPerBlock
+  })
 }
 
 updateConfig('milestones.json', milestones, cryptoNetworkPath, true)
