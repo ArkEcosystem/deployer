@@ -105,24 +105,7 @@ app_install_core()
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
-    if [ "$PEER_INSTALL" == "Y" ]; then
-        if [ "$GIT_CORE_ORIGIN" == "" ]; then
-            abort "Git Origin is required to install peer."
-        fi
-
-        GIT_PULL_FAILED="N"
-        git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH" || GIT_PULL_FAILED="Y"
-        if [ "$GIT_PULL_FAILED" == "Y" ]; then
-            git clone "$GIT_CORE_ORIGIN" -b master "$BRIDGECHAIN_PATH"
-        fi
-        __core_setup
-
-        success "Bridgechain Installed!"
-
-        return
-    else
-        git clone https://github.com/ArkEcosystem/core.git --branch 2.3.22 "$BRIDGECHAIN_PATH"
-    fi
+    git clone https://github.com/ArkEcosystem/core.git --branch 2.3.22 "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
