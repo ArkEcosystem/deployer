@@ -56,6 +56,7 @@
     "totalPremine": 2100000000000000,
     "rewardHeightStart": 75600,
     "rewardPerBlock": 200000000,
+    "vendorFieldLength": 255,
     "bridgechainPath": "/home/vagrant/core-bridgechain",
     "explorerPath": "/home/vagrant/core-explorer",
     "gitCoreCommit": true,
