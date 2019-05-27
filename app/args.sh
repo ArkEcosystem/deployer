@@ -3,15 +3,18 @@
 parse_json_config()
 {
     if [[ "$CONFIG_PROCESSED" == "Y" ]]; then
-        return 1
+        return
     fi
 
     if [[ -f "$CONFIG" ]]; then
         KEYS=$(jq -r '. | keys[]' "$CONFIG")
         for KEY in $(jq -r '. | keys[]' "$CONFIG"); do
             case $KEY in
-                "coreIp")
+                "coreIp") ## Used when accessing Explorer
                     CORE_IP=$(jq -r '.coreIp' "$CONFIG")
+                    if [ "$CORE_IP" == "127.0.0.1" ]; then
+                        CORE_IP=$(get_ip)
+                    fi
                 ;;
                 "p2pPort")
                     P2P_PORT=$(jq -r '.p2pPort' "$CONFIG")
@@ -36,10 +39,11 @@ parse_json_config()
                     if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
                         CHANGE_DATABASE="Y"
                     fi
-                    CHAIN_NAME=$(jq -r '.chainName' "$CONFIG")
+                    CHAIN_NAME=$(jq -r '.chainName' "$CONFIG" | tr -cs '[:alnum:]\r\n' '-')
                     if [ "$CHANGE_DATABASE" == "Y" ]; then
                         DATABASE_NAME="core_$CHAIN_NAME"
                     fi
+                    CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
                 ;;
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
@@ -105,7 +109,7 @@ parse_json_config()
                     local DYNAMIC_FEES=$(jq -r '.fees.dynamic // empty' "$CONFIG")
                     if [ ! -z "$DYNAMIC_FEES" ]; then
                         local IS_ENABLED=$(jq -r '.fees.dynamic.enabled' "$CONFIG")
-                        if [[ "$IS_ENABLED" == "false" ]]; then
+                        if [[ "$IS_ENABLED" == "true" ]]; then
                             FEE_DYNAMIC_ENABLED="Y"
                         fi
                         local POOL_MIN_FEE=$(jq -r '.fees.dynamic.minFeePool // empty' "$CONFIG")
@@ -157,8 +161,8 @@ parse_json_config()
                 "forgers")
                     FORGERS=$(jq -r '.forgers' "$CONFIG")
                 ;;
-                "blockTime")
-                    BLOCK_TIME=$(jq -r '.blockTime' "$CONFIG")
+                "blocktime")
+                    BLOCK_TIME=$(jq -r '.blocktime' "$CONFIG")
                 ;;
                 "transactionsPerBlock")
                     TXS_PER_BLOCK=$(jq -r '.transactionsPerBlock' "$CONFIG")
@@ -172,11 +176,16 @@ parse_json_config()
                 "rewardPerBlock")
                     REWARD_PER_BLOCK=$(jq -r '.rewardPerBlock' "$CONFIG")
                 ;;
+                "vendorFieldLength")
+                    VENDORFIELD_LENGTH=$(jq -r '.vendorFieldLength' "$CONFIG")
+                ;;
                 "bridgechainPath")
-                    BRIDGECHAIN_PATH=$(jq -r '.bridgechainPath' "$CONFIG")
+                    BRIDGECHAIN_PATH_RAW=$(jq -r '.bridgechainPath' "$CONFIG")
+                    BRIDGECHAIN_PATH=$(eval echo "$BRIDGECHAIN_PATH_RAW")
                 ;;
                 "explorerPath")
-                    EXPLORER_PATH=$(jq -r '.explorerPath' "$CONFIG")
+                    EXPLORER_PATH_RAW=$(jq -r '.explorerPath' "$CONFIG")
+                    EXPLORER_PATH=$(eval echo "$EXPLORER_PATH_RAW")
                 ;;
                 "gitCoreCommit")
                     local VALUE=$(jq -r '.gitCoreCommit' "$CONFIG")
@@ -185,7 +194,7 @@ parse_json_config()
                     fi
                 ;;
                 "gitCoreOrigin")
-                    GIT_CORE_ORIGIN=$(jq -r '.gitCoreOrigin' "$CONFIG")
+                    GIT_CORE_ORIGIN=$(jq -r '.gitCoreOrigin // empty' "$CONFIG")
                 ;;
                 "gitExplorerCommit")
                     local VALUE=$(jq -r '.gitExplorerCommit' "$CONFIG")
@@ -194,13 +203,13 @@ parse_json_config()
                     fi
                 ;;
                 "gitExplorerOrigin")
-                    GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin' "$CONFIG")
+                    GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin // empty' "$CONFIG")
                 ;;
                 "licenseName")
-                    LICENSE_NAME=$(jq -r '.licenseName' "$CONFIG")
+                    LICENSE_NAME=$(jq -r '.licenseName // empty' "$CONFIG")
                 ;;
                 "licenseEmail")
-                    LICENSE_EMAIL=$(jq -r '.licenseEmail' "$CONFIG")
+                    LICENSE_EMAIL=$(jq -r '.licenseEmail // empty' "$CONFIG")
                 ;;
             esac
         done
@@ -212,15 +221,23 @@ parse_json_config()
 parse_generic_args()
 {
     ARGS="$@"
+    HAS_JSON_CONFIG="N"
+
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--config")
                 CONFIG="$2"
-                parse_json_config
+                HAS_JSON_CONFIG="Y"
             ;;
         esac
         shift
     done
+
+    if [ "$HAS_JSON_CONFIG" == "Y" ]; then
+        parse_json_config
+    elif [[ -d "$XDG_CONFIG_HOME/deployer" && -f "$XDG_CONFIG_HOME/deployer/.env" ]]; then
+        export $(grep -v '^#' "$XDG_CONFIG_HOME/deployer/.env" | xargs)
+    fi
 
     set -- $ARGS
     while [[ $# -ne 0 ]] ; do
@@ -230,10 +247,11 @@ parse_generic_args()
                 if [[ "$DATABASE_NAME" == "core_$CHAIN_NAME" ]]; then
                     CHANGE_DATABASE="Y"
                 fi
-                CHAIN_NAME="$2"
+                CHAIN_NAME=$(echo $2 | tr -cs '[:alnum:]\r\n' '-')
                 if [ "$CHANGE_DATABASE" == "Y" ]; then
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
+                CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
@@ -298,10 +316,14 @@ parse_explorer_args()
     while [[ $# -ne 0 ]] ; do
         case $1 in
             "--path")
-                EXPLORER_PATH="$2"
+                EXPLORER_PATH_RAW="$2"
+                EXPLORER_PATH=$(eval echo "$EXPLORER_PATH_RAW")
             ;;
             "--core-ip")
                 CORE_IP="$2"
+                if [ "$CORE_IP" == "127.0.0.1" ]; then
+                    CORE_IP=$(get_ip)
+                fi
             ;;
             "--core-port")
                 API_PORT="$2"
@@ -309,6 +331,8 @@ parse_explorer_args()
         esac
         shift
     done
+
+    write_args_env
 }
 
 parse_core_args()
@@ -322,7 +346,8 @@ parse_core_args()
     while [[ $# -ne 0 ]] ; do
         case "$1" in
             "--path")
-                BRIDGECHAIN_PATH="$2"
+                BRIDGECHAIN_PATH_RAW="$2"
+                BRIDGECHAIN_PATH=$(eval echo "$BRIDGECHAIN_PATH_RAW")
             ;;
             "--database")
                 DATABASE_NAME="$2"
@@ -368,6 +393,9 @@ parse_core_args()
             ;;
             "--reward-per-block")
                 REWARD_PER_BLOCK="$2"
+            ;;
+            "--vendorfield-length")
+                VENDORFIELD_LENGTH="$2"
             ;;
             "--total-premine")
                 TOTAL_PREMINE="$2"
@@ -434,4 +462,75 @@ parse_core_args()
         esac
         shift
     done
+
+    write_args_env
+}
+
+write_args_env()
+{
+    if [ ! -d "$XDG_CONFIG_HOME/deployer" ]; then
+        mkdir -p "$XDG_CONFIG_HOME/deployer"
+    fi
+
+    rm -f "$XDG_CONFIG_HOME/deployer/.env"
+    cat > "$XDG_CONFIG_HOME/deployer/.env" <<- EOF
+BRIDGECHAIN_PATH="$BRIDGECHAIN_PATH"
+EXPLORER_PATH="$EXPLORER_PATH"
+CHAIN_NAME="$CHAIN_NAME"
+CORE_ALIAS="$CORE_ALIAS"
+DATABASE_HOST="$DATABASE_HOST"
+DATABASE_PORT="$DATABASE_PORT"
+DATABASE_NAME="$DATABASE_NAME"
+CORE_IP="$CORE_IP"
+P2P_PORT="$P2P_PORT"
+API_PORT="$API_PORT"
+WEBHOOK_PORT="$WEBHOOK_PORT"
+JSON_RPC_PORT="$JSON_RPC_PORT"
+EXPLORER_IP="$EXPLORER_IP"
+EXPLORER_PORT="$EXPLORER_PORT"
+TOKEN="$TOKEN"
+SYMBOL="$SYMBOL"
+MAINNET_PEERS="$MAINNET_PEERS"
+DEVNET_PEERS="$DEVNET_PEERS"
+MAINNET_PREFIX="$MAINNET_PREFIX"
+DEVNET_PREFIX="$DEVNET_PREFIX"
+TESTNET_PREFIX="$TESTNET_PREFIX"
+INSTALL_DEPS="$INSTALL_DEPS"
+SKIP_DEPS="$SKIP_DEPS"
+INTERACTIVE="$INTERACTIVE"
+FEE_STATIC_TRANSFER="$FEE_STATIC_TRANSFER"
+FEE_STATIC_VOTE="$FEE_STATIC_VOTE"
+FEE_STATIC_SECOND_SIGNATURE="$FEE_STATIC_SECOND_SIGNATURE"
+FEE_STATIC_DELEGATE_REGISTRATION="$FEE_STATIC_DELEGATE_REGISTRATION"
+FEE_STATIC_MULTISIG_REGISTRATION="$FEE_STATIC_MULTISIG_REGISTRATION"
+FEE_DYNAMIC_ENABLED="$FEE_DYNAMIC_ENABLED"
+FEE_DYNAMIC_POOL_MIN_FEE="$FEE_DYNAMIC_POOL_MIN_FEE"
+FEE_DYNAMIC_BROADCAST_MIN_FEE="$FEE_DYNAMIC_BROADCAST_MIN_FEE"
+FEE_DYNAMIC_BYTES_TRANSFER="$FEE_DYNAMIC_BYTES_TRANSFER"
+FEE_DYNAMIC_BYTES_SECOND_SIGNATURE="$FEE_DYNAMIC_BYTES_SECOND_SIGNATURE"
+FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION="$FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION"
+FEE_DYNAMIC_BYTES_VOTE="$FEE_DYNAMIC_BYTES_VOTE"
+FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION"
+FEE_DYNAMIC_BYTES_IPFS="$FEE_DYNAMIC_BYTES_IPFS"
+FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER"
+FEE_DYNAMIC_BYTES_MULTIPAYMENT="$FEE_DYNAMIC_BYTES_MULTIPAYMENT"
+FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION"
+FORGERS="$FORGERS"
+BLOCK_TIME="$BLOCK_TIME"
+TXS_PER_BLOCK="$TXS_PER_BLOCK"
+TOTAL_PREMINE="$TOTAL_PREMINE"
+REWARD_HEIGHT_START="$REWARD_HEIGHT_START"
+REWARD_PER_BLOCK="$REWARD_PER_BLOCK"
+ARGS_PROCESSED="$ARGS_PROCESSED"
+CONFIG_PROCESSED="$CONFIG_PROCESSED"
+AUTO_FORGER="$AUTO_FORGER"
+FORCE_NETWORK_START="$FORCE_NETWORK_START"
+NETWORK="$NETWORK"
+GIT_CORE_COMMIT="$GIT_CORE_COMMIT"
+GIT_CORE_ORIGIN="$GIT_CORE_ORIGIN"
+GIT_EXPLORER_COMMIT="$GIT_EXPLORER_COMMIT"
+GIT_EXPLORER_ORIGIN="$GIT_EXPLORER_ORIGIN"
+LICENSE_NAME="$LICENSE_NAME"
+LICENSE_EMAIL="$LICENSE_EMAIL"
+EOF
 }

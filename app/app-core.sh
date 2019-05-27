@@ -9,26 +9,36 @@ app_install_core()
     heading "Installing Core to $BRIDGECHAIN_PATH..."
     cd ~
 
-    local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
-    local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
-    local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
+    local CONFIG_PATH_MAINNET="$HOME/.bridgechain/mainnet/$CHAIN_NAME"
+    local CONFIG_PATH_DEVNET="$HOME/.bridgechain/devnet/$CHAIN_NAME"
+    local CONFIG_PATH_TESTNET="$HOME/.bridgechain/testnet/$CHAIN_NAME"
 
-    local MAINNET_PREFIX=$(sh -c "jq '.$MAINNET_PREFIX' $__dir/prefixes.json")
+    rm -rf "$HOME/.config/@${CORE_ALIAS}"
+    rm -rf "$HOME/.config/@${CHAIN_NAME}"
+    rm -rf "$HOME/.config/${CHAIN_NAME}-core"
+
+    local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
         MAINNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
-    local DEVNET_PREFIX=$(sh -c "jq '.$DEVNET_PREFIX' $__dir/prefixes.json")
+    local DEVNET_PREFIX=$(sh -c "jq '.[\"$DEVNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$DEVNET_PREFIX" ]]; then
         DEVNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
-    local TESTNET_PREFIX=$(sh -c "jq '.$TESTNET_PREFIX' $__dir/prefixes.json")
+    local TESTNET_PREFIX=$(sh -c "jq '.[\"$TESTNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$TESTNET_PREFIX" ]]; then
         TESTNET_PREFIX=$(sh -c "jq '.M' $__dir/prefixes.json")
     fi
 
-    ## Create local user for psql
+    ## Create local user for psql, remove if already exists
+    OWNED_DATABASES=$(sudo -u postgres psql -c "\l" | fgrep " | $USER " | awk '{print $1}' | egrep "_(main|dev|test)net$") || true
+    for OWNED_DATABASE in $OWNED_DATABASES; do
+        sudo -u postgres dropdb "$OWNED_DATABASE"
+    done
+    sudo -u postgres psql -c "DROP OWNED BY $USER; DROP USER $USER" || true
     sudo -u postgres psql -c "CREATE USER $USER;"
     sudo -u postgres psql -c "ALTER USER $USER WITH SUPERUSER;"
+    echo "Created local postgres user"
 
     local DATABASE_NAME_MAINNET="${DATABASE_NAME}_mainnet"
     local DATABASE_NAME_DEVNET="${DATABASE_NAME}_devnet"
@@ -90,11 +100,12 @@ app_install_core()
     cd "$ROOT_PATH"
     if [ ! -d "$ROOT_PATH/packages/js-deployer/node_modules" ]; then
         cd "$ROOT_PATH/packages/js-deployer"
-        sudo yarn
+        yarn
     fi
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
-    git clone https://github.com/ArkEcosystem/core.git --branch 2.2.2 "$BRIDGECHAIN_PATH"
+
+    git clone https://github.com/ArkEcosystem/core.git --branch 2.3.22 "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
@@ -137,6 +148,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
@@ -181,6 +193,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
@@ -225,6 +238,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
+                                          --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
                                           --token "$TOKEN" \
                                           --symbol "$SYMBOL" \
@@ -243,6 +257,19 @@ app_install_core()
     cp -R "$CONFIG_PATH_TESTNET/crypto" "$BRIDGECHAIN_PATH/packages/crypto/src/networks/testnet"
     cp "$CONFIG_PATH_TESTNET/delegates.json" "$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/"
 
+    ## Update core properties
+    local PACKAGE_JSON_PATH="$BRIDGECHAIN_PATH/packages/core/package.json"
+    local PACKAGE_JSON=$(cat "$PACKAGE_JSON_PATH" | jq ".name = \"@${CORE_ALIAS}/core\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".description = \"Core of the ${CHAIN_NAME} Blockchain\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".bin[\"${CORE_ALIAS}\"] = \"./bin/run\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq "del(.bin.ark)")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".scripts[\"${CORE_ALIAS}\"] = \"./bin/run\"")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq "del(.scripts.ark)")
+    local PACKAGE_JSON=$(echo "$PACKAGE_JSON" | jq ".oclif.bin = \"${CORE_ALIAS}\"")
+    echo $PACKAGE_JSON
+    rm "$PACKAGE_JSON_PATH"
+    echo "$PACKAGE_JSON" > "$PACKAGE_JSON_PATH"
+
     if [ ! -z "$LICENSE_NAME" ]; then
         local YEAR=$(date +"%-Y")
         local LICENSE="Copyright (c) $YEAR $LICENSE_NAME"
@@ -258,6 +285,42 @@ app_install_core()
         git config --global user.email "support@ark.io"
         git config --global user.name "ARK Deployer"
         git checkout -b chore/bridgechain-changes
+        if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
+            local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+            read -r -d '' COMMANDS << EOM || true
+shopt -s expand_aliases
+alias ark="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"
+echo 'alias $ALIAS="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"' >> ~/.bashrc
+rm -rf "$BRIDGECHAIN_PATH_RAW"
+git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
+
+if [ "\$FAILED" == "Y" ]; then
+    FAILED="N"
+    git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
+
+    if [ "\$FAILED" == "Y" ]; then
+        echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
+
+        exit 1
+    fi
+fi
+
+cd "$BRIDGECHAIN_PATH_RAW"
+YARN_SETUP="N"
+while [ "\$YARN_SETUP" == "N" ]; do
+  YARN_SETUP="Y"
+  yarn setup || YARN_SETUP="N"
+done
+rm -rf "\$HOME/.config/@${CORE_ALIAS}"
+rm -rf "\$HOME/.config/@${CHAIN_NAME}"
+rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
+EOM
+            COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
+            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
+            sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
+            sed -i '/^exec "$BASH"$/d' "$BRIDGECHAIN_PATH/install.sh"
+            rm "$BRIDGECHAIN_PATH/install.sh" && echo "$INSTALL_SH" > "$BRIDGECHAIN_PATH/install.sh"
+        fi
         git add .
         git commit -m "chore: prepare new network config 🎉"
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
@@ -269,12 +332,7 @@ app_install_core()
         fi
     fi
 
-    echo "Setting up Core..."
-
-    __yarn_setup
-
-    cd "$BRIDGECHAIN_PATH/packages/core/"
-    ./bin/run config:cli --token "$CHAIN_NAME"
+    __core_setup
 
     local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_MAINNET/genesisWallet.json")
     local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_MAINNET/genesisWallet.json")
@@ -311,6 +369,8 @@ app_install_core()
     echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
     echo "------------------------------------"
 
+    app_install_core_configuration
+
     success "Bridgechain Installed!"
 }
 
@@ -327,6 +387,16 @@ app_uninstall_core()
     rm -rf "$BRIDGECHAIN_PATH"
 
     success "Uninstall OK!"
+}
+
+__core_setup()
+{
+    echo "Setting up Core..."
+
+    __yarn_setup
+
+    cd "$BRIDGECHAIN_PATH/packages/core/"
+    ./bin/run config:cli --token "$CHAIN_NAME"
 }
 
 __yarn_setup()

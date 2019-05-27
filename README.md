@@ -77,7 +77,8 @@ source setup.sh
     --reward-height-start - Block Height when Forgers receive Rewards [75600]
     --reward-per-block - How many Rewarded Tokens per Forged Block [200000000 (2)]
     --total-premine - How many tokens initially added to genesis account [2100000000000000 (21 million)]
-    --explorer-ip - IP for explorer [127.0.0.1]
+    --vendorfield-length - The maximum length allowed for the VendorField from the first block [255]
+    --explorer-ip - IP for explorer [defaults to the first non-local IP]
     --explorer-port - Port for explorer [4200]
 
 ###### Static Fees
