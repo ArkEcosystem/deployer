@@ -405,6 +405,7 @@ __yarn_setup()
         cd "$BRIDGECHAIN_PATH"
     else
         error "Yarn setup failed. Trying again..."
+        rm -rf "$HOME/.cache/yarn"
     fi
     yarn setup || __yarn_setup 1
 }
