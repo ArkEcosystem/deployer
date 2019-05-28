@@ -52,8 +52,11 @@ API_PORT=$(jq -r '.apiPort' "$CONFIG_PATH")
 P2P_PORT=$(jq -r '.p2pPort' "$CONFIG_PATH")
 EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG_PATH")
 
+~/ark-deployer/bridgechain.sh passphrases
+
 echo 'Rebooting Vagrant Machine - check back in a few minutes on the below:'
 echo "  Core P2P API: http://192.168.33.10:$P2P_PORT/"
 echo "  Core Public API: http://192.168.33.10:$API_PORT/"
 echo "  Explorer: http://192.168.33.10:$EXPLORER_PORT/"
+
 sudo reboot

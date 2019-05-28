@@ -164,6 +164,12 @@ source setup.sh
 
     --network - The network to start core as (mainnet, devnet or testnet)
 
+#### Output Core Passphrases
+
+```bash
+./bridgechain.sh passphrases
+```
+
 ### JSON Config
 
 As mentioned in the parameters list, it's possible to pass in a JSON config file to load all properties, although they're not all required. For a full example file of all possible options, take a look [here](config.sample.json). For a small example, see below:

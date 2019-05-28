@@ -334,6 +334,37 @@ EOM
 
     __core_setup
 
+    app_output_passphrases "$@"
+    echo "------------------------------------"
+
+    app_install_core_configuration
+
+    success "Bridgechain Installed!"
+}
+
+app_uninstall_core()
+{
+    process_core_stop "$@"
+
+    heading "Uninstalling..."
+    if [ ! -z "$CHAIN_NAME" ]; then
+        pm2 delete "$CHAIN_NAME-relay" &>/dev/null || true
+        pm2 delete "$CHAIN_NAME-forger" &>/dev/null || true
+    fi
+
+    rm -rf "$BRIDGECHAIN_PATH"
+
+    success "Uninstall OK!"
+}
+
+app_output_passphrases()
+{
+    parse_core_args "$@"
+
+    local CONFIG_PATH_MAINNET="$HOME/.bridgechain/mainnet/$CHAIN_NAME"
+    local CONFIG_PATH_DEVNET="$HOME/.bridgechain/devnet/$CHAIN_NAME"
+    local CONFIG_PATH_TESTNET="$HOME/.bridgechain/testnet/$CHAIN_NAME"
+
     local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_MAINNET/genesisWallet.json")
     local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_MAINNET/genesisWallet.json")
 
@@ -367,26 +398,6 @@ EOM
     echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_TESTNET/genesisWallet.json'"
     echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_TESTNET/delegates.json'"
     echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
-    echo "------------------------------------"
-
-    app_install_core_configuration
-
-    success "Bridgechain Installed!"
-}
-
-app_uninstall_core()
-{
-    process_core_stop "$@"
-
-    heading "Uninstalling..."
-    if [ ! -z "$CHAIN_NAME" ]; then
-        pm2 delete "$CHAIN_NAME-relay" &>/dev/null || true
-        pm2 delete "$CHAIN_NAME-forger" &>/dev/null || true
-    fi
-
-    rm -rf "$BRIDGECHAIN_PATH"
-
-    success "Uninstall OK!"
 }
 
 __core_setup()
