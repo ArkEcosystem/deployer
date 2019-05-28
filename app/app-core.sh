@@ -335,7 +335,6 @@ EOM
     __core_setup
 
     app_output_passphrases "$@"
-    echo "------------------------------------"
 
     app_install_core_configuration
 
@@ -381,12 +380,12 @@ app_output_passphrases()
     else
         echo "Could not find your MAINNET config"
     fi
+    echo "------------------------------------"
 
     if [ -d "$CONFIG_PATH_DEVNET" ]; then
         local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_DEVNET/genesisWallet.json")
         local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_DEVNET/genesisWallet.json")
 
-        echo "------------------------------------"
         echo "Your DEVNET Genesis Details are:"
         echo "  Passphrase: $PASSPHRASE"
         echo "  Address: $ADDRESS"
@@ -396,12 +395,12 @@ app_output_passphrases()
     else
         echo "Could not find your DEVNET config"
     fi
+    echo "------------------------------------"
 
     if [ -d "$CONFIG_PATH_TESTNET" ]; then
         local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_TESTNET/genesisWallet.json")
         local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_TESTNET/genesisWallet.json")
 
-        echo "------------------------------------"
         echo "Your TESTNET Genesis Details are:"
         echo "  Passphrase: $PASSPHRASE"
         echo "  Address: $ADDRESS"
@@ -412,6 +411,7 @@ app_output_passphrases()
     else
         echo "Could not find your TESTNET config"
     fi
+    echo "------------------------------------"
 }
 
 __core_setup()
