@@ -327,8 +327,7 @@ EOM
             git remote set-url origin "$GIT_CORE_ORIGIN"
             git push --set-upstream origin chore/bridgechain-changes || local CANT_PUSH="Y"
             if [[ "$CANT_PUSH" == "Y" ]]; then
-                error "Could not push Git changes to '$GIT_CORE_O
-                RIGIN'"
+                error "Could not push Git changes to '$GIT_CORE_ORIGIN'"
             fi
         fi
     fi
