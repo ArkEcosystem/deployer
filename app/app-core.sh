@@ -291,21 +291,21 @@ app_install_core()
 shopt -s expand_aliases
 alias ark="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"
 echo 'alias $ALIAS="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"' >> ~/.bashrc
+
 rm -rf "$BRIDGECHAIN_PATH_RAW"
-git clone "$GIT_CORE_ORIGIN" -b chore/bridgechain-changes "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
-
+git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
 if [ "\$FAILED" == "Y" ]; then
-    FAILED="N"
-    git clone "$GIT_CORE_ORIGIN" "$BRIDGECHAIN_PATH_RAW" || FAILED="Y"
+    echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
 
-    if [ "\$FAILED" == "Y" ]; then
-        echo "Failed to fetch core repo with origin '$GIT_CORE_ORIGIN'"
-
-        exit 1
-    fi
+    exit 1
 fi
 
 cd "$BRIDGECHAIN_PATH_RAW"
+HAS_REMOTE=\$(git branch -a | fgrep -o "remotes/origin/chore/bridgechain-changes")
+if [ ! -z "$HAS_REMOTE" ]; then
+    git checkout chore/bridgechain-changes
+fi
+
 YARN_SETUP="N"
 while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
