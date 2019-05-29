@@ -338,8 +338,6 @@ EOM
 
     app_install_core_configuration
 
-    app_install_core_configuration
-
     success "Bridgechain Installed!"
 }
 
