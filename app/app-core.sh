@@ -334,40 +334,7 @@ EOM
 
     __core_setup
 
-    local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_MAINNET/genesisWallet.json")
-    local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_MAINNET/genesisWallet.json")
-
-    echo "------------------------------------"
-    echo "Your MAINNET Genesis Details are:"
-    echo "  Passphrase: $PASSPHRASE"
-    echo "  Address: $ADDRESS"
-    echo ""
-    echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_MAINNET/genesisWallet.json'"
-    echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_MAINNET/delegates.json'"
-
-    local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_DEVNET/genesisWallet.json")
-    local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_DEVNET/genesisWallet.json")
-
-    echo "------------------------------------"
-    echo "Your DEVNET Genesis Details are:"
-    echo "  Passphrase: $PASSPHRASE"
-    echo "  Address: $ADDRESS"
-    echo ""
-    echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_DEVNET/genesisWallet.json'"
-    echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_DEVNET/delegates.json'"
-
-    local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_TESTNET/genesisWallet.json")
-    local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_TESTNET/genesisWallet.json")
-
-    echo "------------------------------------"
-    echo "Your TESTNET Genesis Details are:"
-    echo "  Passphrase: $PASSPHRASE"
-    echo "  Address: $ADDRESS"
-    echo ""
-    echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_TESTNET/genesisWallet.json'"
-    echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_TESTNET/delegates.json'"
-    echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
-    echo "------------------------------------"
+    app_output_passphrases "$@"
 
     app_install_core_configuration
 
@@ -387,6 +354,64 @@ app_uninstall_core()
     rm -rf "$BRIDGECHAIN_PATH"
 
     success "Uninstall OK!"
+}
+
+app_output_passphrases()
+{
+    parse_core_args "$@"
+
+    local CONFIG_PATH_MAINNET="$HOME/.bridgechain/mainnet/$CHAIN_NAME"
+    local CONFIG_PATH_DEVNET="$HOME/.bridgechain/devnet/$CHAIN_NAME"
+    local CONFIG_PATH_TESTNET="$HOME/.bridgechain/testnet/$CHAIN_NAME"
+
+    echo "------------------------------------"
+    echo "Passphrase Details"
+    echo "------------------------------------"
+    if [ -d "$CONFIG_PATH_MAINNET" ]; then
+        local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_MAINNET/genesisWallet.json")
+        local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_MAINNET/genesisWallet.json")
+
+        echo "Your MAINNET Genesis Details are:"
+        echo "  Passphrase: $PASSPHRASE"
+        echo "  Address: $ADDRESS"
+        echo ""
+        echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_MAINNET/genesisWallet.json'"
+        echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_MAINNET/delegates.json'"
+    else
+        echo "Could not find your MAINNET config"
+    fi
+    echo "------------------------------------"
+
+    if [ -d "$CONFIG_PATH_DEVNET" ]; then
+        local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_DEVNET/genesisWallet.json")
+        local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_DEVNET/genesisWallet.json")
+
+        echo "Your DEVNET Genesis Details are:"
+        echo "  Passphrase: $PASSPHRASE"
+        echo "  Address: $ADDRESS"
+        echo ""
+        echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_DEVNET/genesisWallet.json'"
+        echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_DEVNET/delegates.json'"
+    else
+        echo "Could not find your DEVNET config"
+    fi
+    echo "------------------------------------"
+
+    if [ -d "$CONFIG_PATH_TESTNET" ]; then
+        local PASSPHRASE=$(sh -c "jq '.passphrase' $CONFIG_PATH_TESTNET/genesisWallet.json")
+        local ADDRESS=$(sh -c "jq '.address' $CONFIG_PATH_TESTNET/genesisWallet.json")
+
+        echo "Your TESTNET Genesis Details are:"
+        echo "  Passphrase: $PASSPHRASE"
+        echo "  Address: $ADDRESS"
+        echo ""
+        echo "You can find the genesis wallet passphrase in '$CONFIG_PATH_TESTNET/genesisWallet.json'"
+        echo "You can find the delegates.json passphrase file at '$CONFIG_PATH_TESTNET/delegates.json'"
+        echo "or '$BRIDGECHAIN_PATH/packages/core/bin/config/testnet/delegates.json'"
+    else
+        echo "Could not find your TESTNET config"
+    fi
+    echo "------------------------------------"
 }
 
 __core_setup()

@@ -50,6 +50,10 @@
         "description": "Uninstall the Explorer",
         "method": "app_uninstall_explorer"
     }, {
+        "command": "passphrases",
+        "description": "Output Core passphrases",
+        "method": "app_output_passphrases"
+    }, {
         "abbreviation": "-h",
         "command": "help",
         "description": "Output usage information",
