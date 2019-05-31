@@ -43,10 +43,12 @@ parse_json_config()
                     if [ "$CHANGE_DATABASE" == "Y" ]; then
                         DATABASE_NAME="core_$CHAIN_NAME"
                     fi
-                    CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
                 ;;
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
+                ;;
+                "cliAlias")
+                    CLI_ALIAS=$(jq -r '.cliAlias' "$CONFIG")
                 ;;
                 "databaseHost")
                     DATABASE_HOST=$(jq -r '.databaseHost' "$CONFIG")
@@ -215,6 +217,14 @@ parse_json_config()
         done
     fi
 
+    if [ "$CLI_ALIAS" == "CHAIN_NAME" ]; then
+        CORE_ALIAS="$CHAIN_NAME"
+    else
+        CORE_ALIAS="$TOKEN"
+    fi
+
+    CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+
     CONFIG_PROCESSED="Y"
 }
 
@@ -251,7 +261,6 @@ parse_generic_args()
                 if [ "$CHANGE_DATABASE" == "Y" ]; then
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
-                CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
@@ -261,6 +270,9 @@ parse_generic_args()
             ;;
             "--token")
                 TOKEN="$2"
+            ;;
+            "--cli-alias")
+                CLI_ALIAS="$2"
             ;;
             "--forgers")
                 FORGERS="$2"
@@ -301,6 +313,14 @@ parse_generic_args()
         esac
         shift
     done
+
+    if [ "$CLI_ALIAS" == "CHAIN_NAME" ]; then
+        CORE_ALIAS="$CHAIN_NAME"
+    else
+        CORE_ALIAS="$TOKEN"
+    fi
+
+    CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
 
     ARGS_PROCESSED="Y"
 }
@@ -477,7 +497,9 @@ write_args_env()
 BRIDGECHAIN_PATH="$BRIDGECHAIN_PATH"
 EXPLORER_PATH="$EXPLORER_PATH"
 CHAIN_NAME="$CHAIN_NAME"
+TOKEN="$TOKEN"
 CORE_ALIAS="$CORE_ALIAS"
+CLI_ALIAS="$CLI_ALIAS"
 DATABASE_HOST="$DATABASE_HOST"
 DATABASE_PORT="$DATABASE_PORT"
 DATABASE_NAME="$DATABASE_NAME"
@@ -488,7 +510,6 @@ WEBHOOK_PORT="$WEBHOOK_PORT"
 JSON_RPC_PORT="$JSON_RPC_PORT"
 EXPLORER_IP="$EXPLORER_IP"
 EXPLORER_PORT="$EXPLORER_PORT"
-TOKEN="$TOKEN"
 SYMBOL="$SYMBOL"
 MAINNET_PEERS="$MAINNET_PEERS"
 DEVNET_PEERS="$DEVNET_PEERS"
@@ -521,6 +542,7 @@ TXS_PER_BLOCK="$TXS_PER_BLOCK"
 TOTAL_PREMINE="$TOTAL_PREMINE"
 REWARD_HEIGHT_START="$REWARD_HEIGHT_START"
 REWARD_PER_BLOCK="$REWARD_PER_BLOCK"
+VENDORFIELD_LENGTH="$VENDORFIELD_LENGTH"
 ARGS_PROCESSED="$ARGS_PROCESSED"
 CONFIG_PROCESSED="$CONFIG_PROCESSED"
 AUTO_FORGER="$AUTO_FORGER"

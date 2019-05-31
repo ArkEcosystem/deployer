@@ -71,6 +71,7 @@ source setup.sh
     --testnet-prefix - Testnet Address Prefix [T]
     --token - Token Name [MINE]
     --symbol - Symbol for Token [M]
+    --cli-alias - Specify whether to use bridgechain name or token - possible options are "CHAIN_NAME" or "TOKEN" [TOKEN]
     --forgers - How many forgers for the network [51]
     --blocktime - Time per block (seconds) [8]
     --transactions-per-block - Max Transaction count per Block [150]
