@@ -127,7 +127,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_MAINNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -172,7 +172,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_DEVNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -217,7 +217,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_TESTNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
