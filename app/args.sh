@@ -29,10 +29,10 @@ parse_json_config()
                     JSON_RPC_PORT=$(jq -r '.jsonRpcPort' "$CONFIG")
                 ;;
                 "explorerIp")
-                    EXPLORER_IP=$(jq -r '.explorerIp' "$CONFIG")
+                    EXPLORER_IP=$(jq -r '.explorerIp // empty' "$CONFIG")
                 ;;
                 "explorerPort")
-                    EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG")
+                    EXPLORER_PORT=$(jq -r '.explorerPort // empty' "$CONFIG")
                 ;;
                 "chainName")
                     local CHANGE_DATABASE="N"
@@ -217,6 +217,13 @@ parse_json_config()
         done
     fi
 
+    post_args_process
+
+    CONFIG_PROCESSED="Y"
+}
+
+post_args_process()
+{
     if [ "$CLI_ALIAS" == "CHAIN_NAME" ]; then
         CORE_ALIAS="$CHAIN_NAME"
     else
@@ -225,7 +232,15 @@ parse_json_config()
 
     CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
 
-    CONFIG_PROCESSED="Y"
+    LOCAL_EXPLORER_IP="$EXPLORER_IP"
+    LOCAL_EXPLORER_PORT=$(echo "$EXPLORER_PORT" | sed 's/[^0-9]//g')
+    if [ -z "$LOCAL_EXPLORER_IP" ]; then
+        LOCAL_EXPLORER_IP="0.0.0.0"
+    fi
+    if [ -z "$LOCAL_EXPLORER_PORT" ]; then
+        LOCAL_EXPLORER_PORT="4200"
+    fi
+    EXPLORER_URL="http://$LOCAL_EXPLORER_IP:$LOCAL_EXPLORER_PORT"
 }
 
 parse_generic_args()
@@ -314,13 +329,7 @@ parse_generic_args()
         shift
     done
 
-    if [ "$CLI_ALIAS" == "CHAIN_NAME" ]; then
-        CORE_ALIAS="$CHAIN_NAME"
-    else
-        CORE_ALIAS="$TOKEN"
-    fi
-
-    CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+    post_args_process
 
     ARGS_PROCESSED="Y"
 }
