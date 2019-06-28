@@ -309,6 +309,7 @@ fi
 YARN_SETUP="N"
 while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
+  rm -rf "$HOME/.cache/yarn"
   yarn setup || YARN_SETUP="N"
 done
 rm -rf "\$HOME/.config/@${CORE_ALIAS}"
