@@ -269,9 +269,9 @@ module.exports = class GenesisBlockBuilder {
       }
 
       byteBuffer.writeInt(block.numberOfTransactions)
-      byteBuffer.writeLong(block.totalAmount.toString())
-      byteBuffer.writeLong(block.totalFee.toString())
-      byteBuffer.writeLong(block.reward.toString())
+      byteBuffer.writeLong(block.totalAmount.toFixed())
+      byteBuffer.writeLong(block.totalFee.toFixed())
+      byteBuffer.writeLong(block.reward.toFixed())
 
       byteBuffer.writeInt(block.payloadLength)
 
