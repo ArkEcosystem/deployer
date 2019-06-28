@@ -319,7 +319,12 @@ EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
             sed -i '/^exec "$BASH"$/d' "$BRIDGECHAIN_PATH/install.sh"
-            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
+
+            LINE_NO_START=$(($(egrep -hn "^while.+yarn global add @arkecosystem/core.+do" "$BRIDGECHAIN_PATH/install.sh" | cut -f1 -d:)+1))
+            LINE_NO_END=$(($LINE_NO_START+4))
+            sed -i "${LINE_NO_START},${LINE_NO_END}d" "$BRIDGECHAIN_PATH/install.sh"
+
+            INSTALL_SH=$(sed -E "s#^while.+yarn global add @arkecosystem\/core.+do\$#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             rm "$BRIDGECHAIN_PATH/install.sh" && echo "$INSTALL_SH" > "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
