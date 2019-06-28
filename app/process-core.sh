@@ -30,9 +30,9 @@ process_core_start()
         if [[ "$LAST_HEIGHT" > "0" ]]; then
             __core_start
         else
-            CORE_ENV=test ./bin/run relay:start --network="$NETWORK" --networkStart --ignoreMinimumNetworkReach
+            ./bin/run relay:start --network="$NETWORK" --networkStart --ignoreMinimumNetworkReach --env=test
             if [ $(sh -c "jq '.secrets | length' $XDG_CONFIG_HOME/${CHAIN_NAME}-core/$NETWORK/delegates.json") <> "0" ]; then
-                CORE_ENV=test ./bin/run forger:start --network="$NETWORK"
+                ./bin/run forger:start --network="$NETWORK" --env=test
             else
                 warning "No forging delegates found in 'delegates.json' config"
             fi
