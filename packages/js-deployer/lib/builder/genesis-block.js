@@ -180,7 +180,7 @@ module.exports = class GenesisBlockBuilder {
       version: 0,
       totalAmount,
       totalFee,
-      reward: 0,
+      reward: Bignum.ZERO,
       payloadHash: payloadHash.digest().toString('hex'),
       timestamp: data.timestamp,
       numberOfTransactions: transactions.length,
@@ -271,7 +271,7 @@ module.exports = class GenesisBlockBuilder {
       byteBuffer.writeInt(block.numberOfTransactions)
       byteBuffer.writeLong(block.totalAmount.toString())
       byteBuffer.writeLong(block.totalFee.toString())
-      byteBuffer.writeLong(block.reward)
+      byteBuffer.writeLong(block.reward.toString())
 
       byteBuffer.writeInt(block.payloadLength)
 
