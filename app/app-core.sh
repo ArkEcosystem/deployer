@@ -318,7 +318,6 @@ rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-            sed -i '/^exec "$BASH"$/d' "$BRIDGECHAIN_PATH/install.sh"
 
             LINE_NO_START=$(($(egrep -hn "^while.+yarn global add @arkecosystem/core.+do" "$BRIDGECHAIN_PATH/install.sh" | cut -f1 -d:)+1))
             LINE_NO_END=$(($LINE_NO_START+4))
