@@ -302,14 +302,14 @@ fi
 
 cd "$BRIDGECHAIN_PATH_RAW"
 HAS_REMOTE=\$(git branch -a | fgrep -o "remotes/origin/chore/bridgechain-changes")
-if [ ! -z "$HAS_REMOTE" ]; then
+if [ ! -z "\$HAS_REMOTE" ]; then
     git checkout chore/bridgechain-changes
 fi
 
 YARN_SETUP="N"
 while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
-  rm -rf "$HOME/.cache/yarn"
+  rm -rf "\$HOME/.cache/yarn"
   yarn setup || YARN_SETUP="N"
 done
 rm -rf "\$HOME/.config/@${CORE_ALIAS}"
