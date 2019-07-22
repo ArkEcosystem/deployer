@@ -1,6 +1,11 @@
+## ARK Deployer
+
 ![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/53840292-a86c7a00-3f91-11e9-93a7-3777a786acf5.png)
 
+> Lead Maintainer: [Alex Barnsley](https://github.com/alexbarnsley)
+
 ## Quick setup with Vagrant
+
 You can deploy a bridgechain and explorer within its own virtual setup on your Desktop machine. This requires Vagrant version 2 and up, and also requires VirtualBox to be installed.
 
 1. Install Vagrant on your local computer
@@ -192,14 +197,12 @@ To use a config file for installation, simply use the `--config` argument. For e
 
 ## Security
 
-If you discover a security vulnerability within this project, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this package, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
 
 ## Credits
 
-- [Alex Barnsley](https://github.com/alexbarnsley)
-- [Brian Faust](https://github.com/faustbrian)
-- [All Contributors](../../contributors)
+This project exists thanks to all the people who [contribute](../../contributors).
 
 ## License
 
-ARK Deployer is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+[MIT](LICENSE) © [ARK Ecosystem](https://ark.io)
