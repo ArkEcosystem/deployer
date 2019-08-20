@@ -61,7 +61,7 @@ update_core_merge_from_upstream()
 	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
 	git checkout -b update/"$UPSTREAM_VERSION" || git checkout -b update/"${UPSTREAM_VERSION}_${timestamp}"
-	git merge upstream/master > /dev/null 2>&1
+	git merge upstream/master > /dev/null 2>&1 || true
 	info "Done"
 }
 
