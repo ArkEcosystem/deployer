@@ -127,7 +127,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_MAINNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -172,7 +172,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_DEVNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -217,7 +217,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_TESTNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -316,9 +316,9 @@ rm -rf "\$HOME/.config/@${CHAIN_NAME}"
 rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
-            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
             sed -i '/^exec "$BASH"$/d' "$BRIDGECHAIN_PATH/install.sh"
+            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             rm "$BRIDGECHAIN_PATH/install.sh" && echo "$INSTALL_SH" > "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
