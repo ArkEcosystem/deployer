@@ -102,24 +102,24 @@ update_core_update_package_json()
 	git checkout --ours packages/core/package.json && cat packages/core/package.json \
 	>| packages/core/package.json.old && git checkout --theirs packages/core/package.json
 
-	package_backup="packages/core/package.json.old"
+	package_temp="packages/core/package.json.old"
 
-	jq --arg var "$(jq -r '.name' "$package_backup")" '.name = $var' packages/core/package.json \
+	jq --arg var "$(jq -r '.name' "$package_temp")" '.name = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --argjson var "$(jq -r '.bin' "$package_backup")" '.bin = $var' packages/core/package.json \
+	jq --argjson var "$(jq -r '.bin' "$package_temp")" '.bin = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --argjson var "$(jq -r '.bin' "$package_backup")" '.scripts += $var' packages/core/package.json \
+	jq --argjson var "$(jq -r '.bin' "$package_temp")" '.scripts += $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --arg var "$(jq -r '.description' "$package_backup")" '.description = $var' packages/core/package.json \
+	jq --arg var "$(jq -r '.description' "$package_temp")" '.description = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
 	jq --arg var "$BRIDGECHAIN_BIN" '.oclif.bin = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	rm package_backup
+	rm "$package_temp"
 
 	# do we need this step?
 	# sed "s/@arkecosystem/@$BRIDGECHAIN_BIN/g" packages/core/package.json > packages/core/package.json.tmp \
