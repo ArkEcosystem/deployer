@@ -26,13 +26,13 @@ update_core_handle()
 
 			update_core_commit_changes
 
-			update_core_reset_plugins_js
-
 			heading "Done"
 
 			heading "Building Core..."
 
 			yarn setup
+
+			update_core_reset_plugins_js
 
 			update_core_prompt_to_push_changes
 
