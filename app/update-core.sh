@@ -12,6 +12,8 @@ update_core_handle()
 
 		if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 
+			process_core_stop
+
 			update_core_add_upstream_remote
 
 			update_core_merge_from_upstream
