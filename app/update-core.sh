@@ -58,7 +58,7 @@ update_core_add_upstream_remote()
 	heading "Fetching from upstream..."
 	cd "$BRIDGECHAIN_PATH"
 	git remote add upstream https://github.com/ArkEcosystem/core.git > /dev/null 2>&1 || true
-	git fetch upstream
+	git fetch --tags upstream
 }
 
 update_core_merge_from_upstream()
@@ -66,7 +66,7 @@ update_core_merge_from_upstream()
 	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
 	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${timestamp}"
-	git merge upstream/"$TARGET_VERSION" > /dev/null 2>&1 || true
+	git merge "$TARGET_VERSION" > /dev/null 2>&1 || true
 	info "Done"
 }
 
