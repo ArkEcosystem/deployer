@@ -145,7 +145,6 @@ update_core_commit_changes()
 	git add packages/crypto/src/networks/testnet/milestones.json
 
 	git commit --no-verify -m "chore: upgrade to core v$TARGET_VERSION"
-	git push --set-upstream origin update/"$TARGET_VERSION"
 }
 
 update_core_reset_plugins_js()
@@ -167,6 +166,6 @@ update_core_prompt_to_push_changes()
 	read -p "Your bridgechain has been updated! Wou like to push it to your git repository? [y/N]: " choice
 
 	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
-		git push --no-verify
+		git push --no-verify --set-upstream origin update/"$TARGET_VERSION"
 	fi
 }
