@@ -5,7 +5,7 @@ update_core_handle()
 	update_core_resolve_vars
 
 	if [ "$CHAIN_VERSION" == "$UPSTREAM_VERSION" ]; then
-	    info "This chain is already up to date."
+		info "This chain is already up to date."
 	else
 		heading "Bridgechain version: $CHAIN_VERSION"
 		read -p "Would you like to update Core to version $UPSTREAM_VERSION? [y/N]: " choice
@@ -37,7 +37,7 @@ update_core_handle()
 			update_core_prompt_to_push_changes
 
 			info "Finished."
-		    
+
 		fi
 	fi
 }
@@ -147,16 +147,16 @@ update_core_commit_changes()
 
 update_core_reset_plugins_js()
 {
-   local CONFIG_PATH="$BRIDGECHAIN_PATH/packages/core/bin/config"
-   local PUBLISHED_CONFIG_PATH="$HOME/.config/$BRIDGECHAIN_BIN-core"
+	local CONFIG_PATH="$BRIDGECHAIN_PATH/packages/core/bin/config"
+	local PUBLISHED_CONFIG_PATH="$HOME/.config/$BRIDGECHAIN_BIN-core"
 
-   mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js $PUBLISHED_CONFIG_PATH/mainnet/plugins.js.bkp"
-   mv "$PUBLISHED_CONFIG_PATH/devnet/plugins.js $PUBLISHED_CONFIG_PATH/devnet/plugins.js.bkp"
-   mv "$PUBLISHED_CONFIG_PATH/testnet/plugins.js $PUBLISHED_CONFIG_PATH/testnet/plugins.js.bkp"
+	mv "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js.bkp
+	mv "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js.bkp
+	mv "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js.bkp
 
-   cp "$CONFIG_PATH/mainnet/plugins.js $PUBLISHED_CONFIG_PATH/mainnet/plugins.js"
-   cp "$CONFIG_PATH/devnet/plugins.js $PUBLISHED_CONFIG_PATH/devnet/plugins.js"
-   cp "$CONFIG_PATH/testnet/plugins.js $PUBLISHED_CONFIG_PATH/testnet/plugins.js"
+	cp "$CONFIG_PATH"/mainnet/plugins.js "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js
+	cp "$CONFIG_PATH"/devnet/plugins.js "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js
+	cp "$CONFIG_PATH"/testnet/plugins.js "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js
 }
 
 update_core_prompt_to_push_changes()
@@ -164,6 +164,6 @@ update_core_prompt_to_push_changes()
 	read -p "Your bridgechain has been updated! Wou like to push it to your git repository? [y/N]: " choice
 
 	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
-		git push --no-verify   
+		git push --no-verify
 	fi
 }
