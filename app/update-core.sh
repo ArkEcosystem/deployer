@@ -4,25 +4,33 @@ update_core_handle()
 {
 	update_core_resolve_vars
 
-	update_core_add_upstream_remote || true
+	heading "Bridgechain version: $CHAIN_VERSION"
+	read -p "Would you like to update Core to version "$UPSTREAM_VERSION"? [y/N]: " choice
 
-	update_core_merge_from_upstream || true
+	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 
-	update_core_resolve_conflicts
+		update_core_add_upstream_remote || true
 
-	heading "Applying migration updates..."
+		update_core_merge_from_upstream || true
 
-	update_core_change_block_reward_from_number_to_string
+		update_core_resolve_conflicts
 
-	update_core_update_package_json
+		heading "Applying migration updates..."
 
-	update_core_commit_changes
+		update_core_change_block_reward_from_number_to_string
 
-	heading "Done"
+		update_core_update_package_json
 
-	heading "Building Core..."
+		update_core_commit_changes
 
-	yarn setup
+		heading "Done"
+
+		heading "Building Core..."
+
+		yarn setup
+	    
+	fi
+	info "Finished."
 
 }
 
@@ -32,21 +40,6 @@ update_core_resolve_vars()
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
-}
-
-update_core_check_bridgechain_version()
-{
-	heading "Bridgechain version: $CHAIN_VERSION"
-	read -p "Would you like to update Core to version "$UPSTREAM_VERSION"? [y/N]: " choice
-
-	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
-	    choice=""
-	    while [[ ! "$choice" =~ ^(yes|y|Y) ]] ; do
-	    	#
-	        read -p "Proceed? [y/N]: " choice
-	    done
-	fi
-	info "Done"
 }
 
 update_core_add_upstream_remote()
@@ -105,22 +98,24 @@ update_core_update_package_json()
 	git checkout --ours packages/core/package.json && cat packages/core/package.json \
 	>| packages/core/package.json.old && git checkout --theirs packages/core/package.json
 
-	oldPackageJson="packages/core/package.json.old"
+	package_backup="packages/core/package.json.old"
 
-	jq --arg var "$(jq -r '.name' "$oldPackageJson")" '.name = $var' packages/core/package.json \
+	jq --arg var "$(jq -r '.name' "$package_backup")" '.name = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --argjson var "$(jq -r '.bin' "$oldPackageJson")" '.bin = $var' packages/core/package.json \
+	jq --argjson var "$(jq -r '.bin' "$package_backup")" '.bin = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --argjson var "$(jq -r '.bin' "$oldPackageJson")" '.scripts += $var' packages/core/package.json \
+	jq --argjson var "$(jq -r '.bin' "$package_backup")" '.scripts += $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
-	jq --arg var "$(jq -r '.description' "$oldPackageJson")" '.description = $var' packages/core/package.json \
+	jq --arg var "$(jq -r '.description' "$package_backup")" '.description = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
 	jq --arg var "$BRIDGECHAIN_BIN" '.oclif.bin = $var' packages/core/package.json \
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
+
+	rm package_backup
 
 	# do we need this step?
 	# sed "s/@arkecosystem/@$BRIDGECHAIN_BIN/g" packages/core/package.json > packages/core/package.json.tmp \
@@ -142,6 +137,6 @@ update_core_commit_changes()
 	git add packages/crypto/src/networks/testnet/milestones.json
 
 	git commit --no-verify -m "chore: upgrade to core v$UPSTREAM_VERSION"
-
+	# git push --set-upstream origin update/"$UPSTREAM_VERSION"
 	# git push --no-verify
 }
