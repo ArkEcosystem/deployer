@@ -26,6 +26,8 @@ update_core_handle()
 
 			update_core_commit_changes
 
+			update_core_reset_plugins_js
+
 			heading "Done"
 
 			heading "Building Core..."
@@ -141,6 +143,20 @@ update_core_commit_changes()
 
 	git commit --no-verify -m "chore: upgrade to core v$UPSTREAM_VERSION"
 	git push --set-upstream origin update/"$UPSTREAM_VERSION"
+}
+
+update_core_reset_plugins_js()
+{
+   local CONFIG_PATH="$BRIDGECHAIN_PATH/packages/core/bin/config"
+   local PUBLISHED_CONFIG_PATH="$HOME/.config/$BRIDGECHAIN_BIN-core"
+
+   mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js $PUBLISHED_CONFIG_PATH/mainnet/plugins.js.bkp"
+   mv "$PUBLISHED_CONFIG_PATH/devnet/plugins.js $PUBLISHED_CONFIG_PATH/devnet/plugins.js.bkp"
+   mv "$PUBLISHED_CONFIG_PATH/testnet/plugins.js $PUBLISHED_CONFIG_PATH/testnet/plugins.js.bkp"
+
+   cp "$CONFIG_PATH/mainnet/plugins.js $PUBLISHED_CONFIG_PATH/mainnet/plugins.js"
+   cp "$CONFIG_PATH/devnet/plugins.js $PUBLISHED_CONFIG_PATH/devnet/plugins.js"
+   cp "$CONFIG_PATH/testnet/plugins.js $PUBLISHED_CONFIG_PATH/testnet/plugins.js"
 }
 
 update_core_prompt_to_push_changes()
