@@ -4,11 +4,11 @@ update_core_handle()
 {
 	update_core_resolve_vars
 
-	if [ "$CHAIN_VERSION" == "$UPSTREAM_VERSION" ]; then
+	if [ "$CHAIN_VERSION" == "$TARGET_VERSION" ]; then
 		info "This chain is already up to date."
 	else
 		heading "Bridgechain version: $CHAIN_VERSION"
-		read -p "Would you like to update Core to version $UPSTREAM_VERSION? [y/N]: " choice
+		read -p "Would you like to update Core to version $TARGET_VERSION? [y/N]: " choice
 
 		if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 
@@ -46,7 +46,8 @@ update_core_handle()
 
 update_core_resolve_vars()
 {
-	UPSTREAM_VERSION=$(curl -s https://raw.githubusercontent.com/ArkEcosystem/core/master/packages/core/package.json | jq -r '.version')
+	TARGET_VERSION="2.5.19"
+	# UPSTREAM_VERSION=$(curl -s https://raw.githubusercontent.com/ArkEcosystem/core/master/packages/core/package.json | jq -r '.version')
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
@@ -64,8 +65,8 @@ update_core_merge_from_upstream()
 {
 	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
-	git checkout -b update/"$UPSTREAM_VERSION" || git checkout -b update/"${UPSTREAM_VERSION}_${timestamp}"
-	git merge upstream/master > /dev/null 2>&1 || true
+	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${timestamp}"
+	git merge upstream/"$TARGET_VERSION" > /dev/null 2>&1 || true
 	info "Done"
 }
 
@@ -143,8 +144,8 @@ update_core_commit_changes()
 	git add packages/crypto/src/networks/testnet/genesisBlock.json
 	git add packages/crypto/src/networks/testnet/milestones.json
 
-	git commit --no-verify -m "chore: upgrade to core v$UPSTREAM_VERSION"
-	git push --set-upstream origin update/"$UPSTREAM_VERSION"
+	git commit --no-verify -m "chore: upgrade to core v$TARGET_VERSION"
+	git push --set-upstream origin update/"$TARGET_VERSION"
 }
 
 update_core_reset_plugins_js()
