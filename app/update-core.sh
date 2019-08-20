@@ -141,6 +141,6 @@ update_core_commit_changes()
 	git add packages/crypto/src/networks/testnet/milestones.json
 
 	git commit --no-verify -m "chore: upgrade to core v$UPSTREAM_VERSION"
-	# git push --set-upstream origin update/"$UPSTREAM_VERSION"
+	git push --set-upstream origin update/"$UPSTREAM_VERSION"
 	# git push --no-verify
 }
