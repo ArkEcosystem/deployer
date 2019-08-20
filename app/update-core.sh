@@ -4,34 +4,38 @@ update_core_handle()
 {
 	update_core_resolve_vars
 
-	heading "Bridgechain version: $CHAIN_VERSION"
-	read -p "Would you like to update Core to version "$UPSTREAM_VERSION"? [y/N]: " choice
+	if [ "$CHAIN_VERSION" == "$UPSTREAM_VERSION" ]; then
+	    info "This chain is already up to date."
+	else
+		heading "Bridgechain version: $CHAIN_VERSION"
+		read -p "Would you like to update Core to version $UPSTREAM_VERSION? [y/N]: " choice
 
-	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
+		if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 
-		update_core_add_upstream_remote || true
+			update_core_add_upstream_remote || true
 
-		update_core_merge_from_upstream || true
+			update_core_merge_from_upstream || true
 
-		update_core_resolve_conflicts
+			update_core_resolve_conflicts
 
-		heading "Applying migration updates..."
+			heading "Applying migration updates..."
 
-		update_core_change_block_reward_from_number_to_string
+			update_core_change_block_reward_from_number_to_string
 
-		update_core_update_package_json
+			update_core_update_package_json
 
-		update_core_commit_changes
+			update_core_commit_changes
 
-		heading "Done"
+			heading "Done"
 
-		heading "Building Core..."
+			heading "Building Core..."
 
-		yarn setup
-	    
+			yarn setup
+
+			info "Finished."
+		    
+		fi
 	fi
-	info "Finished."
-
 }
 
 update_core_resolve_vars()
