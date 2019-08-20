@@ -12,10 +12,9 @@ update_core_handle()
 
 		if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 
-			update_core_add_upstream_remote || true
+			update_core_add_upstream_remote
 
-			# TODO: handle branch name conflict
-			update_core_merge_from_upstream || true
+			update_core_merge_from_upstream
 
 			update_core_resolve_conflicts
 
@@ -53,14 +52,15 @@ update_core_add_upstream_remote()
 {
 	heading "Fetching from upstream..."
 	cd "$BRIDGECHAIN_PATH"
-	git remote add upstream https://github.com/ArkEcosystem/core.git > /dev/null 2>&1
+	git remote add upstream https://github.com/ArkEcosystem/core.git > /dev/null 2>&1 || true
 	git fetch upstream
 }
 
 update_core_merge_from_upstream()
 {
+	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
-	git checkout -b update/"$UPSTREAM_VERSION"
+	git checkout -b update/"$UPSTREAM_VERSION" || git checkout -b update/"${UPSTREAM_VERSION}_${timestamp}"
 	git merge upstream/master > /dev/null 2>&1
 	info "Done"
 }
@@ -123,10 +123,6 @@ update_core_update_package_json()
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
 	rm "$package_temp"
-
-	# do we need this step?
-	# sed "s/@arkecosystem/@$BRIDGECHAIN_BIN/g" packages/core/package.json > packages/core/package.json.tmp \
-	# && mv packages/core/package.json.tmp packages/core/package.json
 }
 
 update_core_commit_changes()
