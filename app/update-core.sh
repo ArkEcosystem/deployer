@@ -14,6 +14,7 @@ update_core_handle()
 
 			update_core_add_upstream_remote || true
 
+			# TODO: handle branch name conflict
 			update_core_merge_from_upstream || true
 
 			update_core_resolve_conflicts
@@ -31,6 +32,8 @@ update_core_handle()
 			heading "Building Core..."
 
 			yarn setup
+
+			update_core_prompt_to_push_changes
 
 			info "Finished."
 		    
@@ -142,5 +145,13 @@ update_core_commit_changes()
 
 	git commit --no-verify -m "chore: upgrade to core v$UPSTREAM_VERSION"
 	git push --set-upstream origin update/"$UPSTREAM_VERSION"
-	# git push --no-verify
+}
+
+update_core_prompt_to_push_changes()
+{
+	read -p "Your bridgechain has been updated! Wou like to push it to your git repository? [y/N]: " choice
+
+	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
+		git push --no-verify   
+	fi
 }
