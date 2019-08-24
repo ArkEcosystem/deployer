@@ -26,6 +26,8 @@ update_core_handle()
 
 			update_core_update_package_json
 
+			update_core_make_update_relay_script
+
 			update_core_commit_changes
 
 			heading "Done"
@@ -38,7 +40,7 @@ update_core_handle()
 
 			update_core_prompt_to_push_changes
 
-			info "Finished."
+			success "Finished."
 
 		fi
 	fi
@@ -66,7 +68,7 @@ update_core_merge_from_upstream()
 	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
 	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${timestamp}"
-	git merge "$TARGET_VERSION"
+	git merge "$TARGET_VERSION" 
 	info "Done"
 }
 
@@ -128,6 +130,16 @@ update_core_update_package_json()
 	>| packages/core/package.json.tmp && mv packages/core/package.json.tmp packages/core/package.json
 
 	rm "$package_temp"
+}
+
+update_core_make_update_relay_script()
+{
+	local current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+	mkdir -p "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/"
+	sed "s/REPLACE_WITH_TARGET_BRANCH/$current_branch/g" "$ROOT_PATH/app/update-core-relay.sh" \
+	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+	git "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
 
 update_core_commit_changes()
