@@ -68,7 +68,7 @@ update_core_merge_from_upstream()
 	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
 	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${timestamp}"
-	git merge "$TARGET_VERSION" 
+	git merge "$TARGET_VERSION" || true
 	info "Done"
 }
 
@@ -84,6 +84,7 @@ update_core_resolve_conflicts()
 	git checkout --ours "$NETWORKS_PATH/testnet/genesisBlock.json"
 	git checkout --ours "$NETWORKS_PATH/testnet/milestones.json"
 	git checkout --theirs packages/core/bin/config/mainnet/plugins.js
+	git checkout --theirs packages/core/bin/config/devnet/plugins.js
 	git checkout --theirs packages/core/bin/config/testnet/plugins.js
 	git checkout --ours install.sh
 	info "Done"
