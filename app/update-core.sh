@@ -49,7 +49,6 @@ update_core_handle()
 update_core_resolve_vars()
 {
 	TARGET_VERSION="2.5.19"
-	# UPSTREAM_VERSION=$(curl -s https://raw.githubusercontent.com/ArkEcosystem/core/master/packages/core/package.json | jq -r '.version')
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
@@ -138,9 +137,11 @@ update_core_make_update_relay_script()
 	local current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 	mkdir -p "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/"
-	sed "s/REPLACE_WITH_TARGET_BRANCH/$current_branch/g" "$ROOT_PATH/app/update-core-relay.sh" \
+
+	sed "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$ROOT_PATH/app/update-core-relay.sh" \
 	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
-	git "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+	
+	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
 
 update_core_commit_changes()
@@ -148,6 +149,7 @@ update_core_commit_changes()
 	git add install.sh
 	git add packages/core/bin/config/mainnet/plugins.js
 	git add packages/core/bin/config/testnet/plugins.js
+	git add packages/core/bin/config/devnet/plugins.js
 	git add packages/core/package.json
 	git add packages/crypto/src/networks/devnet/genesisBlock.json
 	git add packages/crypto/src/networks/devnet/milestones.json
