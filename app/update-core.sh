@@ -165,7 +165,7 @@ update_core_commit_changes()
 update_core_reset_plugins_js()
 {
 	local CONFIG_PATH="$BRIDGECHAIN_PATH/packages/core/bin/config"
-	local PUBLISHED_CONFIG_PATH="$HOME/.config/$BRIDGECHAIN_BIN-core"
+	local PUBLISHED_CONFIG_PATH="$HOME/.config/$CHAIN_NAME-core"
 
 	mv "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js.bkp
 	mv "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js.bkp

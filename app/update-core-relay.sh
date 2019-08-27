@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TARGET_BRANCH="update/2.5.19"
+TARGET_BRANCH="REPLACE_WITH_TARGET_BRANCH"
 BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "./packages/core/package.json")
 
 update_bridgechain()
@@ -113,7 +113,7 @@ run_checks()
 reset_plugins_js()
 {
 	local CONFIG_PATH="./packages/core/bin/config"
-	local PUBLISHED_CONFIG_PATH="$HOME/.config/$BRIDGECHAIN_BIN-core"
+	local PUBLISHED_CONFIG_PATH="$HOME/.config/$CHAIN_NAME-core"
 
 	if [[ -f "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" ]]; then
 	    mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins_2.3_$timestamp.js"
