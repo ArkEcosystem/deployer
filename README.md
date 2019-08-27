@@ -2,7 +2,7 @@
 
 ![ARK-DESKTOP](https://user-images.githubusercontent.com/8069294/53840292-a86c7a00-3f91-11e9-93a7-3777a786acf5.png)
 
-> Lead Maintainer: [Alex Barnsley](https://github.com/alexbarnsley)
+> Lead Maintainer: [Vinicius Munich](https://github.com/vmunich)
 
 ## Quick setup with Vagrant
 
