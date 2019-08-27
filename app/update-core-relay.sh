@@ -13,8 +13,6 @@ update_bridgechain()
 	info "Updating files..."
 	merge_core_update || error_setting_target_branch
 
-	check_for_target_branch
-
 	info "Building Core..."
 	YARN_SETUP="N"
 	while [ "$YARN_SETUP" == "N" ]; do
@@ -89,6 +87,7 @@ merge_core_update()
 
 check_for_target_branch()
 {
+	git fetch
 	local HAS_REMOTE=$(git branch -a | fgrep -o "remotes/origin/$TARGET_BRANCH")
 	if [ -n "$HAS_REMOTE" ]; then
 	    git checkout "$TARGET_BRANCH"
@@ -108,6 +107,7 @@ run_checks()
 {
 	check_for_core_directory
 	check_for_dirty_directory
+	check_for_target_branch
 }
 
 reset_plugins_js()
