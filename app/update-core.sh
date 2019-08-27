@@ -52,6 +52,7 @@ update_core_resolve_vars()
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
+	TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 }
 
 update_core_add_upstream_remote()
@@ -64,9 +65,8 @@ update_core_add_upstream_remote()
 
 update_core_merge_from_upstream()
 {
-	local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
 	heading "Merging from upstream..."
-	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${timestamp}"
+	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${TIMESTAMP}"
 	git merge "$TARGET_VERSION" || true
 	info "Done"
 }
@@ -167,13 +167,13 @@ update_core_reset_plugins_js()
 	local CONFIG_PATH="$BRIDGECHAIN_PATH/packages/core/bin/config"
 	local PUBLISHED_CONFIG_PATH="$HOME/.config/$CHAIN_NAME-core"
 
-	mv "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js.bkp
-	mv "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js.bkp
-	mv "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js.bkp
+	mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins_2.3_$TIMESTAMP.js"
+	mv "$PUBLISHED_CONFIG_PATH/devnet/plugins.js" "$PUBLISHED_CONFIG_PATH/devnet/plugins_2.3_$TIMESTAMP.js"
+	mv "$PUBLISHED_CONFIG_PATH/testnet/plugins.js" "$PUBLISHED_CONFIG_PATH/testnet/plugins_2.3_$TIMESTAMP.js"
 
-	cp "$CONFIG_PATH"/mainnet/plugins.js "$PUBLISHED_CONFIG_PATH"/mainnet/plugins.js
-	cp "$CONFIG_PATH"/devnet/plugins.js "$PUBLISHED_CONFIG_PATH"/devnet/plugins.js
-	cp "$CONFIG_PATH"/testnet/plugins.js "$PUBLISHED_CONFIG_PATH"/testnet/plugins.js
+	cp "$CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js"
+	cp "$CONFIG_PATH/devnet/plugins.js" "$PUBLISHED_CONFIG_PATH/devnet/plugins.js"
+	cp "$CONFIG_PATH/testnet/plugins.js" "$PUBLISHED_CONFIG_PATH/testnet/plugins.js"
 }
 
 update_core_prompt_to_push_changes()
