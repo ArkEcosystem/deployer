@@ -10,11 +10,12 @@ update_bridgechain()
 	info "Stopping core..."
 	pm2 stop all
 
-	git reset --hard
-	git pull
+	info "Updating files..."
+	merge_core_update || error_setting_target_branch
 
 	check_for_target_branch
 
+	info "Building Core..."
 	YARN_SETUP="N"
 	while [ "$YARN_SETUP" == "N" ]; do
 	  YARN_SETUP="Y"
@@ -23,7 +24,7 @@ update_bridgechain()
 
 	reset_plugins_js
 
-	success "Finished."
+	success "Done."
 }
 
 red=$(tput setaf 1)
@@ -79,6 +80,13 @@ check_for_dirty_directory()
 	fi
 }
 
+merge_core_update()
+{
+	git reset --hard
+	git branch --set-upstream-to=origin/"$TARGET_BRANCH" "$TARGET_BRANCH"
+	git pull origin "$TARGET_BRANCH"
+}
+
 check_for_target_branch()
 {
 	local HAS_REMOTE=$(git branch -a | fgrep -o "remotes/origin/$TARGET_BRANCH")
@@ -88,6 +96,12 @@ check_for_target_branch()
 		error "The target branch $TARGET_BRANCH doesn't exist. Please verify your TARGET_BRANCH and remote."
 		exit 1
 	fi
+}
+
+error_setting_target_branch()
+{
+	error "Something went wrong. Make sure that the branch $TARGET_BRANCH exists in the remote repository, and try again."
+	exit 1
 }
 
 run_checks()
