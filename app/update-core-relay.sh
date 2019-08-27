@@ -96,11 +96,6 @@ run_checks()
 	check_for_dirty_directory
 }
 
-closing_message()
-{
-	#
-}
-
 reset_plugins_js()
 {
 	local CONFIG_PATH="./packages/core/bin/config"
