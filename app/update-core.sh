@@ -2,8 +2,6 @@
 
 update_core_handle()
 {
-	echo $CHAIN_NAME
-	exit 1
 	update_core_resolve_vars
 
 	if [ "$CHAIN_VERSION" == "$TARGET_VERSION" ]; then
