@@ -2,6 +2,8 @@
 
 update_core_handle()
 {
+	echo $CHAIN_NAME
+	exit 1
 	update_core_resolve_vars
 
 	if [ "$CHAIN_VERSION" == "$TARGET_VERSION" ]; then
@@ -192,6 +194,7 @@ update_core_prompt_to_push_changes()
 	read -p "Your bridgechain has been updated! Wou like to push it to your git repository? [y/N]: " choice
 
 	if [[ "$choice" =~ ^(yes|y|Y) ]]; then
-		git push --no-verify --set-upstream origin update/"$TARGET_VERSION"
+		local current_branch=$(git rev-parse --abbrev-ref HEAD)
+		git push --no-verify --set-upstream origin "$current_branch"
 	fi
 }
