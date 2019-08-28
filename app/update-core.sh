@@ -140,6 +140,9 @@ update_core_make_update_relay_script()
 
 	sed "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$ROOT_PATH/app/update-core-relay.sh" \
 	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+
+	sed "s@CHAIN_NAME@$CHAIN_NAME@g" "$ROOT_PATH/app/update-core-relay.sh" \
+	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 	
 	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
