@@ -174,17 +174,17 @@ update_core_reset_plugins_js()
 	local PUBLISHED_CONFIG_PATH="$HOME/.config/$CHAIN_NAME-core"
 
 	if [[ -f "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" ]]; then
-	    mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins_2.3_$timestamp.js"
+	    mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins_2.3_$TIMESTAMP.js"
 	    cp "$CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js"
 	fi
 
 	if [[ -f "$PUBLISHED_CONFIG_PATH/devnet/plugins.js" ]]; then
-	    mv "$PUBLISHED_CONFIG_PATH/devnet/plugins.js" "$PUBLISHED_CONFIG_PATH/devnet/plugins_2.3_$timestamp.js"
+	    mv "$PUBLISHED_CONFIG_PATH/devnet/plugins.js" "$PUBLISHED_CONFIG_PATH/devnet/plugins_2.3_$TIMESTAMP.js"
 	    cp "$CONFIG_PATH/devnet/plugins.js" "$PUBLISHED_CONFIG_PATH/devnet/plugins.js"
 	fi
 
 	if [[ -f "$PUBLISHED_CONFIG_PATH/testnet/plugins.js" ]]; then
-	    mv "$PUBLISHED_CONFIG_PATH/testnet/plugins.js" "$PUBLISHED_CONFIG_PATH/testnet/plugins_2.3_$timestamp.js"
+	    mv "$PUBLISHED_CONFIG_PATH/testnet/plugins.js" "$PUBLISHED_CONFIG_PATH/testnet/plugins_2.3_$TIMESTAMP.js"
 	    cp "$CONFIG_PATH/testnet/plugins.js" "$PUBLISHED_CONFIG_PATH/testnet/plugins.js"
 	fi
 }
