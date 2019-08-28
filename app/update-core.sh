@@ -136,14 +136,13 @@ update_core_update_package_json()
 update_core_make_update_relay_script()
 {
 	local current_branch=$(git rev-parse --abbrev-ref HEAD)
+	local update_script_path="$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 
 	mkdir -p "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/"
+	cp "$ROOT_PATH/app/update-core-relay.sh" "$update_script_path"
 
-	sed "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$ROOT_PATH/app/update-core-relay.sh" \
-	>| "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
-
-	sed "s@CHAIN_NAME@$CHAIN_NAME@g" "$ROOT_PATH/app/update-core-relay.sh" \
-	>| "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+	sed -i "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$update_script_path"
+	sed -i "s@REPLACE_WITH_CHAIN_NAME@$CHAIN_NAME@g" "$update_script_path"
 	
 	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
