@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 TARGET_BRANCH="REPLACE_WITH_TARGET_BRANCH"
+TARGET_VERSION="REPLACE_WITH_TARGET_VERSION"
 BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "./packages/core/package.json")
 
 update_bridgechain()
@@ -113,7 +114,7 @@ run_checks()
 reset_plugins_js()
 {
 	local CONFIG_PATH="./packages/core/bin/config"
-	local PUBLISHED_CONFIG_PATH="$HOME/.config/$CHAIN_NAME-core"
+	local PUBLISHED_CONFIG_PATH="$HOME/.config/REPLACE_WITH_CHAIN_NAME-core"
 
 	if [[ -f "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" ]]; then
 	    mv "$PUBLISHED_CONFIG_PATH/mainnet/plugins.js" "$PUBLISHED_CONFIG_PATH/mainnet/plugins_2.3_$timestamp.js"
@@ -131,7 +132,7 @@ reset_plugins_js()
 	fi
 }
 
-read -p "This script will update Core to $TARGET_BRANCH. Would you like to continue? [y/N]: " choice
+read -p "This script will update Core to $TARGET_VERSION. Would you like to continue? [y/N]: " choice
 if [[ "$choice" =~ ^(yes|y|Y) ]]; then
 	update_bridgechain
 fi

@@ -142,6 +142,7 @@ update_core_make_update_relay_script()
 	cp "$ROOT_PATH/app/update-core-relay.sh" "$update_script_path"
 
 	sed -i "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$update_script_path"
+	sed -i "s@REPLACE_WITH_TARGET_VERSION@$TARGET_VERSION@g" "$update_script_path"
 	sed -i "s@REPLACE_WITH_CHAIN_NAME@$CHAIN_NAME@g" "$update_script_path"
 	
 	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
