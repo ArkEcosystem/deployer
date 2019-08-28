@@ -60,17 +60,18 @@ update_core_add_upstream_remote()
 	heading "Fetching from upstream..."
 	cd "$BRIDGECHAIN_PATH"
 	git remote add upstream https://github.com/ArkEcosystem/core.git > /dev/null 2>&1 || true
-	git fetch --tags upstream
+	git fetch && git fetch --tags upstream
 }
 
 update_core_merge_from_upstream()
 {
 	heading "Merging from upstream..."
+	git config --global user.email "support@ark.io"
+    git config --global user.name "ARK Deployer"
 	git checkout -b update/"$TARGET_VERSION" || git checkout -b update/"${TARGET_VERSION}_${TIMESTAMP}"
 	git merge "$TARGET_VERSION" || true
 	info "Done"
 }
-
 
 update_core_resolve_conflicts()
 {
@@ -139,10 +140,10 @@ update_core_make_update_relay_script()
 	mkdir -p "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/"
 
 	sed "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$ROOT_PATH/app/update-core-relay.sh" \
-	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+	>| "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 
 	sed "s@CHAIN_NAME@$CHAIN_NAME@g" "$ROOT_PATH/app/update-core-relay.sh" \
-	> "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
+	>| "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 	
 	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
