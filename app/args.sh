@@ -207,6 +207,12 @@ parse_json_config()
                 "gitExplorerOrigin")
                     GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin // empty' "$CONFIG")
                 ;;
+                "gitUseSsh")
+                    local USE_SSH=$(jq -r '.gitUseSsh' "$CONFIG")
+                    if [[ "$USE_SSH" == "true" ]]; then
+                        GIT_USE_SSH="Y"
+                    fi
+                ;;
                 "licenseName")
                     LICENSE_NAME=$(jq -r '.licenseName // empty' "$CONFIG")
                 ;;
@@ -314,6 +320,9 @@ parse_generic_args()
                 elif [[ $METHOD == "install-explorer" ]]; then
                     GIT_EXPLORER_ORIGIN="$2"
                 fi
+            ;;
+            "--git-use-ssh")
+                GIT_USE_SSH="Y"
             ;;
             "--license-name")
                 LICENSE_NAME="$2"
@@ -562,6 +571,7 @@ GIT_CORE_COMMIT="$GIT_CORE_COMMIT"
 GIT_CORE_ORIGIN="$GIT_CORE_ORIGIN"
 GIT_EXPLORER_COMMIT="$GIT_EXPLORER_COMMIT"
 GIT_EXPLORER_ORIGIN="$GIT_EXPLORER_ORIGIN"
+GIT_USE_SSH="$GIT_USE_SSH"
 LICENSE_NAME="$LICENSE_NAME"
 LICENSE_EMAIL="$LICENSE_EMAIL"
 EOF
