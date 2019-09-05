@@ -305,7 +305,7 @@ fi
 
 cd "$BRIDGECHAIN_PATH_RAW"
 HAS_REMOTE=\$(git branch -a | fgrep -o "remotes/origin/chore/bridgechain-changes")
-if [ ! -z "$HAS_REMOTE" ]; then
+if [ ! -z "\$HAS_REMOTE" ]; then
     git checkout chore/bridgechain-changes
 fi
 
