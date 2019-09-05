@@ -282,6 +282,9 @@ app_install_core()
     if [[ "$GIT_CORE_COMMIT" == "Y" ]]; then
         echo "Committing changes..."
         cd "$BRIDGECHAIN_PATH"
+        if [[ "$GIT_USE_SSH" == "Y" ]]; then
+            git config url."git@github.com:".insteadOf "https://github.com/"
+        fi
         git config --global user.email "support@ark.io"
         git config --global user.name "ARK Deployer"
         git checkout -b chore/bridgechain-changes

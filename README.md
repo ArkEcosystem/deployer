@@ -109,6 +109,7 @@ source setup.sh
 
     --git-commit - Commit changes to core on a new branch
     --git-origin - Set git origin and attempt to push changes
+    --git-use-ssh - Set git to use SSH instead of HTTPS
     --license-name - The name to appear in the License below "Ark Ecosystem"
     --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt
