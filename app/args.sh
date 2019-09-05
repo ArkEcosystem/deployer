@@ -230,10 +230,10 @@ parse_json_config()
 
 post_args_process()
 {
-    if [ "$CLI_ALIAS" == "CHAIN_NAME" ]; then
-        CORE_ALIAS="$CHAIN_NAME"
-    else
+    if [ "$CLI_ALIAS" == "TOKEN" ]; then
         CORE_ALIAS="$TOKEN"
+    else
+        CORE_ALIAS="$CHAIN_NAME"
     fi
 
     CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
