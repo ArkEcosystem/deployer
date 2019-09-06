@@ -286,7 +286,7 @@ app_install_core()
         git config --global user.name "ARK Deployer"
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
-            local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+            local ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             read -r -d '' COMMANDS << EOM || true
 shopt -s expand_aliases
 alias ark="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"
