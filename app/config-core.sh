@@ -15,7 +15,7 @@ app_install_core_configuration()
     local CONFIG_PATH_MAINNET="$(cd ~ && pwd)/.bridgechain/mainnet/$CHAIN_NAME"
     local CONFIG_PATH_DEVNET="$(cd ~ && pwd)/.bridgechain/devnet/$CHAIN_NAME"
     local CONFIG_PATH_TESTNET="$(cd ~ && pwd)/.bridgechain/testnet/$CHAIN_NAME"
-    local CONFIG_PATH_CORE="$XDG_CONFIG_HOME/${CHAIN_NAME}-core"
+    local CONFIG_PATH_CORE="$XDG_CONFIG_HOME/${CORE_ALIAS}-core"
 
     # Alias
     local ALIAS_PATH=""

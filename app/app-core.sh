@@ -15,7 +15,7 @@ app_install_core()
 
     rm -rf "$HOME/.config/@${CORE_ALIAS}"
     rm -rf "$HOME/.config/@${CHAIN_NAME}"
-    rm -rf "$HOME/.config/${CHAIN_NAME}-core"
+    rm -rf "$HOME/.config/${CORE_ALIAS}-core"
 
     local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
@@ -314,7 +314,7 @@ while [ "\$YARN_SETUP" == "N" ]; do
 done
 rm -rf "\$HOME/.config/@${CORE_ALIAS}"
 rm -rf "\$HOME/.config/@${CHAIN_NAME}"
-rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
+rm -rf "\$HOME/.config/${CORE_ALIAS}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
@@ -426,7 +426,7 @@ __core_setup()
     __yarn_setup
 
     cd "$BRIDGECHAIN_PATH/packages/core/"
-    ./bin/run config:cli --token "$CHAIN_NAME"
+    ./bin/run config:cli --token "$CORE_ALIAS"
 }
 
 __yarn_setup()
