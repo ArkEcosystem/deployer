@@ -58,6 +58,10 @@
         "description": "Output Core passphrases",
         "method": "app_output_passphrases"
     }, {
+        "command": "get-ip",
+        "description": "Get machine IP",
+        "method": "get_ip"
+    }, {
         "abbreviation": "-h",
         "command": "help",
         "description": "Output usage information",
