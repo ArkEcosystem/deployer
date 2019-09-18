@@ -80,21 +80,21 @@ app_install_core()
         echo "Created databases"
     fi
 
-    local DB_USER="core"
-    local PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$DB_USER'" | awk '{$1=$1};1')
-    if [[ "$PQ_USER" == "$DB_USER" ]]; then
+    local DATABASE_USERNAME="$TOKEN"
+    local PQ_USER=$(sudo -u postgres psql -t -c "SELECT usename FROM pg_catalog.pg_user WHERE usename = '$DATABASE_USERNAME'" | awk '{$1=$1};1')
+    if [[ "$PQ_USER" == "$DATABASE_USERNAME" ]]; then
         local RECREATE_USER="N"
         if [[ "$INTERACTIVE" == "Y" ]]; then
-            read -p "User $DB_USER already exists. Recreate? [y/N]: " RECREATE_USER
+            read -p "User $DATABASE_USERNAME already exists. Recreate? [y/N]: " RECREATE_USER
         fi
         if [[ "$RECREATE_USER" =~ ^(yes|y|Y) ]]; then
-            sudo -u postgres psql -c "DROP USER $DB_USER"
-            sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD 'password' CREATEDB;"
+            sudo -u postgres psql -c "DROP USER $DATABASE_USERNAME"
+            sudo -u postgres psql -c "CREATE USER $DATABASE_USERNAME WITH PASSWORD 'password' CREATEDB;"
         else
-            echo "Skipping User Creation for $DB_USER"
+            echo "Skipping User Creation for $DATABASE_USERNAME"
         fi
     else
-        sudo -u postgres psql -c "CREATE USER $DB_USER WITH PASSWORD 'password' CREATEDB;"
+        sudo -u postgres psql -c "CREATE USER $DATABASE_USERNAME WITH PASSWORD 'password' CREATEDB;"
     fi
 
     cd "$ROOT_PATH"
@@ -124,8 +124,8 @@ app_install_core()
                                           --jsonRpcPort "$JSON_RPC_PORT" \
                                           --dbHost "$DATABASE_HOST" \
                                           --dbPort "$DATABASE_PORT" \
-                                          --dbUsername "$DB_USER" \
-                                          --dbPassword "password" \
+                                          --dbUsername "$DATABASE_USERNAME" \
+                                          --dbPassword "$DATABASE_PASSWORD" \
                                           --dbDatabase "$DATABASE_NAME_MAINNET" \
                                           --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
@@ -169,8 +169,8 @@ app_install_core()
                                           --jsonRpcPort "$JSON_RPC_PORT" \
                                           --dbHost "$DATABASE_HOST" \
                                           --dbPort "$DATABASE_PORT" \
-                                          --dbUsername "$DB_USER" \
-                                          --dbPassword "password" \
+                                          --dbUsername "$DATABASE_USERNAME" \
+                                          --dbPassword "$DATABASE_PASSWORD" \
                                           --dbDatabase "$DATABASE_NAME_DEVNET" \
                                           --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
@@ -214,8 +214,8 @@ app_install_core()
                                           --jsonRpcPort "$JSON_RPC_PORT" \
                                           --dbHost "$DATABASE_HOST" \
                                           --dbPort "$DATABASE_PORT" \
-                                          --dbUsername "$DB_USER" \
-                                          --dbPassword "password" \
+                                          --dbUsername "$DATABASE_USERNAME" \
+                                          --dbPassword "$DATABASE_PASSWORD" \
                                           --dbDatabase "$DATABASE_NAME_TESTNET" \
                                           --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
