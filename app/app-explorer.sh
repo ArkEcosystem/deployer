@@ -36,7 +36,7 @@ NETWORK="\$1"
 if [ -z "\$NETWORK" ]; then
     NETWORK="testnet"
 fi
-HOST="$EXPLORER_IP" PORT="$EXPLORER_PORT" node "$EXPLORER_PATH/build/build.js" --network "\$NETWORK"
+HOST="$EXPLORER_IP" PORT="$EXPLORER_PORT" yarn build:"\$NETWORK"
 EXPLORER_HOST="$EXPLORER_IP" EXPLORER_PORT="$EXPLORER_PORT" pm2 start $EXPLORER_PATH/express-server.js --name explorer
 EOF
 
