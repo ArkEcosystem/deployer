@@ -2,7 +2,7 @@
 
 get_ip()
 {
-    if AWS_IP=$(curl -f -s --connect-timeout 5 http://169.254.169.254/2009-04-04/meta-data/public-ipv4); then
+    if AWS_IP=$(curl -f -s --connect-timeout 5 http://169.254.169.254/latest/meta-data/public-ipv4); then
         echo "$AWS_IP"
     else
         IP=$(sudo ifconfig | fgrep "inet " | egrep -v "inet (addr:)?(127|192)\." | egrep -o "inet (addr:)?([0-9]+\.?){4}" | egrep -o "([0-9]+\.?){4}" | head -n 1)
