@@ -17,7 +17,7 @@
     "bip39": "^2.5.0",
     "bytebuffer": "^5.0.1",
     "commander": "^2.19.0",
-    "envfile": "^2.3.0",
+    "envfile": "^3.0.0",
     "expand-home-dir": "0.0.3",
     "fs-extra": "^7.0.1",
     "joi": "^14.3.0",
