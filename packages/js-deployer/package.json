@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@arkecosystem/crypto": "~0.2",
-    "bip39": "^2.5.0",
+    "bip39": "^3.0.0",
     "bytebuffer": "^5.0.1",
     "commander": "^2.19.0",
     "envfile": "^3.0.0",
