@@ -1,4 +1,4 @@
-const { Bignum, client, crypto } = require('@arkecosystem/crypto')
+const { Identities, Transactions, Utils } = require('@arkecosystem/crypto')
 const bip39 = require('bip39')
 const ByteBuffer = require('bytebuffer')
 const { createHash } = require('crypto')
@@ -29,7 +29,7 @@ module.exports = class GenesisBlockBuilder {
       this.__createTransferTransaction(
         premineWallet,
         genesisWallet,
-        Bignum(this.totalPremine),
+        Utils.Bignum(this.totalPremine),
       ),
     ]
     const genesisBlock = this.__createGenesisBlock({
@@ -51,12 +51,11 @@ module.exports = class GenesisBlockBuilder {
    */
   __createWallet() {
     const passphrase = bip39.generateMnemonic()
-    const keys = crypto.getKeys(passphrase)
 
     return {
-      address: crypto.getAddress(keys.publicKey, this.prefixHash),
+      address: Identities.Address.fromPassphrase(passphrase, this.prefixHash),
       passphrase,
-      keys,
+      keys: Identities.Keys.fromPassphrase(passphrase),
     }
   }
 
@@ -102,8 +101,7 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   __createTransferTransaction(senderWallet, receiverWallet, amount) {
-    const { data } = client
-      .getBuilder()
+    const { data } = Transactions.BuilderFactory
       .transfer()
       .recipientId(receiverWallet.address)
       .amount(amount)
@@ -119,8 +117,7 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   __createDelegateTransaction(wallet) {
-    const { data } = client
-      .getBuilder()
+    const { data } = Transactions.BuilderFactory
       .delegateRegistration()
       .amount(Bignum.ZERO)
       .usernameAsset(wallet.username)
@@ -137,12 +134,12 @@ module.exports = class GenesisBlockBuilder {
    */
   __formatGenesisTransaction(transaction, wallet) {
     Object.assign(transaction, {
-      fee: Bignum(0),
+      fee: Utils.Bignum.ZERO,
       timestamp: 0,
       senderId: wallet.address,
     })
-    transaction.signature = crypto.sign(transaction, wallet.keys)
-    transaction.id = crypto.getId(transaction)
+    transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
+    transaction.id = Utils.getId(transaction).toString()
 
     return transaction
   }
@@ -162,8 +159,8 @@ module.exports = class GenesisBlockBuilder {
     })
 
     let payloadLength = 0
-    let totalFee = Bignum.ZERO
-    let totalAmount = Bignum.ZERO
+    let totalFee = Utils.Bignum.ZERO
+    let totalAmount = Utils.Bignum.ZERO
     const payloadHash = createHash('sha256')
 
     transactions.forEach(transaction => {
@@ -214,7 +211,7 @@ module.exports = class GenesisBlockBuilder {
       blockBuffer[i] = hash[7 - i]
     }
 
-    return new Bignum(blockBuffer.toString('hex'), 16).toString()
+    return new Utils.Bignum(blockBuffer.toString('hex'), 16).toString()
   }
 
   /**
@@ -255,7 +252,7 @@ module.exports = class GenesisBlockBuilder {
 
       if (block.previousBlock) {
         const previousBlock = Buffer.from(
-          new Bignum(block.previousBlock).toString(16),
+          new Utils.Bignum(block.previousBlock).toString(16),
           'hex',
         )
 
