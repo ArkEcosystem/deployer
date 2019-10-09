@@ -164,7 +164,7 @@ module.exports = class GenesisBlockBuilder {
     const payloadHash = createHash('sha256')
 
     transactions.forEach(transaction => {
-      const bytes = crypto.getBytes(transaction)
+      const bytes = Transactions.Serializer.getBytes(transaction)
       payloadLength += bytes.length
       totalFee = totalFee.plus(transaction.fee)
       if (transaction.amount) {
