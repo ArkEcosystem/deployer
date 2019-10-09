@@ -1,4 +1,4 @@
-const { Identities, Utils, Transactions } = require('@arkecosystem/crypto')
+const { Identities, Transactions, Utils } = require('@arkecosystem/crypto')
 const bip39 = require('bip39')
 const ByteBuffer = require('bytebuffer')
 const { createHash } = require('crypto')
@@ -138,10 +138,8 @@ module.exports = class GenesisBlockBuilder {
       timestamp: 0,
       senderId: wallet.address,
     })
-    // todo: needs updating
-    transaction.signature = crypto.sign(transaction, wallet.keys)
-    // todo: needs updating
-    transaction.id = crypto.getId(transaction)
+    transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
+    transaction.id = Utils.getId(transaction).toString()
 
     return transaction
   }
