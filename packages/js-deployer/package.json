@@ -19,7 +19,7 @@
     "commander": "^2.19.0",
     "envfile": "^2.3.0",
     "expand-home-dir": "0.0.3",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.0.0",
     "joi": "^14.3.0",
     "lodash.set": "^4.3.2",
     "pino": "^5.9.0",
