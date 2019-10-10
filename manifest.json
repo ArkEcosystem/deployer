@@ -42,6 +42,10 @@
         "description": "Uninstall the Core",
         "method": "app_uninstall_core"
     }, {
+        "command": "update-core",
+        "description": "Update Core to the latest version",
+        "method": "update_core_handle"
+    }, {
         "command": "install-explorer",
         "description": "Install the Explorer",
         "method": "app_install_explorer"
@@ -53,6 +57,10 @@
         "command": "passphrases",
         "description": "Output Core passphrases",
         "method": "app_output_passphrases"
+    }, {
+        "command": "get-ip",
+        "description": "Get machine IP",
+        "method": "get_ip"
     }, {
         "abbreviation": "-h",
         "command": "help",

@@ -76,6 +76,7 @@ source setup.sh
     --testnet-prefix - Testnet Address Prefix [T]
     --token - Token Name [MINE]
     --symbol - Symbol for Token [M]
+    --cli-alias - Specify whether to use bridgechain name or token - possible options are "CHAIN_NAME" or "TOKEN" [CHAIN_NAME]
     --forgers - How many forgers for the network [51]
     --blocktime - Time per block (seconds) [8]
     --transactions-per-block - Max Transaction count per Block [150]
@@ -113,6 +114,7 @@ source setup.sh
 
     --git-commit - Commit changes to core on a new branch
     --git-origin - Set git origin and attempt to push changes
+    --git-use-ssh - Set git to use SSH instead of HTTPS
     --license-name - The name to appear in the License below "Ark Ecosystem"
     --license-email - The email address associated with the licensed name
     --autoinstall-deps - Automatically install dependencies without prompt

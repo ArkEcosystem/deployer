@@ -36,7 +36,7 @@ NETWORK="\$1"
 if [ -z "\$NETWORK" ]; then
     NETWORK="testnet"
 fi
-HOST="$EXPLORER_IP" PORT="$EXPLORER_PORT" node "$EXPLORER_PATH/build/build.js" --network "\$NETWORK"
+HOST="$EXPLORER_IP" PORT="$EXPLORER_PORT" yarn build:"\$NETWORK"
 EXPLORER_HOST="$EXPLORER_IP" EXPLORER_PORT="$EXPLORER_PORT" pm2 start $EXPLORER_PATH/express-server.js --name explorer
 EOF
 
@@ -54,6 +54,9 @@ EOF
     if [[ "$GIT_EXPLORER_COMMIT" == "Y" ]]; then
         echo "Committing changes..."
         cd "$EXPLORER_PATH"
+        if [[ "$GIT_USE_SSH" == "Y" ]]; then
+            git config url."git@github.com:".insteadOf "https://github.com/"
+        fi
         git config --global user.email "support@ark.io"
         git config --global user.name "ARK Deployer"
         git checkout -b chore/bridgechain-changes

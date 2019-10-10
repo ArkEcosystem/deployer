@@ -15,7 +15,7 @@ app_install_core()
 
     rm -rf "$HOME/.config/@${CORE_ALIAS}"
     rm -rf "$HOME/.config/@${CHAIN_NAME}"
-    rm -rf "$HOME/.config/${CHAIN_NAME}-core"
+    rm -rf "$HOME/.config/${CORE_ALIAS}-core"
 
     local MAINNET_PREFIX=$(sh -c "jq '.[\"$MAINNET_PREFIX\"]' $__dir/prefixes.json")
     if [[ -z "$MAINNET_PREFIX" ]]; then
@@ -105,7 +105,7 @@ app_install_core()
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
-    git clone https://github.com/ArkEcosystem/core.git --branch 2.3.22 "$BRIDGECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/core.git --branch 2.5.26 "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
@@ -127,7 +127,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_MAINNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -172,7 +172,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_DEVNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -217,7 +217,7 @@ app_install_core()
                                           --dbUsername "$DB_USER" \
                                           --dbPassword "password" \
                                           --dbDatabase "$DATABASE_NAME_TESTNET" \
-                                          --explorerUrl "http://$EXPLORER_IP:$EXPLORER_PORT" \
+                                          --explorerUrl "$EXPLORER_URL" \
                                           --forgers "$FORGERS" \
                                           --feeStaticTransfer "$FEE_STATIC_TRANSFER" \
                                           --feeStaticVote "$FEE_STATIC_VOTE" \
@@ -282,11 +282,14 @@ app_install_core()
     if [[ "$GIT_CORE_COMMIT" == "Y" ]]; then
         echo "Committing changes..."
         cd "$BRIDGECHAIN_PATH"
+        if [[ "$GIT_USE_SSH" == "Y" ]]; then
+            git config url."git@github.com:".insteadOf "https://github.com/"
+        fi
         git config --global user.email "support@ark.io"
         git config --global user.name "ARK Deployer"
         git checkout -b chore/bridgechain-changes
         if [[ "$GIT_CORE_ORIGIN" != "" ]]; then
-            local ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+            local ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             read -r -d '' COMMANDS << EOM || true
 shopt -s expand_aliases
 alias ark="$BRIDGECHAIN_PATH_RAW/packages/core/bin/run"
@@ -309,16 +312,21 @@ fi
 YARN_SETUP="N"
 while [ "\$YARN_SETUP" == "N" ]; do
   YARN_SETUP="Y"
+  rm -rf "\$HOME/.cache/yarn"
   yarn setup || YARN_SETUP="N"
 done
 rm -rf "\$HOME/.config/@${CORE_ALIAS}"
 rm -rf "\$HOME/.config/@${CHAIN_NAME}"
-rm -rf "\$HOME/.config/${CHAIN_NAME}-core"
+rm -rf "\$HOME/.config/${CORE_ALIAS}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
-            INSTALL_SH=$(sed "s#yarn global add @arkecosystem/core#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-            sed -i '/^exec "$BASH"$/d' "$BRIDGECHAIN_PATH/install.sh"
+
+            LINE_NO_START=$(($(egrep -hn "^while.+yarn global add @arkecosystem/core.+do" "$BRIDGECHAIN_PATH/install.sh" | cut -f1 -d:)+1))
+            LINE_NO_END=$(($LINE_NO_START+4))
+            sed -i "${LINE_NO_START},${LINE_NO_END}d" "$BRIDGECHAIN_PATH/install.sh"
+
+            INSTALL_SH=$(sed -E "s#^while.+yarn global add @arkecosystem\/core.+do\$#$COMMANDS#gi" "$BRIDGECHAIN_PATH/install.sh" | tr '\r' '\n')
             rm "$BRIDGECHAIN_PATH/install.sh" && echo "$INSTALL_SH" > "$BRIDGECHAIN_PATH/install.sh"
         fi
         git add .
@@ -421,7 +429,7 @@ __core_setup()
     __yarn_setup
 
     cd "$BRIDGECHAIN_PATH/packages/core/"
-    ./bin/run config:cli --token "$CHAIN_NAME"
+    ./bin/run config:cli --token "$CORE_ALIAS"
 }
 
 __yarn_setup()

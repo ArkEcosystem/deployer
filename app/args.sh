@@ -29,10 +29,10 @@ parse_json_config()
                     JSON_RPC_PORT=$(jq -r '.jsonRpcPort' "$CONFIG")
                 ;;
                 "explorerIp")
-                    EXPLORER_IP=$(jq -r '.explorerIp' "$CONFIG")
+                    EXPLORER_IP=$(jq -r '.explorerIp // empty' "$CONFIG")
                 ;;
                 "explorerPort")
-                    EXPLORER_PORT=$(jq -r '.explorerPort' "$CONFIG")
+                    EXPLORER_PORT=$(jq -r '.explorerPort // empty' "$CONFIG")
                 ;;
                 "chainName")
                     local CHANGE_DATABASE="N"
@@ -43,10 +43,12 @@ parse_json_config()
                     if [ "$CHANGE_DATABASE" == "Y" ]; then
                         DATABASE_NAME="core_$CHAIN_NAME"
                     fi
-                    CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
                 ;;
                 "token")
                     TOKEN=$(jq -r '.token' "$CONFIG")
+                ;;
+                "cliAlias")
+                    CLI_ALIAS=$(jq -r '.cliAlias' "$CONFIG")
                 ;;
                 "databaseHost")
                     DATABASE_HOST=$(jq -r '.databaseHost' "$CONFIG")
@@ -205,6 +207,12 @@ parse_json_config()
                 "gitExplorerOrigin")
                     GIT_EXPLORER_ORIGIN=$(jq -r '.gitExplorerOrigin // empty' "$CONFIG")
                 ;;
+                "gitUseSsh")
+                    local USE_SSH=$(jq -r '.gitUseSsh' "$CONFIG")
+                    if [[ "$USE_SSH" == "true" ]]; then
+                        GIT_USE_SSH="Y"
+                    fi
+                ;;
                 "licenseName")
                     LICENSE_NAME=$(jq -r '.licenseName // empty' "$CONFIG")
                 ;;
@@ -215,7 +223,30 @@ parse_json_config()
         done
     fi
 
+    post_args_process
+
     CONFIG_PROCESSED="Y"
+}
+
+post_args_process()
+{
+    if [ "$CLI_ALIAS" == "TOKEN" ]; then
+        CORE_ALIAS="$TOKEN"
+    else
+        CORE_ALIAS="$CHAIN_NAME"
+    fi
+
+    CORE_ALIAS=$(echo $CORE_ALIAS | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
+
+    LOCAL_EXPLORER_IP="$EXPLORER_IP"
+    LOCAL_EXPLORER_PORT=$(echo "$EXPLORER_PORT" | sed 's/[^0-9]//g')
+    if [ -z "$LOCAL_EXPLORER_IP" ]; then
+        LOCAL_EXPLORER_IP="0.0.0.0"
+    fi
+    if [ -z "$LOCAL_EXPLORER_PORT" ]; then
+        LOCAL_EXPLORER_PORT="4200"
+    fi
+    EXPLORER_URL="http://$LOCAL_EXPLORER_IP:$LOCAL_EXPLORER_PORT"
 }
 
 parse_generic_args()
@@ -251,7 +282,6 @@ parse_generic_args()
                 if [ "$CHANGE_DATABASE" == "Y" ]; then
                     DATABASE_NAME="core_$CHAIN_NAME"
                 fi
-                CORE_ALIAS=$(echo $CHAIN_NAME | tr -cs '[:alnum:]\r\n' '-' | tr '[:upper:]' '[:lower:]')
             ;;
             "--explorer-ip")
                 EXPLORER_IP="$2"
@@ -261,6 +291,9 @@ parse_generic_args()
             ;;
             "--token")
                 TOKEN="$2"
+            ;;
+            "--cli-alias")
+                CLI_ALIAS="$2"
             ;;
             "--forgers")
                 FORGERS="$2"
@@ -288,6 +321,9 @@ parse_generic_args()
                     GIT_EXPLORER_ORIGIN="$2"
                 fi
             ;;
+            "--git-use-ssh")
+                GIT_USE_SSH="Y"
+            ;;
             "--license-name")
                 LICENSE_NAME="$2"
             ;;
@@ -301,6 +337,8 @@ parse_generic_args()
         esac
         shift
     done
+
+    post_args_process
 
     ARGS_PROCESSED="Y"
 }
@@ -477,7 +515,9 @@ write_args_env()
 BRIDGECHAIN_PATH="$BRIDGECHAIN_PATH"
 EXPLORER_PATH="$EXPLORER_PATH"
 CHAIN_NAME="$CHAIN_NAME"
+TOKEN="$TOKEN"
 CORE_ALIAS="$CORE_ALIAS"
+CLI_ALIAS="$CLI_ALIAS"
 DATABASE_HOST="$DATABASE_HOST"
 DATABASE_PORT="$DATABASE_PORT"
 DATABASE_NAME="$DATABASE_NAME"
@@ -488,7 +528,7 @@ WEBHOOK_PORT="$WEBHOOK_PORT"
 JSON_RPC_PORT="$JSON_RPC_PORT"
 EXPLORER_IP="$EXPLORER_IP"
 EXPLORER_PORT="$EXPLORER_PORT"
-TOKEN="$TOKEN"
+EXPLORER_URL="$EXPLORER_URL"
 SYMBOL="$SYMBOL"
 MAINNET_PEERS="$MAINNET_PEERS"
 DEVNET_PEERS="$DEVNET_PEERS"
@@ -521,6 +561,7 @@ TXS_PER_BLOCK="$TXS_PER_BLOCK"
 TOTAL_PREMINE="$TOTAL_PREMINE"
 REWARD_HEIGHT_START="$REWARD_HEIGHT_START"
 REWARD_PER_BLOCK="$REWARD_PER_BLOCK"
+VENDORFIELD_LENGTH="$VENDORFIELD_LENGTH"
 ARGS_PROCESSED="$ARGS_PROCESSED"
 CONFIG_PROCESSED="$CONFIG_PROCESSED"
 AUTO_FORGER="$AUTO_FORGER"
@@ -530,6 +571,7 @@ GIT_CORE_COMMIT="$GIT_CORE_COMMIT"
 GIT_CORE_ORIGIN="$GIT_CORE_ORIGIN"
 GIT_EXPLORER_COMMIT="$GIT_EXPLORER_COMMIT"
 GIT_EXPLORER_ORIGIN="$GIT_EXPLORER_ORIGIN"
+GIT_USE_SSH="$GIT_USE_SSH"
 LICENSE_NAME="$LICENSE_NAME"
 LICENSE_EMAIL="$LICENSE_EMAIL"
 EOF
