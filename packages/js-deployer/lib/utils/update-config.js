@@ -1,4 +1,4 @@
-const set = require('lodash/set')
+const set = require('lodash.set')
 const fs = require('fs-extra')
 const path = require('path')
 
