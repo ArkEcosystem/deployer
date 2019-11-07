@@ -16,7 +16,7 @@
     "@arkecosystem/crypto": "~2.5.0",
     "bip39": "^3.0.0",
     "bytebuffer": "^5.0.1",
-    "commander": "^3.0.0",
+    "commander": "^4.0.0",
     "envfile": "^3.0.0",
     "expand-home-dir": "0.0.3",
     "fs-extra": "^8.0.0",
