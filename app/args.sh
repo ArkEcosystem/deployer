@@ -182,6 +182,10 @@ parse_json_config()
                         if [ ! -z "$BYTES_BRIDGECHAIN_REGISTRATION" ]; then
                             FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$BYTES_BRIDGECHAIN_REGISTRATION"
                         fi
+                        local BYTES_BRIDGECHAIN_UPDATE=$(jq -r '.fees.dynamic.addonBytes.bridgechainUpdate // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_BRIDGECHAIN_UPDATE" ]; then
+                            FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$BYTES_BRIDGECHAIN_UPDATE"
+                        fi
                     fi
                 ;;
                 "forgers")
@@ -539,6 +543,9 @@ parse_core_args()
             "--fee-dynamic-bytes-bridgechain-registration")
                 FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$2"
             ;;
+            "--fee-dynamic-bytes-bridgechain-update")
+                FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$2"
+            ;;
         esac
         shift
     done
@@ -603,6 +610,7 @@ FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATIO
 FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE"
 FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION="$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION"
 FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION"
+FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE"
 FORGERS="$FORGERS"
 BLOCK_TIME="$BLOCK_TIME"
 TXS_PER_BLOCK="$TXS_PER_BLOCK"

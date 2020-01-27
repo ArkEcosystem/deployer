@@ -115,6 +115,7 @@ source setup.sh
     --fee-dynamic-bytes-business-update - Adjust fee calculation for business update with additional bytes [500]
     --fee-dynamic-bytes-business-resignation - Adjust fee calculation for business resignation with additional bytes [100]
     --fee-dynamic-bytes-bridgechain-registration - Adjust fee calculation for bridgechain registration with additional bytes [4000000]
+    --fee-dynamic-bytes-bridgechain-update - Adjust fee calculation for bridgechain update with additional bytes [500]
 
 ###### Generic
 
