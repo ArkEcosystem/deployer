@@ -154,6 +154,7 @@ app_install_core()
                                           --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --feeDynamicBytesBridgechainRegistration "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION" \
                                           --feeDynamicBytesBridgechainUpdate "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE" \
+                                          --feeDynamicBytesBridgechainResignation "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -206,6 +207,7 @@ app_install_core()
                                           --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --feeDynamicBytesBridgechainRegistration "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION" \
                                           --feeDynamicBytesBridgechainUpdate "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE" \
+                                          --feeDynamicBytesBridgechainResignation "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -258,6 +260,7 @@ app_install_core()
                                           --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --feeDynamicBytesBridgechainRegistration "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION" \
                                           --feeDynamicBytesBridgechainUpdate "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE" \
+                                          --feeDynamicBytesBridgechainResignation "$FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
