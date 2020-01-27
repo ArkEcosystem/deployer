@@ -143,7 +143,7 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -188,7 +188,7 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -233,7 +233,7 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \

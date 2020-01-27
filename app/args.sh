@@ -146,7 +146,7 @@ parse_json_config()
                         if [ ! -z "$BYTES_IPFS" ]; then
                             FEE_DYNAMIC_BYTES_IPFS="$BYTES_IPFS"
                         fi
-                        local BYTES_HTLC_LOCK=$(jq -r '.fees.dynamic.addonBytes.timelockTransfer // empty' "$CONFIG")
+                        local BYTES_HTLC_LOCK=$(jq -r '.fees.dynamic.addonBytes.htlcLock // empty' "$CONFIG")
                         if [ ! -z "$BYTES_HTLC_LOCK" ]; then
                             FEE_DYNAMIC_BYTES_HTLC_LOCK="$BYTES_HTLC_LOCK"
                         fi
@@ -488,7 +488,7 @@ parse_core_args()
             "--fee-dynamic-bytes-ipfs")
                 FEE_DYNAMIC_BYTES_IPFS="$2"
             ;;
-            "--fee-dynamic-bytes-timelock-transfer")
+            "--fee-dynamic-bytes-htlc-lock")
                 FEE_DYNAMIC_BYTES_HTLC_LOCK="$2"
             ;;
             "--fee-dynamic-bytes-multipayment")

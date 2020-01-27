@@ -60,7 +60,7 @@ commander
   .option('--feeDynamicBytesVote <value>', 'Fee Bytes for Vote transaction', 100)
   .option('--feeDynamicBytesMultiSignature <value>', 'Fee Bytes for Multi-Signature transaction', 500)
   .option('--feeDynamicBytesIpfs <value>', 'Fee Bytes for IPFS transaction', 250)
-  .option('--feeDynamicBytesTimelockTransfer <value>', 'Fee Bytes for Timelock transaction', 500)
+  .option('--feeDynamicBytesHtlcLock <value>', 'Fee Bytes for HTLC Lock transaction', 500)
   .option('--feeDynamicBytesMultiPayment <value>', 'Fee Bytes for Multi-Payment transaction', 500)
   .option('--feeDynamicBytesDelegateResignation <value>', 'Fee Bytes for Delegate Resignation transaction', 400000)
   .parse(process.argv)
@@ -147,7 +147,7 @@ let milestones = [
         vote: options.feeStaticVote,
         multiSignature: options.feeStaticMultiSignature,
         ipfs: 0,
-        timelockTransfer: 0,
+        htlcLock: 0,
         multiPayment: 0,
         delegateResignation: 0
       }
@@ -327,8 +327,8 @@ const pluginsToUpdate = [
     to: `$1${options.feeDynamicBytesIpfs}`
   },
   {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*timelockTransfer: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesTimelockTransfer}`
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcLock: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesHtlcLock}`
   },
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*multiPayment: )([0-9]+)/g,
