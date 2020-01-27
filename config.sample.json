@@ -45,6 +45,7 @@
                 "multiSignature": 500,
                 "ipfs": 250,
                 "htlcLock": 500,
+                "htlcClaim": 0,
                 "multiPayment": 500,
                 "delegateResignation": 400000
             }

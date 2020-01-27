@@ -144,6 +144,7 @@ app_install_core()
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -189,6 +190,7 @@ app_install_core()
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -234,6 +236,7 @@ app_install_core()
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
+                                          --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
