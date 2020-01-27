@@ -68,6 +68,7 @@ commander
   .option('--feeDynamicBytesBusinessRegistration <value>', 'Fee Bytes for Business Registration transaction', 4000000)
   .option('--feeDynamicBytesBusinessUpdate <value>', 'Fee Bytes for Business Update transaction', 500)
   .option('--feeDynamicBytesBusinessResignation <value>', 'Fee Bytes for Business Resignation transaction', 100)
+  .option('--feeDynamicBytesBridgechainRegistration <value>', 'Fee Bytes for Bridgechain Registration transaction', 4000000)
   .parse(process.argv)
 
 // Validate Schema
@@ -159,7 +160,8 @@ let milestones = [
         delegateResignation: 0,
         businessRegistration: 0,
         businessUpdate: 0,
-        businessResignation: 0
+        businessResignation: 0,
+        bridgechainRegistration: 0
       }
     },
     vendorFieldLength: options.vendorFieldLength
@@ -367,6 +369,10 @@ const pluginsToUpdate = [
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessResignation: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesBusinessResignation}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*bridgechainRegistration: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesBridgechainRegistration}`
   }
 ];
 
