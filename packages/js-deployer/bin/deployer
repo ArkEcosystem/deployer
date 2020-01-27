@@ -62,6 +62,7 @@ commander
   .option('--feeDynamicBytesIpfs <value>', 'Fee Bytes for IPFS transaction', 250)
   .option('--feeDynamicBytesHtlcLock <value>', 'Fee Bytes for HTLC Lock transaction', 500)
   .option('--feeDynamicBytesHtlcClaim <value>', 'Fee Bytes for HTLC Claim transaction', 0)
+  .option('--feeDynamicBytesHtlcRefund <value>', 'Fee Bytes for HTLC Refund transaction', 0)
   .option('--feeDynamicBytesMultiPayment <value>', 'Fee Bytes for Multi-Payment transaction', 500)
   .option('--feeDynamicBytesDelegateResignation <value>', 'Fee Bytes for Delegate Resignation transaction', 400000)
   .parse(process.argv)
@@ -150,13 +151,14 @@ let milestones = [
         ipfs: 0,
         htlcLock: 0,
         htlcClaim: 0,
+        htlcRefund: 0,
         multiPayment: 0,
         delegateResignation: 0
       }
     },
     vendorFieldLength: options.vendorFieldLength
   }
-]
+];
 
 // Update network config
 networkConfig = updateConfig('network.json', networkConfig, cryptoNetworkPath)
@@ -335,6 +337,10 @@ const pluginsToUpdate = [
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcClaim: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesHtlcClaim}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcRefund: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesHtlcRefund}`
   },
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*multiPayment: )([0-9]+)/g,

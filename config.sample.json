@@ -46,6 +46,7 @@
                 "ipfs": 250,
                 "htlcLock": 500,
                 "htlcClaim": 0,
+                "htlcRefund": 0,
                 "multiPayment": 500,
                 "delegateResignation": 400000
             }

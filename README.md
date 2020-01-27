@@ -108,6 +108,7 @@ source setup.sh
     --fee-dynamic-bytes-ipfs - Adjust fee calculation for IPFS transactions with additional bytes [250]
     --fee-dynamic-bytes-htlc-lock - Adjust fee calculation for HTLC lock transactions with additional bytes [500]
     --fee-dynamic-bytes-htlc-claim - Adjust fee calculation for HTLC claim transactions with additional bytes [0]
+    --fee-dynamic-bytes-htlc-refund - Adjust fee calculation for HTLC refund transactions with additional bytes [0]
     --fee-dynamic-bytes-multipayment - Adjust fee calculation for multi-payments with additional bytes [500]
     --fee-dynamic-bytes-delegate-resignation - Adjust fee calculation for delegate resignations with additional bytes [400000]
 

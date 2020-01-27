@@ -154,6 +154,10 @@ parse_json_config()
                         if [ ! -z "$BYTES_HTLC_CLAIM" ]; then
                             FEE_DYNAMIC_BYTES_HTLC_CLAIM="$BYTES_HTLC_CLAIM"
                         fi
+                        local BYTES_HTLC_REFUND=$(jq -r '.fees.dynamic.addonBytes.htlcRefund // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_HTLC_REFUND" ]; then
+                            FEE_DYNAMIC_BYTES_HTLC_REFUND="$BYTES_HTLC_REFUND"
+                        fi
                         local BYTES_MULTIPAYMENT=$(jq -r '.fees.dynamic.addonBytes.multiPayment // empty' "$CONFIG")
                         if [ ! -z "$BYTES_MULTIPAYMENT" ]; then
                             FEE_DYNAMIC_BYTES_MULTIPAYMENT="$BYTES_MULTIPAYMENT"
@@ -498,6 +502,9 @@ parse_core_args()
             "--fee-dynamic-bytes-htlc-claim")
                 FEE_DYNAMIC_BYTES_HTLC_CLAIM="$2"
             ;;
+            "--fee-dynamic-bytes-htlc-refund")
+                FEE_DYNAMIC_BYTES_HTLC_REFUND="$2"
+            ;;
             "--fee-dynamic-bytes-multipayment")
                 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$2"
             ;;
@@ -561,6 +568,7 @@ FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATIO
 FEE_DYNAMIC_BYTES_IPFS="$FEE_DYNAMIC_BYTES_IPFS"
 FEE_DYNAMIC_BYTES_HTLC_LOCK="$FEE_DYNAMIC_BYTES_HTLC_LOCK"
 FEE_DYNAMIC_BYTES_HTLC_CLAIM="$FEE_DYNAMIC_BYTES_HTLC_CLAIM"
+FEE_DYNAMIC_BYTES_HTLC_REFUND="$FEE_DYNAMIC_BYTES_HTLC_REFUND"
 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$FEE_DYNAMIC_BYTES_MULTIPAYMENT"
 FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION"
 FORGERS="$FORGERS"

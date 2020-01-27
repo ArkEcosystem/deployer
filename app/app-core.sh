@@ -145,6 +145,7 @@ app_install_core()
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
+                                          --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -191,6 +192,7 @@ app_install_core()
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
+                                          --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -237,6 +239,7 @@ app_install_core()
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
                                           --feeDynamicBytesHtlcLock "$FEE_DYNAMIC_BYTES_HTLC_LOCK" \
                                           --feeDynamicBytesHtlcClaim "$FEE_DYNAMIC_BYTES_HTLC_CLAIM" \
+                                          --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
