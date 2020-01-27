@@ -111,6 +111,7 @@ source setup.sh
     --fee-dynamic-bytes-htlc-refund - Adjust fee calculation for HTLC refund transactions with additional bytes [0]
     --fee-dynamic-bytes-multipayment - Adjust fee calculation for multi-payments with additional bytes [500]
     --fee-dynamic-bytes-delegate-resignation - Adjust fee calculation for delegate resignations with additional bytes [400000]
+    --fee-dynamic-bytes-business-registration - Adjust fee calculation for business registration with additional bytes [4000000]
 
 ###### Generic
 

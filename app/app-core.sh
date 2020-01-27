@@ -105,7 +105,8 @@ app_install_core()
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
-    git clone https://github.com/ArkEcosystem/core.git --branch 2.6.0 "$BRIDGECHAIN_PATH"
+    ## @TODO: Change develop to 2.6
+    git clone https://github.com/ArkEcosystem/core.git --branch develop "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
@@ -148,6 +149,7 @@ app_install_core()
                                           --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
+                                          --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -195,6 +197,7 @@ app_install_core()
                                           --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
+                                          --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -242,6 +245,7 @@ app_install_core()
                                           --feeDynamicBytesHtlcRefund "$FEE_DYNAMIC_BYTES_HTLC_REFUND" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
+                                          --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \

@@ -60,4 +60,5 @@ module.exports = Joi.object().keys({
   feeDynamicBytesHtlcRefund: Joi.number().required(),
   feeDynamicBytesMultiPayment: Joi.number().required(),
   feeDynamicBytesDelegateResignation: Joi.number().required(),
+  feeDynamicBytesBusinessRegistration: Joi.number().required(),
 })
