@@ -146,9 +146,9 @@ parse_json_config()
                         if [ ! -z "$BYTES_IPFS" ]; then
                             FEE_DYNAMIC_BYTES_IPFS="$BYTES_IPFS"
                         fi
-                        local BYTES_TIMELOCK_TRANSFER=$(jq -r '.fees.dynamic.addonBytes.timelockTransfer // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_TIMELOCK_TRANSFER" ]; then
-                            FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$BYTES_TIMELOCK_TRANSFER"
+                        local BYTES_HTLC_LOCK=$(jq -r '.fees.dynamic.addonBytes.timelockTransfer // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_HTLC_LOCK" ]; then
+                            FEE_DYNAMIC_BYTES_HTLC_LOCK="$BYTES_HTLC_LOCK"
                         fi
                         local BYTES_MULTIPAYMENT=$(jq -r '.fees.dynamic.addonBytes.multiPayment // empty' "$CONFIG")
                         if [ ! -z "$BYTES_MULTIPAYMENT" ]; then
@@ -489,7 +489,7 @@ parse_core_args()
                 FEE_DYNAMIC_BYTES_IPFS="$2"
             ;;
             "--fee-dynamic-bytes-timelock-transfer")
-                FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$2"
+                FEE_DYNAMIC_BYTES_HTLC_LOCK="$2"
             ;;
             "--fee-dynamic-bytes-multipayment")
                 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$2"
@@ -552,7 +552,7 @@ FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION="$FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATIO
 FEE_DYNAMIC_BYTES_VOTE="$FEE_DYNAMIC_BYTES_VOTE"
 FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION"
 FEE_DYNAMIC_BYTES_IPFS="$FEE_DYNAMIC_BYTES_IPFS"
-FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER="$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER"
+FEE_DYNAMIC_BYTES_HTLC_LOCK="$FEE_DYNAMIC_BYTES_HTLC_LOCK"
 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$FEE_DYNAMIC_BYTES_MULTIPAYMENT"
 FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION"
 FORGERS="$FORGERS"
