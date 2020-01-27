@@ -151,6 +151,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
+                                          --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -200,6 +201,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
+                                          --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -249,6 +251,7 @@ app_install_core()
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
                                           --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
+                                          --feeDynamicBytesBusinessResignation "$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \

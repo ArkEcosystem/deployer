@@ -50,7 +50,8 @@
                 "multiPayment": 500,
                 "delegateResignation": 400000,
                 "businessRegistration": 4000000,
-                "businessUpdate": 4000000
+                "businessUpdate": 500,
+                "businessResignation": 100
             }
         }
     },
