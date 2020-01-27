@@ -48,8 +48,9 @@
                 "htlcClaim": 0,
                 "htlcRefund": 0,
                 "multiPayment": 500,
-                "delegateResignation": 400000
-                "businessRegistration": 4000000
+                "delegateResignation": 400000,
+                "businessRegistration": 4000000,
+                "businessUpdate": 4000000
             }
         }
     },

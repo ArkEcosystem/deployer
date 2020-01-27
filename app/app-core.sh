@@ -150,6 +150,7 @@ app_install_core()
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
+                                          --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -198,6 +199,7 @@ app_install_core()
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
+                                          --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
@@ -246,6 +248,7 @@ app_install_core()
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --feeDynamicBytesBusinessRegistration "$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION" \
+                                          --feeDynamicBytesBusinessUpdate "$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \

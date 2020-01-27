@@ -66,6 +66,7 @@ commander
   .option('--feeDynamicBytesMultiPayment <value>', 'Fee Bytes for Multi-Payment transaction', 500)
   .option('--feeDynamicBytesDelegateResignation <value>', 'Fee Bytes for Delegate Resignation transaction', 400000)
   .option('--feeDynamicBytesBusinessRegistration <value>', 'Fee Bytes for Business Registration transaction', 4000000)
+  .option('--feeDynamicBytesBusinessUpdate <value>', 'Fee Bytes for Business Update transaction', 500)
   .parse(process.argv)
 
 // Validate Schema
@@ -155,7 +156,8 @@ let milestones = [
         htlcRefund: 0,
         multiPayment: 0,
         delegateResignation: 0,
-        businessRegistration: 0
+        businessRegistration: 0,
+        businessUpdate: 0
       }
     },
     vendorFieldLength: options.vendorFieldLength
@@ -351,10 +353,14 @@ const pluginsToUpdate = [
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesDelegateResignation}`
-  }
+  },
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessRegistration: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesBusinessRegistration}`
+  },
+  {
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessUpdate: )([0-9]+)/g,
+    to: `$1${options.feeDynamicBytesBusinessUpdate}`
   }
 ];
 

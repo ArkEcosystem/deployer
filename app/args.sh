@@ -170,6 +170,10 @@ parse_json_config()
                         if [ ! -z "$BYTES_BUSINESS_REGISTRATION" ]; then
                             FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$BYTES_BUSINESS_REGISTRATION"
                         fi
+                        local BYTES_BUSINESS_UPDATE=$(jq -r '.fees.dynamic.addonBytes.businessUpdate // empty' "$CONFIG")
+                        if [ ! -z "$BYTES_BUSINESS_UPDATE" ]; then
+                            FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$BYTES_BUSINESS_UPDATE"
+                        fi
                     fi
                 ;;
                 "forgers")
@@ -518,6 +522,9 @@ parse_core_args()
             "--fee-dynamic-bytes-business-registration")
                 FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$2"
             ;;
+            "--fee-dynamic-bytes-business-update")
+                FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$2"
+            ;;
         esac
         shift
     done
@@ -579,6 +586,7 @@ FEE_DYNAMIC_BYTES_HTLC_REFUND="$FEE_DYNAMIC_BYTES_HTLC_REFUND"
 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$FEE_DYNAMIC_BYTES_MULTIPAYMENT"
 FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION"
 FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION"
+FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE"
 FORGERS="$FORGERS"
 BLOCK_TIME="$BLOCK_TIME"
 TXS_PER_BLOCK="$TXS_PER_BLOCK"
