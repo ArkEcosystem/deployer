@@ -138,6 +138,8 @@ module.exports = class GenesisBlockBuilder {
       timestamp: 0,
       senderId: wallet.address,
     })
+
+    transaction.nonce = Utils.BigNumber.make(1)
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)
 
