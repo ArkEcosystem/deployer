@@ -213,7 +213,7 @@ module.exports = class GenesisBlockBuilder {
       blockBuffer[i] = hash[7 - i]
     }
 
-    return new Utils.BigNumber(blockBuffer.toString('hex'), 16).toString()
+    return Utils.BigNumber.make(`0x${blockBuffer.toString("hex")}`).toString();
   }
 
   /**
