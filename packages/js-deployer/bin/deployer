@@ -154,7 +154,17 @@ let milestones = [
         delegateRegistration: options.feeStaticDelegateRegistration,
         vote: options.feeStaticVote,
         multiSignature: options.feeStaticMultiSignature,
-        ipfs: 0,
+        ipfs: 0
+      }
+    },
+    vendorFieldLength: options.vendorFieldLength
+  },
+  {
+    height: 2,
+    aip11: true,
+    htlcEnabled: true,
+    fees: {
+      staticFees: {
         htlcLock: 0,
         htlcClaim: 0,
         htlcRefund: 0,
@@ -167,8 +177,7 @@ let milestones = [
         bridgechainUpdate: 0,
         bridgechainResignation: 0
       }
-    },
-    vendorFieldLength: options.vendorFieldLength
+    }
   }
 ];
 
