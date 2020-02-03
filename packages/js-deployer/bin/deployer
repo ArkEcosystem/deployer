@@ -12,6 +12,7 @@ const getRandomNumber = require('../lib/utils/get-random-number')
 const logger = require('../lib/utils/logger')
 const updateConfig = require('../lib/utils/update-config')
 const writeEnv = require('../lib/utils/write-env')
+const { Managers } = require("@arkecosystem/crypto");
 
 commander
   .version(require('../package.json').version)
@@ -154,17 +155,7 @@ let milestones = [
         delegateRegistration: options.feeStaticDelegateRegistration,
         vote: options.feeStaticVote,
         multiSignature: options.feeStaticMultiSignature,
-        ipfs: 0
-      }
-    },
-    vendorFieldLength: options.vendorFieldLength
-  },
-  {
-    height: 2,
-    aip11: true,
-    htlcEnabled: true,
-    fees: {
-      staticFees: {
+        ipfs: 0,
         htlcLock: 0,
         htlcClaim: 0,
         htlcRefund: 0,
@@ -177,8 +168,11 @@ let milestones = [
         bridgechainUpdate: 0,
         bridgechainResignation: 0
       }
-    }
-  }
+    },
+    vendorFieldLength: options.vendorFieldLength,
+    aip11: true,
+    htlcEnabled: true,
+  },
 ];
 
 // Update network config
@@ -237,6 +231,7 @@ updateConfig('peers.json', peerConfig, coreNetworkPath)
 updateConfig(
   'genesisBlock.json',
   genesis.genesisBlock,
+  //Managers.configManager.get("genesisBlock"),
   cryptoNetworkPath,
   true
 )
