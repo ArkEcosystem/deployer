@@ -107,6 +107,7 @@ module.exports = class GenesisBlockBuilder {
       .amount(amount)
       .network(this.prefixHash)
       .sign(senderWallet.passphrase)
+      .build()
 
     return this.__formatGenesisTransaction(data, senderWallet)
   }
@@ -121,7 +122,9 @@ module.exports = class GenesisBlockBuilder {
       .delegateRegistration()
       .amount(Utils.BigNumber.ZERO)
       .usernameAsset(wallet.username)
+      //.network(this.prefixHash)
       .sign(wallet.passphrase)
+      .build()
 
     return this.__formatGenesisTransaction(data, wallet)
   }
@@ -135,10 +138,11 @@ module.exports = class GenesisBlockBuilder {
   __formatGenesisTransaction(transaction, wallet) {
     Object.assign(transaction, {
       fee: Utils.BigNumber.ZERO,
-      timestamp: 0,
+      //timestamp: 0,
       senderId: wallet.address,
     })
 
+    transaction.version = Utils.BigNumber.make(2)
     transaction.nonce = Utils.BigNumber.make(1)
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)

@@ -138,6 +138,11 @@ let networkConfig = {
 
 let milestones = [
   {
+    height: 0,
+    aip11: true,
+    htlcEnabled: true
+  },
+  {
     height: 1,
     reward: 0,
     activeDelegates: options.forgers,
@@ -155,16 +160,7 @@ let milestones = [
         delegateRegistration: options.feeStaticDelegateRegistration,
         vote: options.feeStaticVote,
         multiSignature: options.feeStaticMultiSignature,
-        ipfs: 0
-      }
-    }
-  },
-  {
-    height: 2,
-    aip11: true,
-    htlcEnabled: true,
-    fees: {
-      staticFees: {
+        ipfs: 0,
         htlcLock: 0,
         htlcClaim: 0,
         htlcRefund: 0,
