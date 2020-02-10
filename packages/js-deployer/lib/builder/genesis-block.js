@@ -1,4 +1,10 @@
-const { Identities, Transactions, Utils, Crypto } = require('@arkecosystem/crypto')
+const {
+    Identities,
+    Managers,
+    Transactions,
+    Utils,
+    Crypto
+} = require("@arkecosystem/crypto");
 const bip39 = require('bip39')
 const ByteBuffer = require('bytebuffer')
 const { createHash } = require('crypto')
@@ -9,11 +15,12 @@ module.exports = class GenesisBlockBuilder {
    * @param  {Object} options
    * @return {void}
    */
-  constructor(network, options) {
+  constructor(network, options, config) {
     this.network = network
     this.prefixHash = network.pubKeyHash
     this.totalPremine = options.totalPremine
     this.forgers = options.forgers
+    this.config = config
   }
 
   /**
@@ -21,6 +28,12 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   generate() {
+    console.log("WITHIN GENERATE GENESIS");
+    console.log(this.network)
+    console.log(this.config)
+    Managers.configManager.setConfig(this.config);
+    Managers.configManager.setHeight(1);
+
     const genesisWallet = this.__createWallet()
     const premineWallet = this.__createWallet()
     const delegates = this.__buildDelegates()
@@ -105,7 +118,7 @@ module.exports = class GenesisBlockBuilder {
       .transfer()
       .recipientId(receiverWallet.address)
       .amount(amount)
-      .network(this.prefixHash)
+      //.network(this.prefixHash)
       .sign(senderWallet.passphrase)
       .build()
 
@@ -118,6 +131,7 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   __createDelegateTransaction(wallet) {
+
     const { data } = Transactions.BuilderFactory
       .delegateRegistration()
       .amount(Utils.BigNumber.ZERO)
@@ -142,7 +156,7 @@ module.exports = class GenesisBlockBuilder {
       senderId: wallet.address,
     })
 
-    transaction.version = Utils.BigNumber.make(2)
+    //transaction.version = Utils.BigNumber.make(2)
     transaction.nonce = Utils.BigNumber.make(1)
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)
