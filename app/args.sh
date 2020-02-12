@@ -118,18 +118,6 @@ parse_json_config()
                         if [ ! -z "$STATIC_DELEGATE_RESIGNATION" ]; then
                             FEE_STATIC_DELEGATE_RESIGNATION="$STATIC_DELEGATE_RESIGNATION"
                         fi
-                        local STATIC_HTLC_LOCK=$(jq -r '.fees.static.htlcLock // empty' "$CONFIG")
-                        if [ ! -z "$STATIC_HTLC_LOCK" ]; then
-                            FEE_STATIC_HTLC_LOCK="$STATIC_HTLC_LOCK"
-                        fi
-                        local STATIC_HTLC_CLAIM=$(jq -r '.fees.static.htlcClaim // empty' "$CONFIG")
-                        if [ ! -z "$STATIC_HTLC_CLAIM" ]; then
-                            FEE_STATIC_HTLC_CLAIM="$STATIC_HTLC_CLAIM"
-                        fi
-                        local STATIC_HTLC_REFUND=$(jq -r '.fees.static.htlcRefund // empty' "$CONFIG")
-                        if [ ! -z "$STATIC_HTLC_REFUND" ]; then
-                            FEE_STATIC_HTLC_LOCK="$STATIC_HTLC_REFUND"
-                        fi
                     fi
 
                     local DYNAMIC_FEES=$(jq -r '.fees.dynamic // empty' "$CONFIG")
@@ -170,18 +158,6 @@ parse_json_config()
                         if [ ! -z "$BYTES_IPFS" ]; then
                             FEE_DYNAMIC_BYTES_IPFS="$BYTES_IPFS"
                         fi
-                        local BYTES_HTLC_LOCK=$(jq -r '.fees.dynamic.addonBytes.htlcLock // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_HTLC_LOCK" ]; then
-                            FEE_DYNAMIC_BYTES_HTLC_LOCK="$BYTES_HTLC_LOCK"
-                        fi
-                        local BYTES_HTLC_CLAIM=$(jq -r '.fees.dynamic.addonBytes.htlcClaim // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_HTLC_CLAIM" ]; then
-                            FEE_DYNAMIC_BYTES_HTLC_CLAIM="$BYTES_HTLC_CLAIM"
-                        fi
-                        local BYTES_HTLC_REFUND=$(jq -r '.fees.dynamic.addonBytes.htlcRefund // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_HTLC_REFUND" ]; then
-                            FEE_DYNAMIC_BYTES_HTLC_REFUND="$BYTES_HTLC_REFUND"
-                        fi
                         local BYTES_MULTIPAYMENT=$(jq -r '.fees.dynamic.addonBytes.multiPayment // empty' "$CONFIG")
                         if [ ! -z "$BYTES_MULTIPAYMENT" ]; then
                             FEE_DYNAMIC_BYTES_MULTIPAYMENT="$BYTES_MULTIPAYMENT"
@@ -189,30 +165,6 @@ parse_json_config()
                         local BYTES_DELEGATE_RESIGNATION=$(jq -r '.fees.dynamic.addonBytes.delegateResignation // empty' "$CONFIG")
                         if [ ! -z "$BYTES_DELEGATE_RESIGNATION" ]; then
                             FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$BYTES_DELEGATE_RESIGNATION"
-                        fi
-                        local BYTES_BUSINESS_REGISTRATION=$(jq -r '.fees.dynamic.addonBytes.businessRegistration // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BUSINESS_REGISTRATION" ]; then
-                            FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$BYTES_BUSINESS_REGISTRATION"
-                        fi
-                        local BYTES_BUSINESS_UPDATE=$(jq -r '.fees.dynamic.addonBytes.businessUpdate // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BUSINESS_UPDATE" ]; then
-                            FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$BYTES_BUSINESS_UPDATE"
-                        fi
-                        local BYTES_BUSINESS_RESIGNATION=$(jq -r '.fees.dynamic.addonBytes.businessResignation // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BUSINESS_RESIGNATION" ]; then
-                            FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION="$BYTES_BUSINESS_RESIGNATION"
-                        fi
-                        local BYTES_BRIDGECHAIN_REGISTRATION=$(jq -r '.fees.dynamic.addonBytes.bridgechainRegistration // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BRIDGECHAIN_REGISTRATION" ]; then
-                            FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$BYTES_BRIDGECHAIN_REGISTRATION"
-                        fi
-                        local BYTES_BRIDGECHAIN_UPDATE=$(jq -r '.fees.dynamic.addonBytes.bridgechainUpdate // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BRIDGECHAIN_UPDATE" ]; then
-                            FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$BYTES_BRIDGECHAIN_UPDATE"
-                        fi
-                        local BYTES_BRIDGECHAIN_RESIGNATION=$(jq -r '.fees.dynamic.addonBytes.bridgechainResignation // empty' "$CONFIG")
-                        if [ ! -z "$BYTES_BRIDGECHAIN_RESIGNATION" ]; then
-                            FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION="$BYTES_BRIDGECHAIN_RESIGNATION"
                         fi
                     fi
                 ;;
@@ -525,15 +477,7 @@ parse_core_args()
             "--fee-static-delegate-resignation")
                 FEE_STATIC_DELEGATE_RESIGNATION="$2"
             ;;
-            "--fee-static-htlc-lock")
-                FEE_STATIC_HTLC_LOCK="$2"
-            ;;
-            "--fee-static-htlc-claim")
-                FEE_STATIC_HTLC_CLAIM="$2"
-            ;;
-            "--fee-static-htlc-refund")
-                FEE_STATIC_HTLC_REFUND="$2"
-            ;;
+
             ## Dynamic Fees
             "--fee-dynamic-enabled")
                 FEE_DYNAMIC_ENABLED="Y"
@@ -562,38 +506,11 @@ parse_core_args()
             "--fee-dynamic-bytes-ipfs")
                 FEE_DYNAMIC_BYTES_IPFS="$2"
             ;;
-            "--fee-dynamic-bytes-htlc-lock")
-                FEE_DYNAMIC_BYTES_HTLC_LOCK="$2"
-            ;;
-            "--fee-dynamic-bytes-htlc-claim")
-                FEE_DYNAMIC_BYTES_HTLC_CLAIM="$2"
-            ;;
-            "--fee-dynamic-bytes-htlc-refund")
-                FEE_DYNAMIC_BYTES_HTLC_REFUND="$2"
-            ;;
             "--fee-dynamic-bytes-multipayment")
                 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$2"
             ;;
             "--fee-dynamic-bytes-delegate-resignation")
                 FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$2"
-            ;;
-            "--fee-dynamic-bytes-business-registration")
-                FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$2"
-            ;;
-            "--fee-dynamic-bytes-business-update")
-                FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$2"
-            ;;
-            "--fee-dynamic-bytes-business-resignation")
-                FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION="$2"
-            ;;
-            "--fee-dynamic-bytes-bridgechain-registration")
-                FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$2"
-            ;;
-            "--fee-dynamic-bytes-bridgechain-update")
-                FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$2"
-            ;;
-            "--fee-dynamic-bytes-bridgechain-resignation")
-                FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION="$2"
             ;;
         esac
         shift
@@ -644,9 +561,6 @@ FEE_STATIC_MULTISIG_REGISTRATION="$FEE_STATIC_MULTISIG_REGISTRATION"
 FEE_STATIC_IPFS="$FEE_STATIC_IPFS"
 FEE_STATIC_MULTIPAYMENT="$FEE_STATIC_MULTIPAYMENT"
 FEE_STATIC_DELEGATE_RESIGNATION="$FEE_STATIC_DELEGATE_RESIGNATION"
-FEE_STATIC_HTLC_LOCK="$FEE_STATIC_HTLC_LOCK"
-FEE_STATIC_HTLC_CLAIM="$FEE_STATIC_HTLC_CLAIM"
-FEE_STATIC_HTLC_REFUND="$FEE_STATIC_HTLC_REFUND"
 FEE_DYNAMIC_ENABLED="$FEE_DYNAMIC_ENABLED"
 FEE_DYNAMIC_POOL_MIN_FEE="$FEE_DYNAMIC_POOL_MIN_FEE"
 FEE_DYNAMIC_BROADCAST_MIN_FEE="$FEE_DYNAMIC_BROADCAST_MIN_FEE"
@@ -656,17 +570,8 @@ FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATION="$FEE_DYNAMIC_BYTES_DELEGATE_REGISTRATIO
 FEE_DYNAMIC_BYTES_VOTE="$FEE_DYNAMIC_BYTES_VOTE"
 FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION="$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION"
 FEE_DYNAMIC_BYTES_IPFS="$FEE_DYNAMIC_BYTES_IPFS"
-FEE_DYNAMIC_BYTES_HTLC_LOCK="$FEE_DYNAMIC_BYTES_HTLC_LOCK"
-FEE_DYNAMIC_BYTES_HTLC_CLAIM="$FEE_DYNAMIC_BYTES_HTLC_CLAIM"
-FEE_DYNAMIC_BYTES_HTLC_REFUND="$FEE_DYNAMIC_BYTES_HTLC_REFUND"
 FEE_DYNAMIC_BYTES_MULTIPAYMENT="$FEE_DYNAMIC_BYTES_MULTIPAYMENT"
 FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION="$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION"
-FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION="$FEE_DYNAMIC_BYTES_BUSINESS_REGISTRATION"
-FEE_DYNAMIC_BYTES_BUSINESS_UPDATE="$FEE_DYNAMIC_BYTES_BUSINESS_UPDATE"
-FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION="$FEE_DYNAMIC_BYTES_BUSINESS_RESIGNATION"
-FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION="$FEE_DYNAMIC_BYTES_BRIDGECHAIN_REGISTRATION"
-FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE="$FEE_DYNAMIC_BYTES_BRIDGECHAIN_UPDATE"
-FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION="$FEE_DYNAMIC_BYTES_BRIDGECHAIN_RESIGNATION"
 FORGERS="$FORGERS"
 BLOCK_TIME="$BLOCK_TIME"
 TXS_PER_BLOCK="$TXS_PER_BLOCK"

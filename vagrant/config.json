@@ -26,10 +26,7 @@
             "multiSignature": 500000000,
             "ipfs": 500000000,
             "multiPayment": 10000000,
-            "delegateResignation": 2500000000,
-            "htlcLock": 10000000,
-            "htlcClaim": 0,
-            "htlcRefund": 0
+            "delegateResignation": 2500000000
         },
         "dynamic": {
             "enabled": false,
@@ -42,17 +39,8 @@
                 "vote": 100,
                 "multiSignature": 500,
                 "ipfs": 250,
-                "htlcLock": 500,
-                "htlcClaim": 0,
-                "htlcRefund": 0,
                 "multiPayment": 500,
-                "delegateResignation": 400000,
-                "businessRegistration": 4000000,
-                "businessUpdate": 500,
-                "businessResignation": 100,
-                "bridgechainRegistration": 4000000,
-                "bridgechainUpdate": 500,
-                "bridgechainResignation": 100
+                "delegateResignation": 400000
             }
         }
     },
@@ -60,7 +48,7 @@
     "blocktime": 16,
     "transactionsPerBlock": 500,
     "totalPremine": 2100000000000000,
-    "rewardHeightStart": 100,
+    "rewardHeightStart": 10,
     "rewardPerBlock": 200000000,
     "vendorFieldLength": 255,
     "bridgechainPath": "$HOME/core-bridgechain",

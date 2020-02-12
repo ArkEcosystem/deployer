@@ -11,8 +11,6 @@ const GenesisBlockBuilder = require("../lib/builder/genesis-block");
 const getRandomNumber = require("../lib/utils/get-random-number");
 const logger = require("../lib/utils/logger");
 const updateConfig = require("../lib/utils/update-config");
-const writeEnv = require("../lib/utils/write-env");
-const { Managers } = require("@arkecosystem/crypto");
 
 commander
   .version(require("../package.json").version)
@@ -126,21 +124,6 @@ commander
     "Fee for Delegate Resignation Transaction",
     2500000000
   )
-  .option(
-    "--feeStaticHtlcLock <value>",
-    "Fee for HTLC Lock Transaction",
-    10000000
-  )
-  .option(
-    "--feeStaticHtlcClaim <value>",
-    "Fee for HTLC Claim Transaction",
-    0
-  )
-  .option(
-    "--feeStaticHtlcRefund <value>",
-    "Fee for HTLC Refund Transaction",
-    0
-  )
   // Dynamic Fees
   .option("--feeDynamicEnabled <value>", "Dynamic Fees enabled", false)
   .option(
@@ -184,21 +167,6 @@ commander
     250
   )
   .option(
-    "--feeDynamicBytesHtlcLock <value>",
-    "Fee Bytes for HTLC Lock transaction",
-    500
-  )
-  .option(
-    "--feeDynamicBytesHtlcClaim <value>",
-    "Fee Bytes for HTLC Claim transaction",
-    0
-  )
-  .option(
-    "--feeDynamicBytesHtlcRefund <value>",
-    "Fee Bytes for HTLC Refund transaction",
-    0
-  )
-  .option(
     "--feeDynamicBytesMultiPayment <value>",
     "Fee Bytes for Multi-Payment transaction",
     500
@@ -207,36 +175,6 @@ commander
     "--feeDynamicBytesDelegateResignation <value>",
     "Fee Bytes for Delegate Resignation transaction",
     400000
-  )
-  .option(
-    "--feeDynamicBytesBusinessRegistration <value>",
-    "Fee Bytes for Business Registration transaction",
-    4000000
-  )
-  .option(
-    "--feeDynamicBytesBusinessUpdate <value>",
-    "Fee Bytes for Business Update transaction",
-    500
-  )
-  .option(
-    "--feeDynamicBytesBusinessResignation <value>",
-    "Fee Bytes for Business Resignation transaction",
-    100
-  )
-  .option(
-    "--feeDynamicBytesBridgechainRegistration <value>",
-    "Fee Bytes for Bridgechain Registration transaction",
-    4000000
-  )
-  .option(
-    "--feeDynamicBytesBridgechainUpdate <value>",
-    "Fee Bytes for Bridgechain Update transaction",
-    500
-  )
-  .option(
-    "--feeDynamicBytesBridgechainResignation <value>",
-    "Fee Bytes for Bridgechain Resignation transaction",
-    100
   )
   .parse(process.argv);
 
@@ -338,17 +276,8 @@ let milestones = [
     fees: {
       staticFees: {
         ipfs: options.feeStaticIpfs,
-        htlcLock: options.feeStaticIpfs,
-        htlcClaim: options.feeStaticIpfs,
-        htlcRefund: options.feeStaticIpfs,
-        multiPayment: options.feeStaticIpfs,
-        delegateResignation: options.feeStaticIpfs,
-        businessRegistration: options.feeStaticIpfs,
-        businessUpdate: options.feeStaticIpfs,
-        businessResignation: options.feeStaticIpfs,
-        bridgechainRegistration: options.feeStaticIpfs,
-        bridgechainUpdate: options.feeStaticIpfs,
-        bridgechainResignation: options.feeStaticIpfs
+        multiPayment: options.feeStaticMultiPayment,
+        delegateResignation: options.feeStaticDelegateResignation
       }
     }
   }
@@ -531,48 +460,12 @@ const pluginsToUpdate = [
     to: `$1${options.feeDynamicBytesIpfs}`
   },
   {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcLock: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesHtlcLock}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcClaim: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesHtlcClaim}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*htlcRefund: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesHtlcRefund}`
-  },
-  {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*multiPayment: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesMultiPayment}`
   },
   {
     from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesDelegateResignation}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessRegistration: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBusinessRegistration}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessUpdate: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBusinessUpdate}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*businessResignation: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBusinessResignation}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*bridgechainRegistration: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBridgechainRegistration}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*bridgechainUpdate: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBridgechainUpdate}`
-  },
-  {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*bridgechainResignation: )([0-9]+)/g,
-    to: `$1${options.feeDynamicBytesBridgechainResignation}`
   }
 ];
 

@@ -48,9 +48,6 @@ module.exports = Joi.object().keys({
     feeStaticIpfs: Joi.number().required(),
     feeStaticMultiPayment: Joi.number().required(),
     feeStaticDelegateResignation: Joi.number().required(),
-    feeStaticHtlcLock: Joi.number().required(),
-    feeStaticHtlcClaim: Joi.number().required(),
-    feeStaticHtlcRefund: Joi.number().required(),
     // Dynamic Fees
     feeDynamicEnabled: Joi.boolean().required(),
     feeDynamicPoolMinFee: Joi.number().required(),
@@ -61,15 +58,6 @@ module.exports = Joi.object().keys({
     feeDynamicBytesVote: Joi.number().required(),
     feeDynamicBytesMultiSignature: Joi.number().required(),
     feeDynamicBytesIpfs: Joi.number().required(),
-    feeDynamicBytesHtlcLock: Joi.number().required(),
-    feeDynamicBytesHtlcClaim: Joi.number().required(),
-    feeDynamicBytesHtlcRefund: Joi.number().required(),
     feeDynamicBytesMultiPayment: Joi.number().required(),
-    feeDynamicBytesDelegateResignation: Joi.number().required(),
-    feeDynamicBytesBusinessRegistration: Joi.number().required(),
-    feeDynamicBytesBusinessUpdate: Joi.number().required(),
-    feeDynamicBytesBusinessResignation: Joi.number().required(),
-    feeDynamicBytesBridgechainRegistration: Joi.number().required(),
-    feeDynamicBytesBridgechainUpdate: Joi.number().required(),
-    feeDynamicBytesBridgechainResignation: Joi.number().required()
+    feeDynamicBytesDelegateResignation: Joi.number().required()
 });

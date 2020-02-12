@@ -30,6 +30,7 @@ module.exports = class GenesisBlockBuilder {
   generate() {
     Managers.configManager.setConfig(this.config);
     Managers.configManager.setHeight(1);
+
     const genesisWallet = this.__createWallet()
     const premineWallet = this.__createWallet()
     const delegates = this.__buildDelegates()
@@ -114,7 +115,6 @@ module.exports = class GenesisBlockBuilder {
       .transfer()
       .recipientId(receiverWallet.address)
       .amount(amount)
-      //.network(this.prefixHash)
       .sign(senderWallet.passphrase)
       .build()
 
@@ -132,7 +132,6 @@ module.exports = class GenesisBlockBuilder {
       .delegateRegistration()
       .amount(Utils.BigNumber.ZERO)
       .usernameAsset(wallet.username)
-      //.network(this.prefixHash)
       .sign(wallet.passphrase)
       .build()
 
@@ -148,7 +147,6 @@ module.exports = class GenesisBlockBuilder {
   __formatGenesisTransaction(transaction, wallet) {
     Object.assign(transaction, {
       fee: Utils.BigNumber.ZERO,
-      //timestamp: 0,
       senderId: wallet.address,
     })
 

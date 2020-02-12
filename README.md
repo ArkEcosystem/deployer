@@ -106,17 +106,8 @@ source setup.sh
     --fee-dynamic-bytes-vote - Adjust fee calculation for votes with additional bytes [100]
     --fee-dynamic-bytes-multisig-registration - Adjust fee calculation for multisig registrations with additional bytes [500]
     --fee-dynamic-bytes-ipfs - Adjust fee calculation for IPFS transactions with additional bytes [250]
-    --fee-dynamic-bytes-htlc-lock - Adjust fee calculation for HTLC lock transactions with additional bytes [500]
-    --fee-dynamic-bytes-htlc-claim - Adjust fee calculation for HTLC claim transactions with additional bytes [0]
-    --fee-dynamic-bytes-htlc-refund - Adjust fee calculation for HTLC refund transactions with additional bytes [0]
     --fee-dynamic-bytes-multipayment - Adjust fee calculation for multi-payments with additional bytes [500]
     --fee-dynamic-bytes-delegate-resignation - Adjust fee calculation for delegate resignations with additional bytes [400000]
-    --fee-dynamic-bytes-business-registration - Adjust fee calculation for business registration with additional bytes [4000000]
-    --fee-dynamic-bytes-business-update - Adjust fee calculation for business update with additional bytes [500]
-    --fee-dynamic-bytes-business-resignation - Adjust fee calculation for business resignation with additional bytes [100]
-    --fee-dynamic-bytes-bridgechain-registration - Adjust fee calculation for bridgechain registration with additional bytes [4000000]
-    --fee-dynamic-bytes-bridgechain-update - Adjust fee calculation for bridgechain update with additional bytes [500]
-    --fee-dynamic-bytes-bridgechain-resignation - Adjust fee calculation for bridgechain resignation with additional bytes [100]
 
 ###### Generic
 
