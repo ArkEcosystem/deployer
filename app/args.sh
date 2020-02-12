@@ -106,6 +106,30 @@ parse_json_config()
                         if [ ! -z "$STATIC_MULTISIG_REGISTRATION" ]; then
                             FEE_STATIC_MULTISIG_REGISTRATION="$STATIC_MULTISIG_REGISTRATION"
                         fi
+                        local STATIC_IPFS=$(jq -r '.fees.static.ipfs // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_IPFS" ]; then
+                            FEE_STATIC_IPFS="$STATIC_IPFS"
+                        fi
+                        local STATIC_MULTIPAYMENT=$(jq -r '.fees.static.multipayment // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_MULTIPAYMENT" ]; then
+                            FEE_STATIC_MULTIPAYMENT="$STATIC_MULTIPAYMENT"
+                        fi
+                        local STATIC_DELEGATE_RESIGNATION=$(jq -r '.fees.static.delegateResignation // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_DELEGATE_RESIGNATION" ]; then
+                            FEE_STATIC_DELEGATE_RESIGNATION="$STATIC_DELEGATE_RESIGNATION"
+                        fi
+                        local STATIC_HTLC_LOCK=$(jq -r '.fees.static.htlcLock // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_HTLC_LOCK" ]; then
+                            FEE_STATIC_HTLC_LOCK="$STATIC_HTLC_LOCK"
+                        fi
+                        local STATIC_HTLC_CLAIM=$(jq -r '.fees.static.htlcClaim // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_HTLC_CLAIM" ]; then
+                            FEE_STATIC_HTLC_CLAIM="$STATIC_HTLC_CLAIM"
+                        fi
+                        local STATIC_HTLC_REFUND=$(jq -r '.fees.static.htlcRefund // empty' "$CONFIG")
+                        if [ ! -z "$STATIC_HTLC_REFUND" ]; then
+                            FEE_STATIC_HTLC_LOCK="$STATIC_HTLC_REFUND"
+                        fi
                     fi
 
                     local DYNAMIC_FEES=$(jq -r '.fees.dynamic // empty' "$CONFIG")
@@ -492,6 +516,24 @@ parse_core_args()
             "--fee-static-multisig-registration")
                 FEE_STATIC_MULTISIG_REGISTRATION="$2"
             ;;
+            "--fee-static-ipfs")
+                FEE_STATIC_IPFS="$2"
+            ;;
+            "--fee-static-multipayment")
+                FEE_STATIC_MULTIPAYMENT="$2"
+            ;;
+            "--fee-static-delegate-resignation")
+                FEE_STATIC_DELEGATE_RESIGNATION="$2"
+            ;;
+            "--fee-static-htlc-lock")
+                FEE_STATIC_HTLC_LOCK="$2"
+            ;;
+            "--fee-static-htlc-claim")
+                FEE_STATIC_HTLC_CLAIM="$2"
+            ;;
+            "--fee-static-htlc-refund")
+                FEE_STATIC_HTLC_REFUND="$2"
+            ;;
             ## Dynamic Fees
             "--fee-dynamic-enabled")
                 FEE_DYNAMIC_ENABLED="Y"
@@ -599,6 +641,12 @@ FEE_STATIC_VOTE="$FEE_STATIC_VOTE"
 FEE_STATIC_SECOND_SIGNATURE="$FEE_STATIC_SECOND_SIGNATURE"
 FEE_STATIC_DELEGATE_REGISTRATION="$FEE_STATIC_DELEGATE_REGISTRATION"
 FEE_STATIC_MULTISIG_REGISTRATION="$FEE_STATIC_MULTISIG_REGISTRATION"
+FEE_STATIC_IPFS="$FEE_STATIC_IPFS"
+FEE_STATIC_MULTIPAYMENT="$FEE_STATIC_MULTIPAYMENT"
+FEE_STATIC_DELEGATE_RESIGNATION="$FEE_STATIC_DELEGATE_RESIGNATION"
+FEE_STATIC_HTLC_LOCK="$FEE_STATIC_HTLC_LOCK"
+FEE_STATIC_HTLC_CLAIM="$FEE_STATIC_HTLC_CLAIM"
+FEE_STATIC_HTLC_REFUND="$FEE_STATIC_HTLC_REFUND"
 FEE_DYNAMIC_ENABLED="$FEE_DYNAMIC_ENABLED"
 FEE_DYNAMIC_POOL_MIN_FEE="$FEE_DYNAMIC_POOL_MIN_FEE"
 FEE_DYNAMIC_BROADCAST_MIN_FEE="$FEE_DYNAMIC_BROADCAST_MIN_FEE"

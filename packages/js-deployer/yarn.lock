@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@arkecosystem/crypto@^2.6.0-next.9":
-  version "2.6.0-next.9"
-  resolved "https://registry.yarnpkg.com/@arkecosystem/crypto/-/crypto-2.6.0-next.9.tgz#273a97098057ae9dbbdd433fc8e32ee1de1bd471"
-  integrity sha512-C/zTe3ekYwD4mfeX/He5TSuwEwNrCWI/umtEhHP5wEMBY+rCJIPEr0WjSvnTVlIuM68hQ99j2VWRksoB3xDSIQ==
+"@arkecosystem/crypto@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@arkecosystem/crypto/-/crypto-2.6.1.tgz#a5bc60cf943fb6ecd2ccd41040d8c4cd61b75434"
+  integrity sha512-e81QnKCuJI0CEbTU4Bcg23o7ltu/OIAZlodwZJatAgu2uP7T0sfX/S1McZ5riUuuaAwDrlhiKSweiILXiNRCbg==
   dependencies:
     "@arkecosystem/utils" "0.8.3"
     ajv "^6.10.2"

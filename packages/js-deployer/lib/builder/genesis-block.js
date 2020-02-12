@@ -28,12 +28,8 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   generate() {
-    console.log("WITHIN GENERATE GENESIS");
-    console.log(this.network)
-    console.log(this.config)
     Managers.configManager.setConfig(this.config);
     Managers.configManager.setHeight(1);
-
     const genesisWallet = this.__createWallet()
     const premineWallet = this.__createWallet()
     const delegates = this.__buildDelegates()
@@ -156,7 +152,6 @@ module.exports = class GenesisBlockBuilder {
       senderId: wallet.address,
     })
 
-    //transaction.version = Utils.BigNumber.make(2)
     transaction.nonce = Utils.BigNumber.make(1)
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)

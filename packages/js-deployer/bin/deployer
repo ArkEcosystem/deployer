@@ -111,6 +111,36 @@ commander
     "Fee for Multisignature Transaction",
     500000000
   )
+  .option(
+    "--feeStaticIpfs <value>",
+    "Fee for IPFS Transaction",
+    500000000
+  )
+  .option(
+    "--feeStaticMultiPayment <value>",
+    "Fee for MultiPayment Transaction",
+    10000000
+  )
+  .option(
+    "--feeStaticDelegateResignation <value>",
+    "Fee for Delegate Resignation Transaction",
+    2500000000
+  )
+  .option(
+    "--feeStaticHtlcLock <value>",
+    "Fee for HTLC Lock Transaction",
+    10000000
+  )
+  .option(
+    "--feeStaticHtlcClaim <value>",
+    "Fee for HTLC Claim Transaction",
+    0
+  )
+  .option(
+    "--feeStaticHtlcRefund <value>",
+    "Fee for HTLC Refund Transaction",
+    0
+  )
   // Dynamic Fees
   .option("--feeDynamicEnabled <value>", "Dynamic Fees enabled", false)
   .option(
@@ -297,31 +327,33 @@ let milestones = [
         secondSignature: options.feeStaticSecondSignature,
         delegateRegistration: options.feeStaticDelegateRegistration,
         vote: options.feeStaticVote,
-        multiSignature: options.feeStaticMultiSignature,
-        ipfs: 0,
-        htlcLock: 0,
-        htlcClaim: 0,
-        htlcRefund: 0,
-        multiPayment: 0,
-        delegateResignation: 0,
-        businessRegistration: 0,
-        businessUpdate: 0,
-        businessResignation: 0,
-        bridgechainRegistration: 0,
-        bridgechainUpdate: 0,
-        bridgechainResignation: 0
+        multiSignature: options.feeStaticMultiSignature
       }
     },
-    aip11: true
-    //htlcEnabled: options.htlcEnabled
+    htlcEnabled: false
+  },
+  {
+    height: 2,
+    aip11: true,
+    fees: {
+      staticFees: {
+        ipfs: options.feeStaticIpfs,
+        htlcLock: options.feeStaticIpfs,
+        htlcClaim: options.feeStaticIpfs,
+        htlcRefund: options.feeStaticIpfs,
+        multiPayment: options.feeStaticIpfs,
+        delegateResignation: options.feeStaticIpfs,
+        businessRegistration: options.feeStaticIpfs,
+        businessUpdate: options.feeStaticIpfs,
+        businessResignation: options.feeStaticIpfs,
+        bridgechainRegistration: options.feeStaticIpfs,
+        bridgechainUpdate: options.feeStaticIpfs,
+        bridgechainResignation: options.feeStaticIpfs
+      }
+    }
   }
 ];
 
-/*
-if (options.htlcEnabled) {
-  milestones[0].htlcEnabled = options.htlcEnabled;
-}
-*/
 // Update milestones config
 if (options.rewardHeight <= 1) {
   milestones[0].reward = options.rewardPerBlock;
@@ -350,15 +382,10 @@ let config = {
   milestones: milestones,
   network: networkConfig
 };
-
 // Update network config
 networkConfig = updateConfig("network.json", networkConfig, cryptoNetworkPath);
 
-const genesis = new GenesisBlockBuilder(
-  networkConfig,
-  options,
-  config
-).generate();
+const genesis = new GenesisBlockBuilder(networkConfig, options, config).generate();
 networkConfig.nethash = genesis.genesisBlock.payloadHash;
 
 updateConfig("network.json", networkConfig, cryptoNetworkPath);
@@ -387,7 +414,6 @@ updateConfig("peers.json", peerConfig, coreNetworkPath);
 updateConfig(
   "genesisBlock.json",
   genesis.genesisBlock,
-  //Managers.configManager.get("genesisBlock"),
   cryptoNetworkPath,
   true
 );
