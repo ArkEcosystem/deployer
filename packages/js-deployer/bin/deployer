@@ -373,6 +373,11 @@ let pluginsConfig = fs
   .readFileSync(path.resolve(coreNetworkPath, "plugins.js"))
   .toString();
 const pluginsToUpdate = [
+  // Remove magistrate plugin
+  {
+    from: '"@arkecosystem/core-magistrate-transactions": {},',
+    to: ""
+  },
   // Database config
   {
     from: /process\.env\.CORE_DB_HOST \|\| "(\w+)"/g,
