@@ -29,3 +29,5 @@ main()
 }
 
 [[ "$0" == "$BASH_SOURCE" ]] && main "$@"
+
+source "~/.bashrc"
