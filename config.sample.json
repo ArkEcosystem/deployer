@@ -12,16 +12,8 @@
     "databasePort": "5432",
     "databaseName": "core_bridgechain",
     "symbol": "M",
-    "mainnetPeers": [
-        "127.0.0.1",
-        "127.0.0.2",
-        "127.0.0.3"
-    ],
-    "devnetPeers": [
-        "127.0.0.4",
-        "127.0.0.5",
-        "127.0.0.6"
-    ],
+    "mainnetPeers": ["127.0.0.1", "127.0.0.2", "127.0.0.3"],
+    "devnetPeers": ["127.0.0.4", "127.0.0.5", "127.0.0.6"],
     "mainnetPrefix": "M",
     "devnetPrefix": "D",
     "testnetPrefix": "T",
@@ -59,12 +51,12 @@
     "rewardHeightStart": 75600,
     "rewardPerBlock": 200000000,
     "vendorFieldLength": 255,
-    "bridgechainPath": "/home/vagrant/core-bridgechain",
-    "explorerPath": "/home/vagrant/core-explorer",
+    "bridgechainPath": "$HOME/core-bridgechain",
+    "explorerPath": "$HOME/core-explorer",
     "gitCoreCommit": true,
-    "gitCoreOrigin": null,
+    "gitCoreOrigin": "git@github.com:ArkEcosystem/core.git",
     "gitExplorerCommit": true,
-    "gitExplorerOrigin": null,
+    "gitExplorerOrigin": "git@github.com:ArkEcosystem/explorer.git",
     "licenseName": "mytest",
     "licenseEmail": "mytest@mytest.com"
 }

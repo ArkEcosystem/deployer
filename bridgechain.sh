@@ -29,5 +29,3 @@ main()
 }
 
 [[ "$0" == "$BASH_SOURCE" ]] && main "$@"
-
-sudo reboot

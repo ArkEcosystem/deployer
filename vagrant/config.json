@@ -54,9 +54,9 @@
     "bridgechainPath": "$HOME/core-bridgechain",
     "explorerPath": "$HOME/core-explorer",
     "gitCoreCommit": true,
-    "gitCoreOrigin": "git@github.com:ArkEcosystem/vagrant-core.git",
+    "gitCoreOrigin": "git@github.com:ArkEcosystem/core.git",
     "gitExplorerCommit": true,
-    "gitExplorerOrigin": "git@github.com:ArkEcosystem/vagrant-explorer.git",
+    "gitExplorerOrigin": "git@github.com:ArkEcosystem/explorer.git",
     "licenseName": "MyTest Vagrant",
     "licenseEmail": "vagrant@mytest.com"
 }
