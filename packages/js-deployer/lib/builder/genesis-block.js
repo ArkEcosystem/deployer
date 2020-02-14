@@ -147,10 +147,10 @@ module.exports = class GenesisBlockBuilder {
   __formatGenesisTransaction(transaction, wallet) {
     Object.assign(transaction, {
       fee: Utils.BigNumber.ZERO,
+      timestamp: 0,
       senderId: wallet.address,
     })
 
-    transaction.nonce = Utils.BigNumber.make(1)
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)
 
