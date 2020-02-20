@@ -48,7 +48,7 @@
     "blocktime": 16,
     "transactionsPerBlock": 500,
     "totalPremine": 2100000000000000,
-    "rewardHeightStart": 10,
+    "rewardHeightStart": 100,
     "rewardPerBlock": 200000000,
     "vendorFieldLength": 255,
     "bridgechainPath": "$HOME/core-bridgechain",
