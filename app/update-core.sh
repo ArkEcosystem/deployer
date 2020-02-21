@@ -48,7 +48,7 @@ update_core_handle()
 
 update_core_resolve_vars()
 {
-	TARGET_VERSION="2.5.28"
+	TARGET_VERSION="2.6.10"
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
@@ -144,7 +144,7 @@ update_core_make_update_relay_script()
 	sed -i "s@REPLACE_WITH_TARGET_BRANCH@$current_branch@g" "$update_script_path"
 	sed -i "s@REPLACE_WITH_TARGET_VERSION@$TARGET_VERSION@g" "$update_script_path"
 	sed -i "s@REPLACE_WITH_CHAIN_NAME@$CHAIN_NAME@g" "$update_script_path"
-	
+
 	git add "$BRIDGECHAIN_PATH/upgrade/$TARGET_VERSION/update.sh"
 }
 

@@ -105,7 +105,7 @@ app_install_core()
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
-    git clone https://github.com/ArkEcosystem/core.git --branch 2.5.28 "$BRIDGECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/core.git --branch 2.6.10 --single-branch "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
@@ -134,6 +134,9 @@ app_install_core()
                                           --feeStaticSecondSignature "$FEE_STATIC_SECOND_SIGNATURE" \
                                           --feeStaticDelegateRegistration "$FEE_STATIC_DELEGATE_REGISTRATION" \
                                           --feeStaticMultiSignature "$FEE_STATIC_MULTISIG_REGISTRATION" \
+                                          --feeStaticIpfs "$FEE_STATIC_IPFS" \
+                                          --feeStaticMultiPayment "$FEE_STATIC_MULTIPAYMENT" \
+                                          --feeStaticDelegateResignation "$FEE_STATIC_DELEGATE_RESIGNATION" \
                                           --feeDynamicEnabled "$DYNAMIC_FEE_ENABLED" \
                                           --feeDynamicPoolMinFee "$FEE_DYNAMIC_POOL_MIN_FEE" \
                                           --feeDynamicBroadcastMinFee "$FEE_DYNAMIC_BROADCAST_MIN_FEE" \
@@ -143,7 +146,6 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -179,6 +181,9 @@ app_install_core()
                                           --feeStaticSecondSignature "$FEE_STATIC_SECOND_SIGNATURE" \
                                           --feeStaticDelegateRegistration "$FEE_STATIC_DELEGATE_REGISTRATION" \
                                           --feeStaticMultiSignature "$FEE_STATIC_MULTISIG_REGISTRATION" \
+                                          --feeStaticIpfs "$FEE_STATIC_IPFS" \
+                                          --feeStaticMultiPayment "$FEE_STATIC_MULTIPAYMENT" \
+                                          --feeStaticDelegateResignation "$FEE_STATIC_DELEGATE_RESIGNATION" \
                                           --feeDynamicEnabled "$DYNAMIC_FEE_ENABLED" \
                                           --feeDynamicPoolMinFee "$FEE_DYNAMIC_POOL_MIN_FEE" \
                                           --feeDynamicBroadcastMinFee "$FEE_DYNAMIC_BROADCAST_MIN_FEE" \
@@ -188,7 +193,6 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
                                           --rewardHeight "$REWARD_HEIGHT_START" \
@@ -224,6 +228,9 @@ app_install_core()
                                           --feeStaticSecondSignature "$FEE_STATIC_SECOND_SIGNATURE" \
                                           --feeStaticDelegateRegistration "$FEE_STATIC_DELEGATE_REGISTRATION" \
                                           --feeStaticMultiSignature "$FEE_STATIC_MULTISIG_REGISTRATION" \
+                                          --feeStaticIpfs "$FEE_STATIC_IPFS" \
+                                          --feeStaticMultiPayment "$FEE_STATIC_MULTIPAYMENT" \
+                                          --feeStaticDelegateResignation "$FEE_STATIC_DELEGATE_RESIGNATION" \
                                           --feeDynamicEnabled "$DYNAMIC_FEE_ENABLED" \
                                           --feeDynamicPoolMinFee "$FEE_DYNAMIC_POOL_MIN_FEE" \
                                           --feeDynamicBroadcastMinFee "$FEE_DYNAMIC_BROADCAST_MIN_FEE" \
@@ -233,10 +240,8 @@ app_install_core()
                                           --feeDynamicBytesVote "$FEE_DYNAMIC_BYTES_VOTE" \
                                           --feeDynamicBytesMultiSignature "$FEE_DYNAMIC_BYTES_MULTISIG_REGISTRATION" \
                                           --feeDynamicBytesIpfs "$FEE_DYNAMIC_BYTES_IPFS" \
-                                          --feeDynamicBytesTimelockTransfer "$FEE_DYNAMIC_BYTES_TIMELOCK_TRANSFER" \
                                           --feeDynamicBytesMultiPayment "$FEE_DYNAMIC_BYTES_MULTIPAYMENT" \
                                           --feeDynamicBytesDelegateResignation "$FEE_DYNAMIC_BYTES_DELEGATE_RESIGNATION" \
-                                          --rewardHeight "$REWARD_HEIGHT_START" \
                                           --rewardPerBlock "$REWARD_PER_BLOCK" \
                                           --vendorFieldLength "$VENDORFIELD_LENGTH" \
                                           --blocktime "$BLOCK_TIME" \
@@ -321,7 +326,6 @@ rm -rf "\$HOME/.config/${CORE_ALIAS}-core"
 EOM
             COMMANDS=$(echo "$COMMANDS" | tr '\n' '\r')
             sed -i "s/ARK Core/Core/gi" "$BRIDGECHAIN_PATH/install.sh"
-
             LINE_NO_START=$(($(egrep -hn "^while.+yarn global add @arkecosystem/core.+do" "$BRIDGECHAIN_PATH/install.sh" | cut -f1 -d:)+1))
             LINE_NO_END=$(($LINE_NO_START+4))
             sed -i "${LINE_NO_START},${LINE_NO_END}d" "$BRIDGECHAIN_PATH/install.sh"

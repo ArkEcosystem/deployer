@@ -9,7 +9,7 @@ sudo mount -o remount,rw /vagrant/vagrant /vagrant
 sudo apt-get update && sudo apt-get install -y jq git curl software-properties-common
 
 ## Install NodeJS & NPM
-curl -sL https://deb.nodesource.com/setup_11.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
 sudo apt-get update && sudo apt-get install nodejs
 
 ## Install Yarn

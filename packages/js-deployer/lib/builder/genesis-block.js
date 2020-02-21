@@ -1,4 +1,10 @@
-const { Identities, Transactions, Utils, Crypto } = require('@arkecosystem/crypto')
+const {
+    Identities,
+    Managers,
+    Transactions,
+    Utils,
+    Crypto
+} = require("@arkecosystem/crypto");
 const bip39 = require('bip39')
 const ByteBuffer = require('bytebuffer')
 const { createHash } = require('crypto')
@@ -9,11 +15,12 @@ module.exports = class GenesisBlockBuilder {
    * @param  {Object} options
    * @return {void}
    */
-  constructor(network, options) {
+  constructor(network, options, config) {
     this.network = network
     this.prefixHash = network.pubKeyHash
     this.totalPremine = options.totalPremine
     this.forgers = options.forgers
+    this.config = config
   }
 
   /**
@@ -21,6 +28,9 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   generate() {
+    Managers.configManager.setConfig(this.config);
+    Managers.configManager.setHeight(1);
+
     const genesisWallet = this.__createWallet()
     const premineWallet = this.__createWallet()
     const delegates = this.__buildDelegates()
@@ -105,8 +115,8 @@ module.exports = class GenesisBlockBuilder {
       .transfer()
       .recipientId(receiverWallet.address)
       .amount(amount)
-      .network(this.prefixHash)
       .sign(senderWallet.passphrase)
+      .build()
 
     return this.__formatGenesisTransaction(data, senderWallet)
   }
@@ -117,11 +127,13 @@ module.exports = class GenesisBlockBuilder {
    * @return {Object}
    */
   __createDelegateTransaction(wallet) {
+
     const { data } = Transactions.BuilderFactory
       .delegateRegistration()
       .amount(Utils.BigNumber.ZERO)
       .usernameAsset(wallet.username)
       .sign(wallet.passphrase)
+      .build()
 
     return this.__formatGenesisTransaction(data, wallet)
   }
@@ -138,6 +150,7 @@ module.exports = class GenesisBlockBuilder {
       timestamp: 0,
       senderId: wallet.address,
     })
+
     transaction.signature = Transactions.Signer.sign(transaction, wallet.keys)
     transaction.id = Transactions.Utils.getId(transaction)
 
@@ -211,7 +224,7 @@ module.exports = class GenesisBlockBuilder {
       blockBuffer[i] = hash[7 - i]
     }
 
-    return new Utils.BigNumber(blockBuffer.toString('hex'), 16).toString()
+    return Utils.BigNumber.make(`0x${blockBuffer.toString("hex")}`).toString();
   }
 
   /**

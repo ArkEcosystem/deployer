@@ -106,7 +106,6 @@ source setup.sh
     --fee-dynamic-bytes-vote - Adjust fee calculation for votes with additional bytes [100]
     --fee-dynamic-bytes-multisig-registration - Adjust fee calculation for multisig registrations with additional bytes [500]
     --fee-dynamic-bytes-ipfs - Adjust fee calculation for IPFS transactions with additional bytes [250]
-    --fee-dynamic-bytes-timelock-transfer - Adjust fee calculation for timelock transfers with additional bytes [500]
     --fee-dynamic-bytes-multipayment - Adjust fee calculation for multi-payments with additional bytes [500]
     --fee-dynamic-bytes-delegate-resignation - Adjust fee calculation for delegate resignations with additional bytes [400000]
 

@@ -12,16 +12,8 @@
     "databasePort": "5432",
     "databaseName": "core_bridgechain",
     "symbol": "M",
-    "mainnetPeers": [
-        "127.0.0.1",
-        "127.0.0.2",
-        "127.0.0.3"
-    ],
-    "devnetPeers": [
-        "127.0.0.4",
-        "127.0.0.5",
-        "127.0.0.6"
-    ],
+    "mainnetPeers": ["127.0.0.1", "127.0.0.2", "127.0.0.3"],
+    "devnetPeers": ["127.0.0.4", "127.0.0.5", "127.0.0.6"],
     "mainnetPrefix": "M",
     "devnetPrefix": "D",
     "testnetPrefix": "T",
@@ -31,7 +23,10 @@
             "vote": 100000000,
             "secondSignature": 500000000,
             "delegateRegistration": 2500000000,
-            "multiSignature": 500000000
+            "multiSignature": 500000000,
+            "ipfs": 500000000,
+            "multiPayment": 10000000,
+            "delegateResignation": 2500000000
         },
         "dynamic": {
             "enabled": false,
@@ -44,7 +39,6 @@
                 "vote": 100,
                 "multiSignature": 500,
                 "ipfs": 250,
-                "timelockTransfer": 500,
                 "multiPayment": 500,
                 "delegateResignation": 400000
             }
@@ -57,8 +51,8 @@
     "rewardHeightStart": 75600,
     "rewardPerBlock": 200000000,
     "vendorFieldLength": 255,
-    "bridgechainPath": "/home/vagrant/core-bridgechain",
-    "explorerPath": "/home/vagrant/core-explorer",
+    "bridgechainPath": "$HOME/core-bridgechain",
+    "explorerPath": "$HOME/core-explorer",
     "gitCoreCommit": true,
     "gitCoreOrigin": null,
     "gitExplorerCommit": true,
