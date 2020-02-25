@@ -109,11 +109,7 @@ commander
     "Fee for Multisignature Transaction",
     500000000
   )
-  .option(
-    "--feeStaticIpfs <value>",
-    "Fee for IPFS Transaction",
-    500000000
-  )
+  .option("--feeStaticIpfs <value>", "Fee for IPFS Transaction", 500000000)
   .option(
     "--feeStaticMultiPayment <value>",
     "Fee for MultiPayment Transaction",
@@ -314,7 +310,11 @@ let config = {
 // Update network config
 networkConfig = updateConfig("network.json", networkConfig, cryptoNetworkPath);
 
-const genesis = new GenesisBlockBuilder(networkConfig, options, config).generate();
+const genesis = new GenesisBlockBuilder(
+  networkConfig,
+  options,
+  config
+).generate();
 networkConfig.nethash = genesis.genesisBlock.payloadHash;
 
 updateConfig("network.json", networkConfig, cryptoNetworkPath);
@@ -469,8 +469,44 @@ const pluginsToUpdate = [
     to: `$1${options.feeDynamicBytesMultiPayment}`
   },
   {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)/g,
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)(,)/g,
     to: `$1${options.feeDynamicBytesDelegateResignation}`
+  },
+  {
+    from: /(htlcLock: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(htlcClaim: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(htlcRefund: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(businessRegistration: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(businessUpdate: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(businessResignation: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(bridgechainRegistration: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(bridgechainUpdate: )([0-9]+)(,\n)/g,
+    to: ""
+  },
+  {
+    from: /(bridgechainResignation: )([0-9]+)/g,
+    to: ""
   }
 ];
 
