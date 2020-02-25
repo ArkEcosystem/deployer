@@ -469,44 +469,23 @@ const pluginsToUpdate = [
     to: `$1${options.feeDynamicBytesMultiPayment}`
   },
   {
-    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)(,)/g,
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*delegateResignation: )([0-9]+)/g,
     to: `$1${options.feeDynamicBytesDelegateResignation}`
   },
+  // Remove HTLC fees
   {
-    from: /(htlcLock: )([0-9]+)(,\n)/g,
-    to: ""
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*,\n)([ ]*)(htlcLock: [0-9]+,\n[ ]*htlcClaim: [0-9]+,\n[ ]*htlcRefund: [0-9]+,\n)/g,
+    to: "$1"
   },
+  // Remove business fees
   {
-    from: /(htlcClaim: )([0-9]+)(,\n)/g,
-    to: ""
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*,\n)([ ]*)(businessRegistration: [0-9]+,\n[ ]*businessUpdate: [0-9]+,\n[ ]*businessResignation: [0-9]+,\n)/g,
+    to: "$1"
   },
+  // Remove bridgechain fees
   {
-    from: /(htlcRefund: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(businessRegistration: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(businessUpdate: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(businessResignation: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(bridgechainRegistration: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(bridgechainUpdate: )([0-9]+)(,\n)/g,
-    to: ""
-  },
-  {
-    from: /(bridgechainResignation: )([0-9]+)/g,
-    to: ""
+    from: /(dynamicFees: {[a-zA-Z0-9: ,\n{}]*addonBytes: {[a-zA-Z0-9: ,\n{}]*,\n)([ ]*)(bridgechainRegistration: [0-9]+,\n[ ]*bridgechainUpdate: [0-9]+,\n[ ]*bridgechainResignation: [0-9]+,\n)/g,
+    to: "$1"
   }
 ];
 
