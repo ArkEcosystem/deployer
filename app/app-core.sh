@@ -105,7 +105,7 @@ app_install_core()
 
     rm -rf "$CONFIG_PATH_MAINNET" "$CONFIG_PATH_DEVNET" "$CONFIG_PATH_TESTNET" "$BRIDGECHAIN_PATH"
 
-    git clone https://github.com/ArkEcosystem/core.git --branch 2.6.11 --single-branch "$BRIDGECHAIN_PATH"
+    git clone https://github.com/ArkEcosystem/core.git --branch 2.6.24 --single-branch "$BRIDGECHAIN_PATH"
 
     local DYNAMIC_FEE_ENABLED="false"
     if [[ "$FEE_DYNAMIC_ENABLED" == "Y" ]]; then
