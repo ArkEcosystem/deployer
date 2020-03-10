@@ -13,7 +13,7 @@
     "start": "./bin/deployer"
   },
   "dependencies": {
-    "@arkecosystem/crypto": "^2.6.24",
+    "@arkecosystem/crypto": "^2.6.25",
     "bip39": "^3.0.0",
     "bytebuffer": "^5.0.1",
     "commander": "^4.0.0",
