@@ -264,7 +264,8 @@ let milestones = [
         multiSignature: options.feeStaticMultiSignature
       }
     },
-    htlcEnabled: false
+    htlcEnabled: false,
+    vendorFieldLength: options.vendorFieldLength
   },
   {
     height: 2,
