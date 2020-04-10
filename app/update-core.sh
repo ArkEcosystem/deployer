@@ -48,7 +48,7 @@ update_core_handle()
 
 update_core_resolve_vars()
 {
-	TARGET_VERSION="2.6.30"
+	TARGET_VERSION="2.6.31"
 	BRIDGECHAIN_BIN=$(jq -r '.oclif.bin' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	CHAIN_VERSION=$(jq -r '.version' "$BRIDGECHAIN_PATH/packages/core/package.json")
 	NETWORKS_PATH="$BRIDGECHAIN_PATH/packages/crypto/src/networks"
