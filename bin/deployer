@@ -9,7 +9,6 @@ const os = require("os");
 const path = require("path");
 const GenesisBlockBuilder = require("../lib/builder/genesis-block");
 const getRandomNumber = require("../lib/utils/get-random-number");
-const logger = require("../lib/utils/logger");
 const updateConfig = require("../lib/utils/update-config");
 
 commander
@@ -181,7 +180,7 @@ const { error, value } = Joi.validate(commander, require("../lib/schema.js"), {
 });
 
 if (error) {
-  error.details.forEach(detail => logger.error(detail.message));
+  error.details.forEach(detail => console.error(detail.message));
   process.exit(1);
 }
 
@@ -193,7 +192,7 @@ if (fs.existsSync(options.configPath)) {
   if (options.overwriteConfig) {
     fs.removeSync(options.configPath);
   } else {
-    logger.error(
+    console.error(
       `Deployer config already exists in '${options.configPath}' - to overwrite, use the '--overwriteConfig' flag`
     );
     process.exit(1);
@@ -215,7 +214,7 @@ if (
   !fs.existsSync(oldCoreNetworkPath) ||
   !fs.existsSync(oldCryptoNetworkPath)
 ) {
-  logger.error(`Network '${options.network}' does not exist`);
+  console.error(`Network '${options.network}' does not exist`);
   process.exit(1);
 }
 

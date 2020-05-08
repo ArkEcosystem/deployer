@@ -6,9 +6,6 @@
     "Alex Barnsley <alex@ark.io>"
   ],
   "license": "MIT",
-  "bin": {
-    "ark:deployer": "./bin/deployer"
-  },
   "scripts": {
     "start": "./bin/deployer"
   },
@@ -17,13 +14,9 @@
     "bip39": "^3.0.0",
     "bytebuffer": "^5.0.1",
     "commander": "^4.0.0",
-    "envfile": "^4.0.0",
-    "expand-home-dir": "0.0.3",
     "fs-extra": "^8.0.0",
     "joi": "^14.3.0",
-    "lodash.set": "^4.3.2",
-    "pino": "^5.9.0",
-    "pino-pretty": "^3.0.0"
+    "lodash.set": "^4.3.2"
   },
   "publishConfig": {
     "access": "public"
