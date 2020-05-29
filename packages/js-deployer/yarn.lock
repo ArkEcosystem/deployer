@@ -93,13 +93,6 @@ ajv@^6.10.2:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ambi@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/ambi/-/ambi-6.4.0.tgz#3eb9cd70888503d06d4bd10f35cf0bfb42334e96"
-  integrity sha512-eMoOhqmD9FNSRdKG2LyEReBEeEGMOYM+2oNmLO0IOXjrPTRfxCGnsQiC/yIbnFNRPOyti54uFYA8NFW2PWfu/Q==
-  dependencies:
-    typechecker "^6.2.0"
-
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
@@ -317,13 +310,6 @@ deepmerge@^4.0.0, deepmerge@^4.2.2:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
   integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
 
-eachr@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/eachr/-/eachr-4.5.0.tgz#495eb3aab6a41811da1e04e510424df32075cf04"
-  integrity sha512-9I664RWp6p8jvcHZIwo7bWaiSaUmA1wNSLKwNZEiaYjqiTARq3cGjyRiIunsopZv4QMmX3T5Hs17QoPAzdYxfg==
-  dependencies:
-    typechecker "^6.2.0"
-
 elliptic@^6.4.0:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
@@ -344,14 +330,10 @@ end-of-stream@^1.1.0:
   dependencies:
     once "^1.4.0"
 
-envfile@^4.0.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/envfile/-/envfile-4.5.0.tgz#3ca690377714bee899cbcdf6503c01f37868b99b"
-  integrity sha512-y/RIRDYqbb4ng1PtH/VIsnUceo3vBgmOxhJvsh7rwnXokcQMyEV1R9e+so2SekbZise3OqmGFUuXpOL6yZgJ/w==
-  dependencies:
-    ambi "^6.4.0"
-    eachr "^4.5.0"
-    typechecker "^6.2.0"
+envfile@^6.0.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/envfile/-/envfile-6.2.0.tgz#d4830fc6bf551cbdf86c2652e491c70927cfe9e5"
+  integrity sha512-uBtjfjCuBa3HNHsMV3NB17/sZMNMLmdSWHczoGnvB9bAJanoZXjyKoWqEv30qN98Bk0F/sR3pFwOSjcxwnI6+w==
 
 escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -752,11 +734,6 @@ type-fest@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.12.0.tgz#f57a27ab81c68d136a51fd71467eff94157fa1ee"
   integrity sha512-53RyidyjvkGpnWPMF9bQgFtWp+Sl8O2Rp13VavmJgfAP9WWG6q6TkrKU8iyJdnwnfgHI6k2hTlgqH4aSdjoTbg==
-
-typechecker@^6.2.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/typechecker/-/typechecker-6.3.0.tgz#c8ee2fee30e1d1156d3063efb9d115c859c3cf5b"
-  integrity sha512-XZmZISfAzrzGHaC2nAwXyh/O1srpTIw/sFS5K0wGRIoWgc+bpGXJLkpI5VoZg9+2SwV6tFIS3WCb3l0bNitLag==
 
 typeforce@^1.11.5:
   version "1.18.0"
