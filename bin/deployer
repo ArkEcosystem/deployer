@@ -293,9 +293,12 @@ updateConfig("milestones.json", milestones, cryptoNetworkPath, true);
 
 let exceptions = {
   blocks: [],
+  blocksTransactions: {},
   transactions: [],
   outlookTable: {},
-  transactionIdFixTable: {}
+  transactionIdFixTable: {},
+  wrongTransactionOrder: {},
+  negativeBalances: {}
 };
 
 // Update exceptions config
