@@ -504,9 +504,10 @@ if (options.network === "testnet") {
 }
 
 if (options.network === "mainnet") {
-  let pluginsConfigObject = JSON.parse(pluginsConfig);
-  pluginsConfigObject["@arkecosystem/core-p2p"]['minimumNetworkReach'] = Math.ceil(options.forgers / 3);
-  pluginsConfig = JSON.stringify(pluginsConfigObject);
+  pluginsConfig = pluginsConfig.replace(
+    /(arkecosystem\/core-p2p: {) /g,
+    `$1 minimumNetworkReach: ${Math.ceil(options.forgers / 3)},`
+  );
 }
 
 fs.writeFileSync(path.resolve(coreNetworkPath, "plugins.js"), pluginsConfig);
