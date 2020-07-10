@@ -504,6 +504,13 @@ if (options.network === "testnet") {
   );
 }
 
+if (options.network === "mainnet") {
+  pluginsConfig = pluginsConfig.replace(
+    /("@arkecosystem\/core-p2p": {)/,
+    `$1\n        minimumNetworkReach: ${Math.ceil(options.forgers / 3)},`
+  );
+}
+
 fs.writeFileSync(path.resolve(coreNetworkPath, "plugins.js"), pluginsConfig);
 
 // Update env config
