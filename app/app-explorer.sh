@@ -9,7 +9,7 @@ app_install_explorer()
     heading "Installing Explorer to '$EXPLORER_PATH'..."
 
     rm -rf "$EXPLORER_PATH"
-    git clone https://github.com/ArkEcosystem/ark-explorer.git "$EXPLORER_PATH" && cd "$EXPLORER_PATH"
+    git clone https://github.com/ArkEcosystem/ark-explorer.git -b master "$EXPLORER_PATH" && cd "$EXPLORER_PATH"
     yarn
     yarn add connect-history-api-fallback express
 
