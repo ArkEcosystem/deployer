@@ -28,7 +28,7 @@ Explorer: `http://192.168.33.10:4200/`
 
 ## Detailed Guide
 
-Follow this [full guide](https://blog.ark.io/ark-deployer-v2-55b96555d10e) to get the best out of your Bridgechain.
+Follow this [full guide](https://blog.ark.io/ark-deployer-v2-setup-guide-55b96555d10e) to get the best out of your Bridgechain.
 
 ## Manual installation
 
