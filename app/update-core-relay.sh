@@ -19,6 +19,12 @@ update_bridgechain()
 	while [ "$YARN_SETUP" == "N" ]; do
 	  YARN_SETUP="Y"
 	  yarn setup || YARN_SETUP="N"
+	if [[ "$YARN_SETUP" == "N" ]]; then
+      read -p "Failed to setup updated core. Retry? [Y/n]: " RETRY_SETUP
+    fi
+    if [[ "$RETRY_SETUP" =~ ^(no|n|N) ]]; then
+      exit 1
+    fi
 	done
 
 	reset_plugins_js

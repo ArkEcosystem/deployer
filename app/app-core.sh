@@ -315,11 +315,18 @@ if [ ! -z "\$HAS_REMOTE" ]; then
 fi
 
 YARN_SETUP="N"
-while [ "\$YARN_SETUP" == "N" ]; do
-  YARN_SETUP="Y"
-  rm -rf "\$HOME/.cache/yarn"
-  yarn setup || YARN_SETUP="N"
+while [ "$YARN_SETUP" == "N" ]; do
+    YARN_SETUP="Y"
+    rm -rf "\$HOME/.cache/yarn"
+    yarn setup || YARN_SETUP="N"
+    if [[ "$YARN_SETUP" == "N" ]]; then
+        read -p "Failed to setup core. Retry? [Y/n]: " RETRY_SETUP
+    fi
+    if [[ "$RETRY_SETUP" =~ ^(no|n|N) ]]; then
+        exit 1
+    fi
 done
+
 rm -rf "\$HOME/.config/@${CORE_ALIAS}"
 rm -rf "\$HOME/.config/@${CHAIN_NAME}"
 rm -rf "\$HOME/.config/${CORE_ALIAS}-core"
